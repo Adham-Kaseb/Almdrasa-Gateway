@@ -36,6 +36,7 @@ import { FolderViewerWindow } from './windows/FolderViewerWindow';
 
 
 import { RIResidentModal } from './RIResidentModal';
+import { DesktopClockWidget } from './DesktopClockWidget';
 
 export const DesktopCanvas: React.FC = () => {
   const {
@@ -127,6 +128,9 @@ export const DesktopCanvas: React.FC = () => {
         }
       }}
     >
+      {/* Top Center Digital Clock & Calendar Widget */}
+      <DesktopClockWidget />
+
       {/* Desktop Icons (RTL Native Position on the Right) */}
       <div
         className="absolute top-6 right-6 z-20 flex flex-col flex-wrap items-center gap-5 select-none"

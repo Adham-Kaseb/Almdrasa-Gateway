@@ -24,6 +24,11 @@ import {
   INITIAL_SHORTCUTS,
   INITIAL_LOCATION_NODES,
 } from '../data/osData';
+import {
+  formatClockDetails,
+  ARABIC_DAYS,
+  ARABIC_MONTHS,
+} from '../components/os/DesktopClockWidget';
 
 describe('AuraOS Contracts and Schema Validation', () => {
   it('validates initial executive profile against ExecutiveProfileSchema', () => {
@@ -450,6 +455,74 @@ describe('AuraOS Contracts and Schema Validation', () => {
       expect(parsed.data.background.staticImage).toBe('/wallpapers/obsidian_geometry.jpg');
       expect(parsed.data.background.overlayDim).toBe(45);
     }
+  });
+
+  describe('Desktop Top-Center Clock Widget & Localization', () => {
+    it('verifies Arabic days and months lists are complete and accurate', () => {
+      expect(ARABIC_DAYS).toHaveLength(7);
+      expect(ARABIC_DAYS[0]).toBe('الأحد');
+      expect(ARABIC_DAYS[5]).toBe('الجمعة');
+      expect(ARABIC_DAYS[6]).toBe('السبت');
+
+      expect(ARABIC_MONTHS).toHaveLength(12);
+      expect(ARABIC_MONTHS[0]).toBe('يناير');
+      expect(ARABIC_MONTHS[8]).toBe('سبتمبر');
+      expect(ARABIC_MONTHS[11]).toBe('ديسمبر');
+    });
+
+    it('formats 12-hour AM clock details correctly', () => {
+      // 2026-09-20 09:15:30 (Sunday)
+      const morningDate = new Date(2026, 8, 20, 9, 15, 30);
+      const res = formatClockDetails(morningDate, false);
+
+      expect(res.hoursStr).toBe('09');
+      expect(res.minutesStr).toBe('15');
+      expect(res.secondsStr).toBe('30');
+      expect(res.ampm).toBe('ص');
+      expect(res.dayName).toBe('الأحد');
+      expect(res.dayNum).toBe(20);
+      expect(res.monthName).toBe('سبتمبر');
+      expect(res.year).toBe(2026);
+      expect(res.is24h).toBe(false);
+    });
+
+    it('formats 12-hour PM clock details correctly', () => {
+      // 2026-09-20 17:45:00 (5:45 PM Sunday)
+      const eveningDate = new Date(2026, 8, 20, 17, 45, 0);
+      const res = formatClockDetails(eveningDate, false);
+
+      expect(res.hoursStr).toBe('05');
+      expect(res.minutesStr).toBe('45');
+      expect(res.ampm).toBe('م');
+      expect(res.dayName).toBe('الأحد');
+      expect(res.monthName).toBe('سبتمبر');
+    });
+
+    it('formats 24-hour clock details correctly without AM/PM', () => {
+      // 2026-09-20 23:05:12
+      const nightDate = new Date(2026, 8, 20, 23, 5, 12);
+      const res = formatClockDetails(nightDate, true);
+
+      expect(res.hoursStr).toBe('23');
+      expect(res.minutesStr).toBe('05');
+      expect(res.secondsStr).toBe('12');
+      expect(res.ampm).toBe('');
+      expect(res.is24h).toBe(true);
+    });
+
+    it('handles midnight 12 AM / 00 correctly in 12h and 24h formats', () => {
+      const midnight = new Date(2026, 0, 1, 0, 0, 0); // Thursday Jan 1 2026
+      const res12 = formatClockDetails(midnight, false);
+      const res24 = formatClockDetails(midnight, true);
+
+      expect(res12.hoursStr).toBe('12');
+      expect(res12.ampm).toBe('ص');
+      expect(res12.dayName).toBe('الخميس');
+      expect(res12.monthName).toBe('يناير');
+
+      expect(res24.hoursStr).toBe('00');
+      expect(res24.ampm).toBe('');
+    });
   });
 });
 
