@@ -1,0 +1,93 @@
+:root {
+  /* Surface & Canvas Color Tokens */
+  --ri-noir-950: #0b0b0a;
+  --ri-noir-900: #11110f;
+  --ri-noir-800: #1b1a18;
+  --ri-noir-700: #2b2925;
+  --ri-ivory-50: #f8f6f1;
+  --ri-ivory-100: #eeeae2;
+  --ri-ivory-200: #ded9cf;
+  --ri-greige-300: #b8b1a5;
+  --ri-greige-500: #756f66;
+  --ri-greige-700: #4b4741;
+  --ri-champagne-300: #c5b79e;
+  --ri-champagne-500: #9a896f;
+  --ri-champagne-700: #76654d;
+  --ri-signal-blue: #2f6fce;
+  --ri-status-sage: #9fa994;
+  --ri-status-amber: #c99c4d;
+  --ri-status-red: #cc675b;
+
+  --ri-canvas-light: #f8f6f1;
+  --ri-canvas-dark: #0b0b0a;
+  --ri-surface-light: #f1eee8;
+  --ri-surface-dark: #1b1a18;
+  --ri-text-on-light: #191816;
+  --ri-text-muted-light: #68635c;
+  --ri-text-on-dark: #f3efe7;
+  --ri-border-light: #d4cfc5;
+  --ri-border-dark: rgba(255, 255, 255, 0.13);
+
+  /* Radius Tokens */
+  --ri-radius-control: 0.5rem;
+  --ri-radius-card: 0.875rem;
+  --ri-radius-window: 1.125rem;
+  --ri-radius-icon: 1rem;
+  --ri-radius-pill: 999px;
+  --ri-radius-chip: 50px;
+
+  /* Spacing Tokens */
+  --ri-space-1: 0.25rem;
+  --ri-space-2: 0.5rem;
+  --ri-space-3: 0.75rem;
+  --ri-space-4: 1rem;
+  --ri-space-5: 1.25rem;
+  --ri-space-6: 1.5rem;
+  --ri-space-8: 2rem;
+  --ri-space-10: 2.5rem;
+  --ri-space-12: 3rem;
+  --ri-space-16: 4rem;
+
+  /* Elevation & Shadow Scale */
+  --ri-shadow-subtle: 0px 1px 12px 0px rgba(0, 0, 0, 0.16);
+  --ri-shadow-medium: 0px 20px 55px 0px rgba(0, 0, 0, 0.34);
+  --ri-shadow-strong: 0px 36px 100px 0px rgba(10, 9, 8, 0.38);
+  --ri-shadow-sm: 0 0.5rem 1.5rem rgba(11, 11, 10, 0.1);
+  --ri-shadow-md: 0 1.5rem 4rem rgba(11, 11, 10, 0.18);
+  --ri-shadow-lg: 0 3rem 8rem rgba(11, 11, 10, 0.34);
+  --ri-shadow-window: 0 48px 128px 0 rgba(11, 11, 10, 0.45);
+
+  /* Motion Tokens */
+  --ri-duration-fast: 0.16s;
+  --ri-duration-medium: 0.32s;
+  --ri-duration-slow: 0.5s;
+  --ri-ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ri-ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Z-Index Layers */
+  --ri-z-element: 1060;
+  --ri-z-notification: 1060;
+  --ri-z-dropdown: 1400;
+  --ri-z-modal: 1500;
+  --ri-z-nav: 2147483647;
+}
+
+/* Custom Scrollbar for Luxury Dark Aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
