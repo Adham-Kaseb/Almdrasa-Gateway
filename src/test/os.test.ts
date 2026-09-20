@@ -400,7 +400,8 @@ describe('AuraOS Contracts and Schema Validation', () => {
     const result = AppSettingsSchema.safeParse(DEFAULT_APP_SETTINGS);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.background.mode).toBe('interactive');
+      expect(result.data.background.mode).toBe('static');
+      expect(result.data.background.staticImage).toBe('/wallpapers/minimal_dark.jpg');
       expect(result.data.background.interactiveColors.length).toBeGreaterThanOrEqual(3);
       expect(result.data.audio.volume).toBeGreaterThanOrEqual(0);
       expect(result.data.audio.volume).toBeLessThanOrEqual(100);

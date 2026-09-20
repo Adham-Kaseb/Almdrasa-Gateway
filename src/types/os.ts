@@ -202,8 +202,8 @@ export type AppSettings = z.infer<typeof AppSettingsSchema>;
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
   background: {
-    mode: 'interactive',
-    staticImage: '/wallpapers/silk_luxury.jpg',
+    mode: 'static',
+    staticImage: '/wallpapers/minimal_dark.jpg',
     overlayDim: 30,
     interactiveColors: ['#000000', '#1a1a1a', '#2e2e2e', '#ffffff'],
     interactiveSpeed: 0.3,
