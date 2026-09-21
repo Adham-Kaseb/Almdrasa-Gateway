@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { ShieldCheck } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
+import { useMobileDetect } from './hooks/useMobileDetect';
+import { MobileBlockScreen } from './components/MobileBlockScreen';
 import { LuxuryEntrance } from './components/os/LuxuryEntrance';
 import { AuthPage } from './components/auth/AuthPage';
 import { AdminDashboard } from './components/admin/AdminDashboard';
@@ -9,6 +11,8 @@ import { DesktopWorkspace } from './components/os/DesktopWorkspace';
 import { hasEnteredInCurrentSession } from './utils/session';
 
 export const App: React.FC = () => {
+  const isMobile = useMobileDetect();
+
   const {
     isAuthenticated,
     isLoading: isAuthLoading,
@@ -24,6 +28,10 @@ export const App: React.FC = () => {
 
   const showWorkspace = !isAdmin || isStudentPreview;
   const isWorkspaceReady = isAuthenticated && (hasEntered || isEntranceExiting || isStudentPreview);
+
+  if (isMobile) {
+    return <MobileBlockScreen />;
+  }
 
   return (
     <div className="min-h-screen w-screen bg-[#0B0B0A] text-[#F3EFE7] flex flex-col select-none relative overflow-hidden font-sans">

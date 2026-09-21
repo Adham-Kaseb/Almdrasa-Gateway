@@ -195,10 +195,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (cachedProfile) return cachedProfile;
     return null;
   });
-  const [isLoading, setIsLoading] = useState<boolean>(() => {
-    if (cachedProfile || initialAdmin) return false;
-    return true;
-  });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isStudentPreview, setIsStudentPreviewState] = useState<boolean>(() => {
     return getInitialIsStudentPreview();
   });
@@ -325,7 +322,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     initAuth();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, newSession) => {
       if (!isMounted) return;
       setSession(newSession);
 
@@ -342,18 +339,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setIsAdminState(true);
           }
         }
-      } else {
-        const initialCached = getCachedProfile();
-        if (initialCached && initialCached.role === 'admin') {
-          setStudent(initialCached);
-          setIsAdminState(true);
-        } else if (!isGuest) {
-          persistCachedProfile(null, null);
-          persistAdminState(false);
-          setIsAdminState(false);
-          setStudent(null);
-          setUser(null);
-        }
+      } else if (event === 'SIGNED_OUT') {
+        persistCachedProfile(null, null);
+        persistAdminState(false);
+        setIsAdminState(false);
+        setStudent(null);
+        setUser(null);
       }
       setIsLoading(false);
     });
@@ -362,7 +353,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       isMounted = false;
       authListener.subscription.unsubscribe();
     };
-  }, [fetchStudentProfile, isGuest]);
+  }, [fetchStudentProfile]);
 
   const refreshStudentProfile = useCallback(async () => {
     if (user) {
