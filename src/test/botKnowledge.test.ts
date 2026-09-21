@@ -54,10 +54,10 @@ describe('Bot Knowledge Engine & Personalization Tests', () => {
     expect(res.actionWindow).toBe('scholarship');
   });
 
-  it('answers weekly zoom meetings and mentorship questions', () => {
-    const res = queryAlmdrasaKnowledge('متى مواعيد اجتماعات Zoom مع المينتورز؟', 'عمر');
+  it('answers weekly Google Meet meetings and mentorship questions', () => {
+    const res = queryAlmdrasaKnowledge('متى مواعيد اجتماعات Google Meet مع المينتورز؟', 'عمر');
     expect(res.text).toContain('عمر');
-    expect(res.text).toContain('Zoom');
+    expect(res.text).toContain('Google Meet');
     expect(res.text).toContain('Mentors');
     expect(res.actionWindow).toBe('meetings');
   });

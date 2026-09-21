@@ -73,7 +73,7 @@ export const useNoteFormatter = ({ editorRef, updateActiveNote }: UseNoteFormatt
       const templates = {
         tip: '<div style="background:#fef3c7;border:1px solid #fde68a;padding:12px 16px;border-radius:12px;margin:12px 0;color:#78350f"><strong>💡 فكرة / نصيحة:</strong> اكتب فكرتك أو ملحوظتك هنا...</div><p><br></p>',
         warning: '<div style="background:#ffe4e6;border:1px solid #fecdd3;padding:12px 16px;border-radius:12px;margin:12px 0;color:#881337"><strong>⚠️ تنبيه برمجي:</strong> انتبه لهذا الخطأ الشائع...</div><p><br></p>',
-        question: '<div style="background:#e0f2fe;border:1px solid #bae6fd;padding:12px 16px;border-radius:12px;margin:12px 0;color:#075985"><strong>❓ سؤال للمراجعة في الزووم:</strong> استفسار لمناقشته مع المينتور...</div><p><br></p>',
+        question: '<div style="background:#e0f2fe;border:1px solid #bae6fd;padding:12px 16px;border-radius:12px;margin:12px 0;color:#075985"><strong>❓ سؤال للمراجعة في Google Meet:</strong> استفسار لمناقشته مع المينتور...</div><p><br></p>',
         code: '<pre style="background:#1c1917;color:#facc15;padding:14px;border-radius:10px;font-family:monospace;margin:12px 0;direction:ltr;text-align:left"><code>// اكتب الكود البرمجي هنا\nconst app = "Almdrasa Gateway";</code></pre><p><br></p>',
       };
       document.execCommand('insertHTML', false, templates[type]);

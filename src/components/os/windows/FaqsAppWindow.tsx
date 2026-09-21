@@ -90,7 +90,7 @@ export const FaqsAppWindow: React.FC = () => {
           <div className="flex items-start gap-3">
             <span className="text-[#5B00FF] font-black text-lg leading-none shrink-0 mt-1">✱</span>
             <p>
-              <strong>اجتماعات أسبوعية أونلاين</strong> مع المهندسين (Mentors) على Zoom.
+              <strong>اجتماعات أسبوعية أونلاين</strong> مع المهندسين (Mentors) عبر Google Meet.
             </p>
           </div>
         </div>
@@ -379,7 +379,7 @@ export const FaqsAppWindow: React.FC = () => {
           <div className="flex items-start gap-3">
             <span className="text-[#5B00FF] font-black text-lg leading-none shrink-0 mt-1">✱</span>
             <p>
-              كما و<strong>يوجد اجتماعات أسبوعية على Zoom للإجابة على أي تساؤلات</strong> أو لشرح أي جزء غير مفهوم من الدورات، ويتم إرسال جدول ومواعيد الاجتماعات في المجموعة الدراسية الخاصة بالمنحة.
+              كما و<strong>يوجد اجتماعات أسبوعية عبر Google Meet للإجابة على أي تساؤلات</strong> أو لشرح أي جزء غير مفهوم من الدورات، ويتم إرسال جدول ومواعيد الاجتماعات في المجموعة الدراسية الخاصة بالمنحة.
             </p>
           </div>
         </div>
