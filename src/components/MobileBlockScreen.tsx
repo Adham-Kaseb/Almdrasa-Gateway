@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 import {
   Monitor,
   Smartphone,
@@ -8,7 +8,7 @@ import {
   Code2,
   BookOpen,
   FolderGit2,
-} from 'lucide-react';
+} from "lucide-react";
 
 const CONTAINER_VARIANTS = {
   hidden: { opacity: 0 },
@@ -30,21 +30,21 @@ const ITEM_VARIANTS = {
 const FEATURES = [
   {
     icon: BookOpen,
-    title: 'بدء جلسة دراسية ومذاكرة حقيقية',
-    desc: 'البوابة أُعدت لمرافقتك أثناء الاستذكار والاستعانة بأدواتها ودروسك بتركيز كامل',
-    badge: 'Study Session',
+    title: "بدء جلسة دراسية ومذاكرة حقيقية",
+    desc: "البوابة أُعدت لمرافقتك أثناء الاستذكار والاستعانة بأدواتها ودروسك بتركيز كامل",
+    badge: "Study Session",
   },
   {
     icon: Code2,
-    title: 'كتابة وتطبيق الأكواد (Code Editor)',
-    desc: 'التطبيق البرمجي الفعلي والمشاريع تتطلب استخدام محرر الأكواد ولوحة المفاتيح والماوس',
-    badge: 'Code Editor',
+    title: "كتابة وتطبيق الأكواد (Code Editor)",
+    desc: "التطبيق البرمجي الفعلي والمشاريع تتطلب استخدام محرر الأكواد ولوحة المفاتيح والماوس",
+    badge: "Code Editor",
   },
   {
     icon: FolderGit2,
-    title: 'بيئة العمل ومتطلبات الدراسة',
-    desc: 'إنجاز مهام الدبلومة ومتابعة التطبيقات البرمجية باحترافية لا توفرها شاشات الهواتف',
-    badge: 'Workspace',
+    title: "بيئة العمل ومتطلبات الدراسة",
+    desc: "إنجاز مهام الدبلومة ومتابعة التطبيقات البرمجية باحترافية لا توفرها شاشات الهواتف",
+    badge: "Workspace",
   },
 ] as const;
 
@@ -61,13 +61,13 @@ export const MobileBlockScreen: React.FC = () => {
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[420px] h-[420px] bg-gradient-to-b from-[#DFCA9F]/14 via-[#CCA868]/6 to-transparent rounded-full blur-[120px]" />
         <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-amber-600/8 rounded-full blur-[100px]" />
         <div className="absolute top-1/2 -left-24 w-64 h-64 bg-yellow-500/5 rounded-full blur-[90px]" />
-        
+
         {/* Subtle Luxury Grid Lines Pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, #DFCA9F 1px, transparent 0)`,
-            backgroundSize: '28px 28px'
+            backgroundSize: "28px 28px",
           }}
         />
       </div>
@@ -86,7 +86,9 @@ export const MobileBlockScreen: React.FC = () => {
           {/* Mobile Phone (Restricted) */}
           <div className="relative group p-3.5 rounded-2xl bg-gradient-to-b from-rose-950/30 to-rose-950/10 border border-rose-500/25 shadow-lg shadow-rose-950/30 flex flex-col items-center gap-1.5">
             <Smartphone className="w-7 h-7 text-rose-400 stroke-[1.5]" />
-            <span className="text-[10px] font-bold text-rose-400/90 tracking-tight">غير مدعوم</span>
+            <span className="text-[10px] font-bold text-rose-400/90 tracking-tight">
+              غير مدعوم
+            </span>
           </div>
 
           {/* Smooth Directional Transfer Indicator */}
@@ -98,20 +100,20 @@ export const MobileBlockScreen: React.FC = () => {
 
           {/* Desktop / Laptop (Supported & Highlighted) */}
           <div className="relative p-3.5 rounded-2xl bg-gradient-to-b from-[#DFCA9F]/20 to-[#DFCA9F]/5 border border-[#DFCA9F]/40 shadow-[0_8px_24px_rgba(223,202,159,0.15)] flex flex-col items-center gap-1.5">
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
             <Monitor className="w-7 h-7 text-[#DFCA9F] stroke-[1.5]" />
-            <span className="text-[10px] font-extrabold text-[#DFCA9F] tracking-tight">تجربة كاملة</span>
+            <span className="text-[10px] font-extrabold text-[#DFCA9F] tracking-tight">
+              تجربة كاملة
+            </span>
           </div>
         </motion.div>
 
         {/* Primary Heading */}
         <motion.h1
-          className="text-2xl sm:text-3xl font-black text-[#F8F4EC] leading-tight tracking-tight mb-5"
+          className="text-2xl sm:text-3xl font-black text-[#F8F4EC] tracking-tight mb-5 flex flex-col items-center gap-2"
           variants={ITEM_VARIANTS}
         >
-          هذه المنصة مُصممة لأجهزة
-          <br />
-          <span className="bg-gradient-to-l from-[#DFCA9F] via-[#F3E2BD] to-[#CCA868] bg-clip-text text-transparent">
+          <span>هذه المنصة مُصممة لأجهزة</span>
+          <span className="bg-gradient-to-l from-[#DFCA9F] via-[#F3E2BD] to-[#CCA868] bg-clip-text text-transparent pb-1">
             الكمبيوتر واللابتوب فقط
           </span>
         </motion.h1>
@@ -142,8 +144,12 @@ export const MobileBlockScreen: React.FC = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <span className="text-xs font-bold text-[#F5F1E8]">{title}</span>
-                    <span className="text-[9px] text-[#A69F93] font-mono">{badge}</span>
+                    <span className="text-xs font-bold text-[#F5F1E8]">
+                      {title}
+                    </span>
+                    <span className="text-[9px] text-[#A69F93] font-mono">
+                      {badge}
+                    </span>
                   </div>
                   <p className="text-[11px] text-[#8E877C] leading-snug mt-0.5">
                     {desc}
@@ -166,7 +172,6 @@ export const MobileBlockScreen: React.FC = () => {
             يُرجى نسخ الرابط وفتحه من متصفح جهاز الكمبيوتر أو اللابتوب
           </span>
         </motion.div>
-
       </motion.main>
     </div>
   );
