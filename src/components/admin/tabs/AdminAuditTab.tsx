@@ -4,20 +4,16 @@ import { AuditLog } from '../../../hooks/useAdminData';
 interface AdminAuditTabProps {
   auditLogs: AuditLog[];
   usersCount: number;
-  coursesCount: number;
 }
 
 export const AdminAuditTab: React.FC<AdminAuditTabProps> = ({
   auditLogs,
   usersCount,
-  coursesCount,
 }) => {
   const dbStats = [
     { label: 'سجلات الطلاب (public.students)', count: usersCount, status: 'متزامن' },
     { label: 'الملفات الشخصية (public.profiles)', count: usersCount, status: 'متزامن' },
     { label: 'ملاحظات الطلاب (public.student_notes)', count: 'سحابي حي', status: 'نشط' },
-    { label: 'المقررات الأكاديمية (public.courses)', count: coursesCount > 0 ? coursesCount : 1, status: 'نشط' },
-    { label: 'الدروس المفعلة (public.lessons)', count: '7 دروس', status: 'نشط' },
   ];
 
   return (

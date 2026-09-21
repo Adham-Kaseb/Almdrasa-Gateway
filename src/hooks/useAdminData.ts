@@ -147,8 +147,8 @@ export function useAdminData() {
     }
   });
 
-  const [courses, setCourses] = useState<AdminCourse[]>([]);
-  const [lessons, setLessons] = useState<AdminLesson[]>([]);
+  const [courses] = useState<AdminCourse[]>([]);
+  const [lessons] = useState<AdminLesson[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -258,18 +258,7 @@ export function useAdminData() {
         }
       }
 
-      // Fetch courses and lessons
-      const [coursesRes, lessonsRes] = await Promise.all([
-        supabase.from('courses').select('*').order('order_index', { ascending: true }),
-        supabase.from('lessons').select('*').order('order_index', { ascending: true }),
-      ]);
-
-      if (coursesRes.data) {
-        setCourses(coursesRes.data as AdminCourse[]);
-      }
-      if (lessonsRes.data) {
-        setLessons(lessonsRes.data as AdminLesson[]);
-      }
+      // Cleaned up: courses and lessons are maintained locally in the gateway
     } catch (err: any) {
       setError(err?.message || 'تعذر تحميل بعض البيانات من Supabase.');
     } finally {

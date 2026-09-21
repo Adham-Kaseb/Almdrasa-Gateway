@@ -82,7 +82,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
             <AdminAuditTab
               auditLogs={adminData.auditLogs}
               usersCount={adminData.users.length}
-              coursesCount={adminData.courses.length}
             />
           )}
         </main>
