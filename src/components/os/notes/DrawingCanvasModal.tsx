@@ -231,7 +231,7 @@ export const DrawingCanvasModal: React.FC<DrawingCanvasModalProps> = ({
                         <Check
                           className={`w-3.5 h-3.5 ${
                             c.id === 'gold' ? 'text-[#181714]' : 'text-white'
-                          } stroke-[3]`}
+                          } stroke-3`}
                         />
                       )}
                     </button>
@@ -329,7 +329,7 @@ export const DrawingCanvasModal: React.FC<DrawingCanvasModalProps> = ({
                 onClick={handleSaveAndInsert}
                 className="px-5 py-2 rounded-xl bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#141310] text-xs font-bold hover:brightness-105 active:scale-95 disabled:opacity-40 disabled:pointer-events-none transition-all cursor-pointer shadow-md shadow-[#DFCA9F]/15 flex items-center gap-1.5"
               >
-                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <Check className="w-3.5 h-3.5 stroke-3" />
                 <span>{isLtr ? 'Insert Drawing' : 'إدراج الرسمة في الملاحظات'}</span>
               </button>
             </div>

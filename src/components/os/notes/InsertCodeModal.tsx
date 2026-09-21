@@ -111,7 +111,7 @@ export const InsertCodeModal: React.FC<InsertCodeModalProps> = ({
                     </div>
                     {isSelected ? (
                       <div className="w-5 h-5 rounded-full bg-[#DFCA9F] text-[#171614] flex items-center justify-center shrink-0">
-                        <Check className="w-3 h-3 stroke-[3]" />
+                        <Check className="w-3 h-3 stroke-3" />
                       </div>
                     ) : (
                       <div className="w-5 h-5 rounded-full border border-white/20 shrink-0" />
