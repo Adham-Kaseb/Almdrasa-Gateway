@@ -65,7 +65,7 @@ export const WindowFrame: React.FC<WindowFrameProps> = ({
 
     // Constrain position within viewport boundaries
     const newX = Math.max(10, Math.min(window.innerWidth - 300, dragStartRef.current.startX + deltaX));
-    const newY = Math.max(45, Math.min(window.innerHeight - 200, dragStartRef.current.startY + deltaY));
+    const newY = Math.max(10, Math.min(window.innerHeight - 200, dragStartRef.current.startY + deltaY));
 
     updatePosition(id, { x: newX, y: newY });
   }, [isDragging, id, updatePosition]);
@@ -107,13 +107,13 @@ export const WindowFrame: React.FC<WindowFrameProps> = ({
         mass: 0.8,
       }}
       style={{
-        zIndex: isMaximized ? Math.max(zIndex, 35) : zIndex,
-        left: isMaximized ? '2.5vw' : position.x,
-        top: isMaximized ? '2.5vh' : position.y,
-        width: isMaximized ? '95vw' : `${size.width}px`,
-        height: isMaximized ? '95vh' : `${size.height}px`,
-        maxWidth: isMaximized ? '95vw' : '95vw',
-        maxHeight: isMaximized ? '95vh' : '85vh',
+        zIndex: isMaximized ? Math.max(zIndex, 40) : Math.max(zIndex, 25),
+        left: isMaximized ? '1.5vw' : position.x,
+        top: isMaximized ? '12px' : position.y,
+        width: isMaximized ? '97vw' : `${size.width}px`,
+        height: isMaximized ? 'calc(100vh - 24px)' : `${size.height}px`,
+        maxWidth: isMaximized ? '97vw' : '95vw',
+        maxHeight: isMaximized ? 'calc(100vh - 24px)' : '85vh',
         transition: isDragging ? 'none' : 'left 0.2s cubic-bezier(0.22, 1, 0.36, 1), top 0.2s cubic-bezier(0.22, 1, 0.36, 1), width 0.2s ease, height 0.2s ease',
       }}
       className={`fixed flex flex-col rounded-[20px] overflow-visible shadow-[0_48px_128px_0_rgba(11,11,10,0.65),0_12px_36px_0_rgba(0,0,0,0.4)] border ${

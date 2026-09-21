@@ -58,6 +58,14 @@
 @layer base {
   * {
     border-color: var(--ri-border-dark);
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+    width: 0px;
+    height: 0px;
   }
 
   body, button, input, select, textarea {
@@ -71,7 +79,21 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     direction: rtl;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
+}
+
+/* Custom & Global Scrollbar Concealment */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Typography Classes for Expo Arabic & Multilingual High-End UI */
@@ -213,4 +235,193 @@
   padding-left: 2.5rem;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
 }
+
+/* Admin Dashboard Inputs */
+.admin-input {
+  width: 100%;
+  background-color: #1C1B17;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  color: #F8F4EC;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-input:focus {
+  outline: none;
+  border-color: #DFCA9F;
+  box-shadow: 0 0 0 1px #DFCA9F;
+}
+
+/* Notes Editor Rich Text Typography & Formatting */
+.notes-editor-surface h1 {
+  font-size: 1.85rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.5rem !important;
+  color: #191816 !important;
+}
+
+.notes-editor-surface h2 {
+  font-size: 1.45rem !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.4rem !important;
+  color: #24221E !important;
+}
+
+.notes-editor-surface ul {
+  list-style-type: disc !important;
+  margin-inline-start: 1.75rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.notes-editor-surface ol {
+  list-style-type: decimal !important;
+  margin-inline-start: 1.75rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.notes-editor-surface li {
+  display: list-item !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  padding-inline-start: 0.25rem !important;
+}
+
+.notes-editor-surface blockquote {
+  border-inline-start: 4px solid #DFCA9F !important;
+  background-color: #F8F6F1 !important;
+  padding: 0.85rem 1.25rem !important;
+  margin: 0.85rem 0 !important;
+  border-radius: 0 0.75rem 0.75rem 0 !important;
+  color: #575148 !important;
+  font-style: italic !important;
+}
+
+[dir="rtl"] .notes-editor-surface blockquote {
+  border-radius: 0.75rem 0 0 0.75rem !important;
+}
+
+.notes-editor-surface mark {
+  padding: 0.1rem 0.35rem !important;
+  border-radius: 0.25rem !important;
+}
+
+.notes-editor-surface img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1) !important;
+  margin: 0.85rem auto !important;
+  display: block !important;
+  object-fit: contain !important;
+}
+
+/* ─── Chat Animations ─────────────────────────────────────────────────────── */
+
+/* Modal backdrop */
+@keyframes chat-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes chat-backdrop-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Modal panel — spring-like scale + lift */
+@keyframes chat-panel-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(24px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+@keyframes chat-panel-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.94) translateY(16px);
+    filter: blur(3px);
+  }
+}
+
+/* User message — slides in from the right */
+@keyframes chat-msg-user-in {
+  from {
+    opacity: 0;
+    transform: translateX(18px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Bot message — slides in from the left */
+@keyframes chat-msg-bot-in {
+  from {
+    opacity: 0;
+    transform: translateX(-18px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Thinking dots wave */
+@keyframes chat-dot-wave {
+  0%, 60%, 100% { transform: translateY(0);    opacity: 0.5; }
+  30%            { transform: translateY(-6px); opacity: 1;   }
+}
+
+/* Input bar slides up */
+@keyframes chat-input-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes */
+.chat-backdrop-in  { animation: chat-backdrop-in  0.22s ease both; }
+.chat-backdrop-out { animation: chat-backdrop-out 0.18s ease both; }
+
+.chat-panel-in  { animation: chat-panel-in  0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.chat-panel-out { animation: chat-panel-out 0.2s  ease-in both; }
+
+.chat-msg-user { animation: chat-msg-user-in 0.28s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+.chat-msg-bot  { animation: chat-msg-bot-in  0.28s cubic-bezier(0.34, 1.4, 0.64, 1) both; }
+
+.chat-dot-wave {
+  animation: chat-dot-wave 1.2s ease-in-out infinite;
+}
+.chat-dot-wave:nth-child(2) { animation-delay: 0.18s; }
+.chat-dot-wave:nth-child(3) { animation-delay: 0.36s; }
+
+.chat-input-in {
+  animation: chat-input-in 0.3s 0.15s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+
 

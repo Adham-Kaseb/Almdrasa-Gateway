@@ -1,52 +1,69 @@
-import React, { useState, useEffect, useRef } from "react";
-import { AnimatePresence } from "framer-motion";
-import { MeshGradient } from "@paper-design/shaders-react";
-import { useOS } from "./context/OSContext";
-import { useAuth } from "./context/AuthContext";
-import { DesktopCanvas } from "./components/os/DesktopCanvas";
-import { Dock } from "./components/os/Dock";
-import { CommandPalette } from "./components/os/CommandPalette";
-import { CompanionBot } from "./components/os/CompanionBot";
-import { LuxuryEntrance } from "./components/os/LuxuryEntrance";
-import { AppSettingsPage } from "./components/os/settings/AppSettingsPage";
-import { AuthPage } from "./components/auth/AuthPage";
-import { hasEnteredInCurrentSession } from "./utils/session";
+import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { ShieldCheck } from 'lucide-react';
+import { useAuth } from './context/AuthContext';
+import { LuxuryEntrance } from './components/os/LuxuryEntrance';
+import { AuthPage } from './components/auth/AuthPage';
+import { AdminDashboard } from './components/admin/AdminDashboard';
+import { DesktopWorkspace } from './components/os/DesktopWorkspace';
+import { hasEnteredInCurrentSession } from './utils/session';
 
 export const App: React.FC = () => {
-  const { appSettings } = useOS();
-  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
-  const bg = appSettings.background;
+  const {
+    isAuthenticated,
+    isLoading: isAuthLoading,
+    isAdmin,
+    isStudentPreview,
+    setIsStudentPreview,
+  } = useAuth();
 
   const [hasEntered, setHasEntered] = useState<boolean>(() => {
     return hasEnteredInCurrentSession();
   });
   const [isEntranceExiting, setIsEntranceExiting] = useState<boolean>(false);
-  const [isBgActive, setIsBgActive] = useState<boolean>(false);
-  const desktopRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const el = desktopRef.current;
-    if (!el) return;
-    const onEnter = () => setIsBgActive(true);
-    const onLeave = () => setIsBgActive(false);
-    el.addEventListener("mouseenter", onEnter);
-    el.addEventListener("mouseleave", onLeave);
-    return () => {
-      el.removeEventListener("mouseenter", onEnter);
-      el.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
+  const showWorkspace = !isAdmin || isStudentPreview;
+  const isWorkspaceReady = isAuthenticated && (hasEntered || isEntranceExiting || isStudentPreview);
 
   return (
     <div className="min-h-screen w-screen bg-[#0B0B0A] text-[#F3EFE7] flex flex-col select-none relative overflow-hidden font-sans">
-      {/* Auth Portal Layer: Shown when student is not authenticated */}
-      {!isAuthLoading && !isAuthenticated && (
+      {/* Loading overlay during initial authentication check for non-admin */}
+      {isAuthLoading && !isAdmin && (
+        <div className="fixed inset-0 z-50 bg-[#0B0B0A] flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-8 h-8 rounded-full border-2 border-[#DFCA9F] border-t-transparent animate-spin" />
+            <span className="text-xs text-[#DFCA9F]/70 font-medium">جاري التحقق...</span>
+          </div>
+        </div>
+      )}
+
+      {/* Auth Portal Layer: Shown when student is not authenticated and not loading */}
+      {!isAuthLoading && !isAuthenticated && !isAdmin && (
         <AuthPage onSuccess={() => setHasEntered(true)} />
       )}
 
-      {/* Luxury First-Time-In-Session Entrance (when authenticated) */}
+      {/* Exclusive Admin Dashboard Layer for Administrator */}
+      {isAdmin && !isStudentPreview && (
+        <AdminDashboard onEnterStudentPreview={() => setIsStudentPreview(true)} />
+      )}
+
+      {/* Floating Return Pill for Admin in Student Preview Mode */}
+      {isAdmin && isStudentPreview && (
+        <div className="fixed bottom-6 left-6 z-60 animate-in fade-in slide-in-from-bottom-3 duration-300">
+          <button
+            type="button"
+            onClick={() => setIsStudentPreview(false)}
+            className="px-4 py-2.5 rounded-2xl bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#141310] font-extrabold text-xs flex items-center gap-2 shadow-2xl shadow-black/80 hover:brightness-105 active:scale-95 cursor-pointer border border-white/20"
+          >
+            <ShieldCheck className="w-4 h-4 stroke-2" />
+            <span>أنت في وضع معاينة الطالب • العودة للوحة الإدارة</span>
+          </button>
+        </div>
+      )}
+
+      {/* Luxury First-Time-In-Session Entrance (when authenticated student) */}
       <AnimatePresence initial={false}>
-        {isAuthenticated && !hasEntered && (
+        {!isAuthLoading && isAuthenticated && !isAdmin && !hasEntered && (
           <LuxuryEntrance
             onStartExit={() => setIsEntranceExiting(true)}
             onEnter={() => setHasEntered(true)}
@@ -54,97 +71,10 @@ export const App: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Desktop Workspace */}
-      <div
-        ref={desktopRef}
-        className={`absolute inset-0 flex flex-col transition-opacity duration-700 ${
-          !isAuthenticated || (!hasEntered && !isEntranceExiting)
-            ? "opacity-0 pointer-events-none invisible"
-            : "opacity-100 pointer-events-auto"
-        }`}
-      >
-        {/* Dynamic Desktop Wallpaper Layer (Static or Interactive) */}
-        {bg.mode === "static" ? (
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-black">
-            <img
-              src={bg.staticImage}
-              alt="Desktop Wallpaper"
-              className="w-full h-full object-cover transition-opacity duration-700 animate-in fade-in"
-            />
-            {/* Custom Vignette & Dim Overlay */}
-            <div
-              className="absolute inset-0 bg-black transition-opacity duration-300"
-              style={{ opacity: (bg.overlayDim ?? 30) / 100 }}
-            />
-            <div className="absolute inset-0 bg-linear-to-b from-[#0B0B0A]/40 via-transparent to-[#0B0B0A]/60 pointer-events-none" />
-          </div>
-        ) : (
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-black">
-            {/* Primary gradient layer */}
-            <MeshGradient
-              className="absolute inset-0 w-full h-full"
-              colors={
-                bg.interactiveColors && bg.interactiveColors.length > 0
-                  ? bg.interactiveColors
-                  : ["#000000", "#1a1a1a", "#2e2e2e", "#ffffff"]
-              }
-              speed={
-                isBgActive
-                  ? (bg.interactiveSpeed ?? 0.3) * 1.6
-                  : bg.interactiveSpeed ?? 0.3
-              }
-              distortion={bg.interactiveDistortion ?? 0.8}
-              swirl={bg.interactiveSwirl ?? 0.15}
-            />
-            {/* Secondary shimmer layer */}
-            <MeshGradient
-              className="absolute inset-0 w-full h-full opacity-35"
-              colors={
-                bg.interactiveColors && bg.interactiveColors.length >= 3
-                  ? bg.interactiveColors.slice(0, 3)
-                  : ["#000000", "#ffffff", "#2e2e2e"]
-              }
-              speed={
-                isBgActive
-                  ? (bg.interactiveSpeed ?? 0.3) * 1.1
-                  : (bg.interactiveSpeed ?? 0.3) * 0.6
-              }
-              distortion={(bg.interactiveDistortion ?? 0.8) * 1.2}
-              swirl={(bg.interactiveSwirl ?? 0.15) * 1.3}
-            />
-            {/* Vignette for depth */}
-            <div className="absolute inset-0 bg-linear-to-b from-[#0B0B0A]/40 via-transparent to-[#0B0B0A]/60 pointer-events-none" />
-          </div>
-        )}
-
-        {/* Focus Mode Ambient Dimmer */}
-        {appSettings.focus.focusModeEnabled && (
-          <div className="absolute inset-0 bg-black/40 pointer-events-none z-5 transition-opacity duration-500" />
-        )}
-
-        {/* Main Desktop Work Area (Full Screen without top menu bar or right sidebar) */}
-        <main className="flex-1 flex px-4 md:px-8 pt-6 pb-24 relative z-10 w-full h-screen overflow-hidden">
-          {/* Desktop Surface & Windows System */}
-          <DesktopCanvas />
-        </main>
-
-        {/* Floating Application Dock */}
-        <Dock />
-
-        {/* Resident AI Assistant Chatbot in the Bottom Right Corner */}
-        {appSettings.companion.botVisible && <CompanionBot />}
-
-        {/* Spotlight Command Palette (⌘K) */}
-        <CommandPalette />
-
-        {/* App Settings Full Page */}
-        <AnimatePresence>
-          <AppSettingsPage />
-        </AnimatePresence>
-      </div>
+      {/* Desktop Workspace: Only mounted & displayed when NOT admin, OR when admin is in student preview */}
+      {showWorkspace && <DesktopWorkspace isReady={isWorkspaceReady} />}
     </div>
   );
 };
 
 export default App;
-

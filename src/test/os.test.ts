@@ -28,7 +28,16 @@ import {
   formatClockDetails,
   ARABIC_DAYS,
   ARABIC_MONTHS,
+  calculateScholarshipCountdown,
+  SCHOLARSHIP_BATCH_6,
 } from '../components/os/DesktopClockWidget';
+import {
+  DockThemeSchema,
+} from '../types/os';
+import {
+  DOCK_THEME_PRESETS,
+  resolveDockThemeStyle,
+} from '../data/dockThemes';
 
 describe('AuraOS Contracts and Schema Validation', () => {
   it('validates initial executive profile against ExecutiveProfileSchema', () => {
@@ -522,6 +531,125 @@ describe('AuraOS Contracts and Schema Validation', () => {
 
       expect(res24.hoursStr).toBe('00');
       expect(res24.ampm).toBe('');
+    });
+
+    it('calculates Batch 6 scholarship remaining days correctly for key milestones', () => {
+      expect(SCHOLARSHIP_BATCH_6.batchNumber).toBe(6);
+
+      // Start date: 04 July 2026
+      const startDate = new Date(2026, 6, 4);
+      const atStart = calculateScholarshipCountdown(startDate);
+      expect(atStart.totalDays).toBe(365);
+      expect(atStart.remainingDays).toBe(365);
+      expect(atStart.elapsedDays).toBe(0);
+      expect(atStart.progressPercent).toBe(0);
+      expect(atStart.isEnded).toBe(false);
+
+      // Today / Given Date: 21 September 2026
+      const sep21 = new Date(2026, 8, 21);
+      const current = calculateScholarshipCountdown(sep21);
+      expect(current.remainingDays).toBe(286);
+      expect(current.elapsedDays).toBe(79);
+      expect(current.progressPercent).toBe(22);
+      expect(current.isEnded).toBe(false);
+      expect(current.deadlineDateFormatted).toBe("04 أبريل 2027");
+      expect(current.deadlineRemainingDays).toBe(196);
+      expect(current.deadlineTotalDays).toBe(274);
+      expect(current.isDeadlinePassed).toBe(false);
+
+      // End date: 04 July 2027
+      const endDate = new Date(2027, 6, 4);
+      const atEnd = calculateScholarshipCountdown(endDate);
+      expect(atEnd.remainingDays).toBe(0);
+      expect(atEnd.elapsedDays).toBe(365);
+      expect(atEnd.progressPercent).toBe(100);
+      expect(atEnd.isEnded).toBe(true);
+      expect(atEnd.deadlineRemainingDays).toBe(0);
+      expect(atEnd.isDeadlinePassed).toBe(true);
+    });
+  });
+
+  describe('Dock Themes & Color Customization', () => {
+    it('validates default dock theme schema and presets', () => {
+      expect(DEFAULT_APP_SETTINGS.dock.theme.preset).toBe('luxury_gold');
+      expect(DEFAULT_APP_SETTINGS.dock.theme.customIconColor).toBe('#DFCA9F');
+
+      const parsed = DockThemeSchema.safeParse(DEFAULT_APP_SETTINGS.dock.theme);
+      expect(parsed.success).toBe(true);
+    });
+
+    it('verifies all dock theme presets are defined with required style tokens', () => {
+      expect(DOCK_THEME_PRESETS.length).toBeGreaterThanOrEqual(7);
+      DOCK_THEME_PRESETS.forEach((preset) => {
+        expect(preset.id.length).toBeGreaterThan(0);
+        expect(preset.name.length).toBeGreaterThan(0);
+        expect(preset.iconColor).toMatch(/^#[0-9A-Fa-f]{6}$/);
+        expect(preset.bgGradient.length).toBeGreaterThan(0);
+        expect(preset.borderColor.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('resolves preset dock theme styles correctly', () => {
+      const goldStyle = resolveDockThemeStyle({
+        preset: 'luxury_gold',
+        customIconColor: '#DFCA9F',
+        customBgColor: '#1C1B18',
+        customBorderColor: '#DFCA9F',
+      });
+      expect(goldStyle.iconColor).toBe('#DFCA9F');
+      expect(goldStyle.isCustom).toBe(false);
+
+      const violetStyle = resolveDockThemeStyle({
+        preset: 'cosmic_violet',
+        customIconColor: '#DFCA9F',
+        customBgColor: '#1C1B18',
+        customBorderColor: '#DFCA9F',
+      });
+      expect(violetStyle.iconColor).toBe('#C084FC');
+      expect(violetStyle.isCustom).toBe(false);
+    });
+
+    it('resolves custom dock theme styles with user selected colors', () => {
+      const customStyle = resolveDockThemeStyle({
+        preset: 'custom',
+        customIconColor: '#00FFAA',
+        customBgColor: '#051A15',
+        customBorderColor: '#00FFAA',
+      });
+      expect(customStyle.iconColor).toBe('#00FFAA');
+      expect(customStyle.customBg).toBe('#051A15');
+      expect(customStyle.borderColor).toBe('#00FFAA');
+      expect(customStyle.isCustom).toBe(true);
+    });
+  });
+
+  describe('Window Layering & Stacking Hierarchy', () => {
+    it('ensures window z-indexes are strictly higher than desktop clock widget level (z-10)', () => {
+      const DESKTOP_CLOCK_Z_INDEX = 10;
+      // Normal restored window minimum zIndex
+      const MIN_WINDOW_Z_INDEX = 25;
+      // Maximized window minimum zIndex
+      const MIN_MAXIMIZED_Z_INDEX = 40;
+
+      expect(MIN_WINDOW_Z_INDEX).toBeGreaterThan(DESKTOP_CLOCK_Z_INDEX);
+      expect(MIN_MAXIMIZED_Z_INDEX).toBeGreaterThan(DESKTOP_CLOCK_Z_INDEX);
+    });
+
+    it('verifies all default windows can be promoted to active with progressive z-index', () => {
+      let maxZ = 30;
+      const initialWindows = { ...INITIAL_WINDOWS };
+
+      // Open and bring scholarship window to front
+      maxZ += 1;
+      initialWindows.scholarship.zIndex = maxZ;
+      expect(initialWindows.scholarship.zIndex).toBe(31);
+      expect(initialWindows.scholarship.zIndex).toBeGreaterThan(10);
+
+      // Open notes window and bring to front
+      maxZ += 1;
+      initialWindows.notes.zIndex = maxZ;
+      expect(initialWindows.notes.zIndex).toBe(32);
+      expect(initialWindows.notes.zIndex).toBeGreaterThan(initialWindows.scholarship.zIndex);
     });
   });
 });

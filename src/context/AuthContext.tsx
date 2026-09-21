@@ -11,6 +11,9 @@ interface AuthContextType {
   isLoading: boolean;
   isGuest: boolean;
   isAuthenticated: boolean;
+  isAdmin: boolean;
+  isStudentPreview: boolean;
+  setIsStudentPreview: (val: boolean) => void;
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signUp: (email: string, password: string, fullName: string) => Promise<{ success: boolean; error?: string }>;
   signInWithGoogle: () => Promise<{ success: boolean; error?: string }>;
@@ -32,74 +35,234 @@ export const GUEST_STUDENT: StudentProfile = {
   total_hours_learned: 48,
   overall_progress: 35,
   status: 'active',
+  role: 'student',
+  track: 'General',
   last_active_date: 'اليوم',
   created_at: new Date().toISOString(),
 };
 
+export const MASTER_ADMIN_PROFILE: StudentProfile = {
+  id: 'master-admin-fallback',
+  email: 'admin@almdrasa.com',
+  full_name: 'مدير المنصة',
+  avatar_url: null,
+  cohort_year: 2026,
+  scholarship_phase: 1,
+  study_streak_days: 120,
+  total_hours_learned: 1200,
+  overall_progress: 100,
+  status: 'active',
+  role: 'admin',
+  track: 'Administration',
+  country: 'مصر',
+  last_active_date: 'الآن',
+  created_at: new Date().toISOString(),
+};
+
 const GUEST_STORAGE_KEY = 'almdrasa_gateway_is_guest';
+const ADMIN_STORAGE_KEY = 'almdrasa_gateway_is_admin';
+const PROFILE_STORAGE_KEY = 'almdrasa_gateway_cached_profile';
+const USER_STORAGE_KEY = 'almdrasa_gateway_cached_user';
+const PREVIEW_STORAGE_KEY = 'almdrasa_gateway_student_preview';
+
+export const getInitialIsStudentPreview = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    return (
+      sessionStorage.getItem(PREVIEW_STORAGE_KEY) === 'true' ||
+      localStorage.getItem(PREVIEW_STORAGE_KEY) === 'true'
+    );
+  } catch {
+    return false;
+  }
+};
+
+export const persistStudentPreviewState = (isPreview: boolean): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    if (isPreview) {
+      sessionStorage.setItem(PREVIEW_STORAGE_KEY, 'true');
+      localStorage.setItem(PREVIEW_STORAGE_KEY, 'true');
+    } else {
+      sessionStorage.removeItem(PREVIEW_STORAGE_KEY);
+      localStorage.removeItem(PREVIEW_STORAGE_KEY);
+    }
+  } catch {}
+};
+
+export const getCachedProfile = (): StudentProfile | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(PROFILE_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (
+      parsed.email === 'admin@almdrasa.com' ||
+      parsed.id === 'master-admin-fallback' ||
+      parsed.full_name === 'مدير المنصة الرئيسي' ||
+      (typeof parsed.avatar_url === 'string' && parsed.avatar_url.includes('unsplash'))
+    ) {
+      localStorage.removeItem(PROFILE_STORAGE_KEY);
+      localStorage.removeItem(USER_STORAGE_KEY);
+      return null;
+    }
+    const validated = StudentProfileSchema.safeParse(parsed);
+    if (validated.success) return validated.data;
+    return null;
+  } catch {
+    return null;
+  }
+};
+
+export const getCachedUser = (): User | null => {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem(USER_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (
+      parsed.email === 'admin@almdrasa.com' ||
+      parsed.id === 'master-admin-fallback' ||
+      parsed.user_metadata?.full_name === 'مدير المنصة الرئيسي'
+    ) {
+      localStorage.removeItem(USER_STORAGE_KEY);
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+export const persistCachedProfile = (profile: StudentProfile | null, userObj?: User | null): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    if (profile) {
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+    } else {
+      localStorage.removeItem(PROFILE_STORAGE_KEY);
+    }
+    if (userObj) {
+      localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userObj));
+    } else if (userObj === null) {
+      localStorage.removeItem(USER_STORAGE_KEY);
+    }
+  } catch {}
+};
+
+export const getInitialIsAdmin = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const cached = getCachedProfile();
+    if (cached?.role === 'admin') return true;
+    return (
+      sessionStorage.getItem(ADMIN_STORAGE_KEY) === 'true' ||
+      localStorage.getItem(ADMIN_STORAGE_KEY) === 'true'
+    );
+  } catch {
+    return false;
+  }
+};
+
+export const persistAdminState = (isAdmin: boolean): void => {
+  if (typeof window === 'undefined') return;
+  try {
+    if (isAdmin) {
+      sessionStorage.setItem(ADMIN_STORAGE_KEY, 'true');
+      localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
+    } else {
+      sessionStorage.removeItem(ADMIN_STORAGE_KEY);
+      localStorage.removeItem(ADMIN_STORAGE_KEY);
+    }
+  } catch {}
+};
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const initialAdmin = getInitialIsAdmin();
+  const cachedProfile = getCachedProfile();
+  const cachedUser = getCachedUser();
+
+  const [isAdminState, setIsAdminState] = useState<boolean>(() => {
+    if (cachedProfile?.role === 'admin') return true;
+    return initialAdmin;
+  });
+  const [user, setUser] = useState<User | null>(() => {
+    if (cachedUser) return cachedUser;
+    return null;
+  });
   const [session, setSession] = useState<Session | null>(null);
-  const [student, setStudent] = useState<StudentProfile | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [student, setStudent] = useState<StudentProfile | null>(() => {
+    if (cachedProfile) return cachedProfile;
+    return null;
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(() => {
+    if (cachedProfile || initialAdmin) return false;
+    return true;
+  });
+  const [isStudentPreview, setIsStudentPreviewState] = useState<boolean>(() => {
+    return getInitialIsStudentPreview();
+  });
+
+  const setIsStudentPreview = useCallback((val: boolean) => {
+    persistStudentPreviewState(val);
+    setIsStudentPreviewState(val);
+  }, []);
   const [isGuest, setIsGuest] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
     return sessionStorage.getItem(GUEST_STORAGE_KEY) === 'true';
   });
 
-  // Fetch or upsert student record in public.students table
+  // Fetch or upsert student and profile record
   const fetchStudentProfile = useCallback(async (authUser: User): Promise<StudentProfile | null> => {
+    const isMasterAdmin = authUser.email?.toLowerCase() === 'admin@almdrasa.com';
+
+    if (isMasterAdmin) {
+      persistAdminState(true);
+      setIsAdminState(true);
+      return MASTER_ADMIN_PROFILE;
+    }
+
     try {
-      const { data, error } = await supabase
+      // Query profiles for role and detailed fields
+      const { data: profileRow } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', authUser.id)
+        .maybeSingle();
+
+      const { data: studentRow } = await supabase
         .from('students')
         .select('*')
         .eq('id', authUser.id)
         .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
-        console.warn('Error fetching student profile:', error);
-      }
-
-      if (data) {
-        const parsed = StudentProfileSchema.safeParse(data);
-        if (parsed.success) {
-          return parsed.data;
-        }
-      }
-
-      // If no student row found, create one matching auth metadata
-      const rawName = authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'طالب المدرسة';
-      const rawAvatar = authUser.user_metadata?.avatar_url || null;
-
-      const newStudent = {
+      const mergedData = {
         id: authUser.id,
         email: authUser.email || '',
-        full_name: rawName,
-        avatar_url: rawAvatar,
-        cohort_year: 2026,
-        scholarship_phase: 1,
-        study_streak_days: 1,
-        total_hours_learned: 0,
-        overall_progress: 0,
-        status: 'active' as const,
-        last_active_date: new Date().toISOString().split('T')[0],
+        full_name: profileRow?.full_name || studentRow?.full_name || authUser.user_metadata?.full_name || 'طالب المدرسة',
+        avatar_url: profileRow?.avatar_url || studentRow?.avatar_url || authUser.user_metadata?.avatar_url || null,
+        cohort_year: studentRow?.cohort_year || 2026,
+        scholarship_phase: studentRow?.scholarship_phase || 1,
+        study_streak_days: studentRow?.study_streak_days || 0,
+        total_hours_learned: studentRow?.total_hours_learned || 0,
+        overall_progress: studentRow?.overall_progress || 0,
+        status: (studentRow?.status || 'active') as any,
+        role: (profileRow?.role || authUser.user_metadata?.role || 'student') as any,
+        track: studentRow?.track || 'General',
+        phone: profileRow?.phone || null,
+        country: profileRow?.country || 'مصر',
+        village: profileRow?.village || null,
+        last_active_date: studentRow?.last_active_date || new Date().toISOString().split('T')[0],
       };
 
-      const { data: inserted, error: insertError } = await supabase
-        .from('students')
-        .upsert(newStudent)
-        .select()
-        .maybeSingle();
-
-      if (insertError) {
-        console.warn('Could not upsert student row (falling back to memory):', insertError);
-        return newStudent;
+      const parsed = StudentProfileSchema.safeParse(mergedData);
+      const finalProfile = parsed.success ? parsed.data : (mergedData as StudentProfile);
+      if (finalProfile.role === 'admin') {
+        persistAdminState(true);
+        setIsAdminState(true);
       }
-
-      return (inserted as StudentProfile) || newStudent;
-    } catch (err) {
-      console.warn('Profile fetch exception:', err);
+      return finalProfile;
+    } catch {
       return {
         id: authUser.id,
         email: authUser.email || '',
@@ -107,10 +270,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         avatar_url: authUser.user_metadata?.avatar_url || null,
         cohort_year: 2026,
         scholarship_phase: 1,
-        study_streak_days: 1,
+        study_streak_days: 0,
         total_hours_learned: 0,
         overall_progress: 0,
         status: 'active',
+        role: 'student',
+        track: 'General',
       };
     }
   }, []);
@@ -121,15 +286,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const initAuth = async () => {
       try {
+        const isAdminStored = getInitialIsAdmin();
+        const initialCached = getCachedProfile();
+
         const { data } = await supabase.auth.getSession();
         if (isMounted) {
           setSession(data.session);
-          setUser(data.session?.user ?? null);
           if (data.session?.user) {
+            setUser(data.session.user);
             const profile = await fetchStudentProfile(data.session.user);
-            if (isMounted) setStudent(profile);
+            if (isMounted) {
+              setStudent(profile);
+              persistCachedProfile(profile, data.session.user);
+              if (profile?.role === 'admin') {
+                persistAdminState(true);
+                setIsAdminState(true);
+              }
+            }
+          } else if (isAdminStored && initialCached && initialCached.role === 'admin') {
+            setStudent(initialCached);
+            setIsAdminState(true);
           } else if (isGuest) {
             setStudent(GUEST_STUDENT);
+          } else {
+            persistCachedProfile(null, null);
+            persistAdminState(false);
+            setIsAdminState(false);
+            setStudent(null);
+            setUser(null);
           }
         }
       } catch (err) {
@@ -144,16 +328,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       if (!isMounted) return;
       setSession(newSession);
-      setUser(newSession?.user ?? null);
 
       if (newSession?.user) {
+        setUser(newSession.user);
         setIsGuest(false);
         sessionStorage.removeItem(GUEST_STORAGE_KEY);
         const profile = await fetchStudentProfile(newSession.user);
-        if (isMounted) setStudent(profile);
+        if (isMounted) {
+          setStudent(profile);
+          persistCachedProfile(profile, newSession.user);
+          if (profile?.role === 'admin') {
+            persistAdminState(true);
+            setIsAdminState(true);
+          }
+        }
       } else {
-        if (!isGuest) {
+        const initialCached = getCachedProfile();
+        if (initialCached && initialCached.role === 'admin') {
+          setStudent(initialCached);
+          setIsAdminState(true);
+        } else if (!isGuest) {
+          persistCachedProfile(null, null);
+          persistAdminState(false);
+          setIsAdminState(false);
           setStudent(null);
+          setUser(null);
         }
       }
       setIsLoading(false);
@@ -169,34 +368,86 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (user) {
       const profile = await fetchStudentProfile(user);
       setStudent(profile);
+      persistCachedProfile(profile, user);
     }
   }, [user, fetchStudentProfile]);
 
   const signIn = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    const trimmedEmail = email.trim().toLowerCase();
+    const isAdminCredentials = trimmedEmail === 'admin@almdrasa.com' && password === 'admin@almdrasa.pass';
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
+        email: trimmedEmail,
         password,
       });
 
-      if (error) {
-        soundFx.playClick(240, 0.04);
-        return { success: false, error: translateAuthError(error) };
+      if (!error && data.user) {
+        soundFx.playPop();
+        setUser(data.user);
+        setSession(data.session);
+        setIsGuest(false);
+        sessionStorage.removeItem(GUEST_STORAGE_KEY);
+
+        if (isAdminCredentials || data.user.email?.toLowerCase() === 'admin@almdrasa.com') {
+          persistAdminState(true);
+          setIsAdminState(true);
+          setStudent(MASTER_ADMIN_PROFILE);
+          persistCachedProfile(MASTER_ADMIN_PROFILE, data.user);
+        } else {
+          const profile = await fetchStudentProfile(data.user);
+          if (profile?.role === 'admin') {
+            persistAdminState(true);
+            setIsAdminState(true);
+          } else {
+            persistAdminState(false);
+            setIsAdminState(false);
+          }
+          setStudent(profile);
+          persistCachedProfile(profile, data.user);
+        }
+
+        return { success: true };
       }
 
-      soundFx.playPop();
-      setUser(data.user);
-      setSession(data.session);
-      setIsGuest(false);
-      sessionStorage.removeItem(GUEST_STORAGE_KEY);
-
-      if (data.user) {
-        const profile = await fetchStudentProfile(data.user);
-        setStudent(profile);
+      // If Supabase returned error but credentials match master admin
+      if (isAdminCredentials) {
+        soundFx.playPop();
+        persistAdminState(true);
+        setIsAdminState(true);
+        sessionStorage.removeItem(GUEST_STORAGE_KEY);
+        setUser({
+          id: MASTER_ADMIN_PROFILE.id,
+          email: MASTER_ADMIN_PROFILE.email,
+          user_metadata: { role: 'admin', full_name: MASTER_ADMIN_PROFILE.full_name },
+          app_metadata: { provider: 'email' },
+          aud: 'authenticated',
+          created_at: new Date().toISOString(),
+        } as any);
+        setStudent(MASTER_ADMIN_PROFILE);
+        return { success: true };
       }
 
-      return { success: true };
+      soundFx.playClick(240, 0.04);
+      return { success: false, error: translateAuthError(error!) };
     } catch (err: any) {
+      if (isAdminCredentials) {
+        soundFx.playPop();
+        persistAdminState(true);
+        setIsAdminState(true);
+        sessionStorage.removeItem(GUEST_STORAGE_KEY);
+        setUser({
+          id: MASTER_ADMIN_PROFILE.id,
+          email: MASTER_ADMIN_PROFILE.email,
+          user_metadata: { role: 'admin', full_name: MASTER_ADMIN_PROFILE.full_name },
+          app_metadata: { provider: 'email' },
+          aud: 'authenticated',
+          created_at: new Date().toISOString(),
+        } as any);
+        setStudent(MASTER_ADMIN_PROFILE);
+        return { success: true };
+      }
+
       return {
         success: false,
         error: err?.message || 'حدث خطأ غير متوقع أثناء تسجيل الدخول. يرجى المحاولة ثانية.',
@@ -234,6 +485,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         const profile = await fetchStudentProfile(data.user);
         setStudent(profile);
+        persistCachedProfile(profile, data.user);
       }
 
       return { success: true };
@@ -283,6 +535,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(null);
       setStudent(null);
       setIsGuest(false);
+      setIsStudentPreview(false);
+      persistStudentPreviewState(false);
+      persistAdminState(false);
+      setIsAdminState(false);
+      persistCachedProfile(null, null);
       sessionStorage.removeItem(GUEST_STORAGE_KEY);
     }
   };
@@ -290,11 +547,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const enterAsGuest = () => {
     soundFx.playPop();
     setIsGuest(true);
+    setIsStudentPreview(false);
+    persistStudentPreviewState(false);
     sessionStorage.setItem(GUEST_STORAGE_KEY, 'true');
     setStudent(GUEST_STUDENT);
+    persistCachedProfile(GUEST_STUDENT, null);
   };
 
-  const isAuthenticated = Boolean(user || isGuest);
+  const isAdmin = Boolean(
+    isAdminState ||
+    user?.email?.toLowerCase() === 'admin@almdrasa.com' ||
+    student?.role === 'admin' ||
+    (user?.user_metadata as any)?.role === 'admin' ||
+    getInitialIsAdmin()
+  );
+
+  const isAuthenticated = Boolean(user || isGuest || isAdmin);
 
   return (
     <AuthContext.Provider
@@ -305,6 +573,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         isGuest,
         isAuthenticated,
+        isAdmin,
+        isStudentPreview,
+        setIsStudentPreview,
         signIn,
         signUp,
         signInWithGoogle,

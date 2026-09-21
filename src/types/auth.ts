@@ -10,7 +10,12 @@ export const StudentProfileSchema = z.object({
   study_streak_days: z.number().default(0),
   total_hours_learned: z.number().default(0),
   overall_progress: z.number().default(0),
-  status: z.enum(['active', 'excelling', 'at_risk']).default('active'),
+  status: z.enum(['active', 'excelling', 'at_risk', 'suspended']).default('active'),
+  role: z.enum(['student', 'admin', 'supervisor']).default('student'),
+  track: z.string().default('General'),
+  phone: z.string().nullable().optional(),
+  country: z.string().nullable().optional(),
+  village: z.string().nullable().optional(),
   last_active_date: z.string().optional(),
   created_at: z.string().optional(),
 });

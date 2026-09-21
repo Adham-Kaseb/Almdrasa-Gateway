@@ -42,8 +42,6 @@ export const DesktopCanvas: React.FC = () => {
   const {
     windows,
     openWindow,
-    selectedDesktopIcon,
-    setSelectedDesktopIcon,
     residentModalOpen,
     setResidentModalOpen,
     desktopItems,
@@ -53,15 +51,6 @@ export const DesktopCanvas: React.FC = () => {
   } = useOS();
 
   const handleItemClick = (item: DesktopItem) => {
-    soundFx.playClick(500, 0.03);
-    if (selectedDesktopIcon === item.id) {
-      handleItemDoubleClick(item);
-    } else {
-      setSelectedDesktopIcon(item.id);
-    }
-  };
-
-  const handleItemDoubleClick = (item: DesktopItem) => {
     soundFx.playPop();
     if (item.type === 'folder') {
       setActiveFolderId(item.id);
@@ -98,7 +87,8 @@ export const DesktopCanvas: React.FC = () => {
       return <FolderGit2 className="w-6 h-6 text-[#191816] stroke-2" />;
     }
     if (item.icon === 'notes' || item.targetWindowId === 'notes') {
-      return <BookOpen className="w-6 h-6 text-[#191816] stroke-2" />;
+      const isGold = item.bgClass?.includes('text-[#DFCA9F]');
+      return <BookOpen className={`w-6 h-6 ${isGold ? 'text-[#DFCA9F]' : 'text-[#191816]'} stroke-[2.2]`} />;
     }
     if (item.icon === 'terminal' || item.targetWindowId === 'terminal') {
       return <Terminal className="w-6 h-6 text-[#F8F4EC] stroke-2" />;
@@ -120,14 +110,7 @@ export const DesktopCanvas: React.FC = () => {
   };
 
   return (
-    <div
-      className="flex-1 relative w-full h-full overflow-hidden"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          setSelectedDesktopIcon(null);
-        }
-      }}
-    >
+    <div className="flex-1 relative w-full h-full overflow-hidden">
       {/* Top Center Digital Clock & Calendar Widget */}
       <DesktopClockWidget />
 
@@ -140,7 +123,6 @@ export const DesktopCanvas: React.FC = () => {
         }}
       >
         {desktopItems.map((item) => {
-          const isSelected = selectedDesktopIcon === item.id;
           return (
             <div
               key={item.id}
@@ -149,23 +131,18 @@ export const DesktopCanvas: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleItemClick(item)}
-                onDoubleClick={() => handleItemDoubleClick(item)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    handleItemDoubleClick(item);
+                    handleItemClick(item);
                   }
                 }}
-                className={`w-full flex flex-col items-center focus:outline-none transition-all duration-200 cursor-pointer ${
-                  isSelected ? 'scale-105' : ''
-                }`}
+                className="w-full flex flex-col items-center focus:outline-none transition-all duration-200 cursor-pointer"
                 aria-label={`فتح ${item.title}`}
               >
                 {/* Tactile Rounded Icon Container */}
                 <div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-[0_10px_24px_rgba(0,0,0,0.55)] border transition-all duration-200 ${item.bgClass || 'bg-[#292724] text-[#F8F4EC] border-white/10'} ${
-                    isSelected
-                      ? 'ring-2 ring-[#2F6FCE] ring-offset-2 ring-offset-[#0B0B0A] scale-105 shadow-[0_0_20px_rgba(47,111,206,0.5)]'
-                      : 'hover:scale-105 hover:-translate-y-1'
+                  className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-[0_10px_24px_rgba(0,0,0,0.55)] border transition-all duration-200 hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                    item.bgClass || 'bg-[#292724] text-[#F8F4EC] border-white/10'
                   }`}
                 >
                   {renderItemIcon(item)}
@@ -173,11 +150,7 @@ export const DesktopCanvas: React.FC = () => {
 
                 {/* Icon Label */}
                 <span
-                  className={`mt-1.5 text-[12px] font-medium tracking-tight text-center line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1.5 py-0.5 rounded-md transition-colors ${
-                    isSelected
-                      ? 'bg-[#2F6FCE] text-white'
-                      : 'text-[#F3EFE7]/90 group-hover:text-white'
-                  }`}
+                  className="mt-1.5 text-[12px] font-medium tracking-tight text-center line-clamp-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] px-1.5 py-0.5 rounded-md text-[#F3EFE7]/90 group-hover:text-white transition-colors"
                 >
                   {item.title}
                 </span>

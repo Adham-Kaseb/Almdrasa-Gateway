@@ -149,7 +149,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 10,
-    position: { x: 180, y: 55 },
+    position: { x: 180, y: 75 },
     size: { width: 770, height: 490 },
   },
   about: {
@@ -160,7 +160,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 11,
-    position: { x: 120, y: 60 },
+    position: { x: 120, y: 80 },
     size: { width: 740, height: 500 },
   },
   projects: {
@@ -171,7 +171,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 12,
-    position: { x: 140, y: 70 },
+    position: { x: 140, y: 85 },
     size: { width: 800, height: 520 },
   },
   clients: {
@@ -198,14 +198,14 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
   },
   notes: {
     id: 'notes',
-    title: 'الملاحظات المعمارية وسجل القيادة',
+    title: 'دفتر الملاحظات والتدوين اليومي',
     icon: 'BookOpen',
     isOpen: false,
     isMinimized: false,
-    isMaximized: false,
+    isMaximized: true,
     zIndex: 15,
-    position: { x: 200, y: 80 },
-    size: { width: 660, height: 440 },
+    position: { x: 120, y: 75 },
+    size: { width: 1050, height: 700 },
   },
   ricode: {
     id: 'ricode',
@@ -248,7 +248,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 19,
-    position: { x: 160, y: 55 },
+    position: { x: 160, y: 75 },
     size: { width: 860, height: 580 },
   },
   schedule: {
@@ -259,7 +259,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 20,
-    position: { x: 130, y: 45 },
+    position: { x: 130, y: 75 },
     size: { width: 920, height: 600 },
   },
   curriculum: {
@@ -270,7 +270,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 21,
-    position: { x: 100, y: 40 },
+    position: { x: 100, y: 75 },
     size: { width: 940, height: 640 },
   },
   meetings: {
@@ -281,7 +281,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 22,
-    position: { x: 120, y: 50 },
+    position: { x: 120, y: 75 },
     size: { width: 860, height: 600 },
   },
   elimination: {
@@ -292,7 +292,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 23,
-    position: { x: 140, y: 50 },
+    position: { x: 140, y: 75 },
     size: { width: 900, height: 620 },
   },
   faqs: {
@@ -303,7 +303,7 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 24,
-    position: { x: 120, y: 40 },
+    position: { x: 120, y: 75 },
     size: { width: 940, height: 640 },
   },
 };
@@ -313,11 +313,11 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
 export const INITIAL_DESKTOP_ITEMS: DesktopItem[] = [
   {
     id: 'dt-home',
-    title: 'الرئيسية',
+    title: 'دفتر الملاحظات والتدوين',
     type: 'shortcut',
-    targetWindowId: 'home',
-    bgClass: 'bg-[#C5B79E] text-[#191816] border-[#D8CDBA]/60',
-    icon: 'RI',
+    targetWindowId: 'notes',
+    bgClass: 'bg-[#181714] text-[#DFCA9F] border-[#DFCA9F]/30',
+    icon: 'notes',
   },
 ];
 

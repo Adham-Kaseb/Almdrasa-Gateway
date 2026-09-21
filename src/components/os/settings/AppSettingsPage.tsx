@@ -137,9 +137,6 @@ export const AppSettingsPage: React.FC = () => {
               <h1 className="text-sm font-bold text-[#F8F4EC] tracking-tight">
                 إعدادات النظام والتخصيص
               </h1>
-              <p className="text-[11px] text-[#9E988F] mt-2.5 leading-relaxed">
-                لوحة التحكم الموحدة لبيئة الاستوديو وتجربة الطالب
-              </p>
             </div>
           </div>
         </div>
@@ -195,7 +192,7 @@ export const AppSettingsPage: React.FC = () => {
       {/* Main Settings Body */}
       <div className="flex-1 flex overflow-hidden">
         {/* Sidebar Tabs List */}
-        <aside className="w-64 sm:w-72 border-l border-white/10 bg-[#12110F]/60 p-4 flex flex-col gap-1.5 shrink-0 overflow-y-auto">
+        <aside className="w-64 sm:w-72 border-l border-white/10 bg-[#12110F]/60 p-4 flex flex-col gap-1.5 shrink-0 overflow-y-auto no-scrollbar">
           <div className="text-[11px] font-bold text-[#9E988F] px-3 py-1 uppercase tracking-wider mb-1">
             أقسام التحكم والتخصيص
           </div>
@@ -227,18 +224,13 @@ export const AppSettingsPage: React.FC = () => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className={`text-xs font-bold truncate ${
-                        isActive ? 'text-[#DFCA9F]' : 'text-[#F8F4EC]'
-                      }`}
-                    >
-                      {tab.label}
-                    </span>
-                  </div>
-                  <p className="text-[10.5px] text-[#8C877E] truncate mt-1.5 leading-snug">
-                    {tab.sublabel}
-                  </p>
+                  <span
+                    className={`text-xs font-bold truncate block ${
+                      isActive ? 'text-[#DFCA9F]' : 'text-[#F8F4EC]'
+                    }`}
+                  >
+                    {tab.label}
+                  </span>
                 </div>
               </button>
             );
@@ -246,7 +238,7 @@ export const AppSettingsPage: React.FC = () => {
         </aside>
 
         {/* Content Panel Area */}
-        <main className="flex-1 overflow-y-auto p-6 sm:p-10 max-w-4xl mx-auto w-full">
+        <main className="flex-1 overflow-y-auto p-6 sm:p-10 max-w-4xl mx-auto w-full no-scrollbar">
           {activeTab === 'background' && <BackgroundSettingsPanel />}
           {activeTab === 'audio' && <AudioSettingsPanel />}
           {activeTab === 'dock' && <DockSettingsPanel />}

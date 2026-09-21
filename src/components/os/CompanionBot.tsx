@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { soundFx } from '../../utils/audio';
-import { useOS } from '../../context/OSContext';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { soundFx } from "../../utils/audio";
+import { useOS } from "../../context/OSContext";
 
 interface CompanionBotProps {
-  mode?: 'corner' | 'dock' | 'window';
+  mode?: "corner" | "dock" | "window";
   onOpenChat?: () => void;
 }
 
-export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onOpenChat }) => {
+export const CompanionBot: React.FC<CompanionBotProps> = ({
+  mode = "corner",
+  onOpenChat,
+}) => {
   const { residentModalOpen, setResidentModalOpen, windows } = useOS();
   const [isWaving, setIsWaving] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const isAnyMaximized = Object.values(windows).some(
-    (w) => w.isOpen && !w.isMinimized && w.isMaximized
+    (w) => w.isOpen && !w.isMinimized && w.isMaximized,
   );
 
   // Periodic subtle wave to make the assistant feel alive
@@ -43,15 +46,15 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
   };
 
   // Backwards compatibility for dock/window perched modes if ever requested
-  if (mode === 'dock' || mode === 'window') {
-    const isDock = mode === 'dock';
+  if (mode === "dock" || mode === "window") {
+    const isDock = mode === "dock";
     return (
       <div
         onClick={handleClick}
         className={`z-40 flex flex-col items-center cursor-pointer group select-none ${
           isDock
-            ? 'absolute -top-8 left-1/2 -translate-x-1/2'
-            : 'absolute -top-18 left-1/2 -translate-x-1/2'
+            ? "absolute -top-8 left-1/2 -translate-x-1/2"
+            : "absolute -top-18 left-1/2 -translate-x-1/2"
         }`}
         title="انقر للتحدث مع المساعد الذكي المقيم!"
         aria-label="روبوت المساعد الذكي المرافق"
@@ -60,9 +63,9 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
       >
         <div
           className={`${
-            isDock ? 'w-7 h-7' : 'w-8 h-8'
+            isDock ? "w-7 h-7" : "w-8 h-8"
           } transition-transform duration-300 relative ${
-            isWaving ? 'scale-110 -rotate-6' : 'group-hover:-translate-y-0.5'
+            isWaving ? "scale-110 -rotate-6" : "group-hover:-translate-y-0.5"
           }`}
         >
           <svg
@@ -71,11 +74,53 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect x="24" y="24" width="52" height="40" rx="12" fill="#EAE6DE" stroke="#2B2925" strokeWidth="3.5" />
-            <rect x="18" y="38" width="6" height="12" rx="3" fill="#D4CFC5" stroke="#2B2925" strokeWidth="2.5" />
-            <rect x="76" y="38" width="6" height="12" rx="3" fill="#D4CFC5" stroke="#2B2925" strokeWidth="2.5" />
-            <line x1="50" y1="24" x2="50" y2="12" stroke="#2B2925" strokeWidth="3.5" strokeLinecap="round" />
-            <circle cx="50" cy="10" r="4.5" fill="#2F6FCE" stroke="#2B2925" strokeWidth="2.5" />
+            <rect
+              x="24"
+              y="24"
+              width="52"
+              height="40"
+              rx="12"
+              fill="#EAE6DE"
+              stroke="#2B2925"
+              strokeWidth="3.5"
+            />
+            <rect
+              x="18"
+              y="38"
+              width="6"
+              height="12"
+              rx="3"
+              fill="#D4CFC5"
+              stroke="#2B2925"
+              strokeWidth="2.5"
+            />
+            <rect
+              x="76"
+              y="38"
+              width="6"
+              height="12"
+              rx="3"
+              fill="#D4CFC5"
+              stroke="#2B2925"
+              strokeWidth="2.5"
+            />
+            <line
+              x1="50"
+              y1="24"
+              x2="50"
+              y2="12"
+              stroke="#2B2925"
+              strokeWidth="3.5"
+              strokeLinecap="round"
+            />
+            <circle
+              cx="50"
+              cy="10"
+              r="4.5"
+              fill="#2F6FCE"
+              stroke="#2B2925"
+              strokeWidth="2.5"
+            />
             <rect x="32" y="34" width="36" height="16" rx="6" fill="#1B1A18" />
             <circle cx="41" cy="42" r="3.5" fill="#9FA994" />
             <circle cx="59" cy="42" r="3.5" fill="#9FA994" />
@@ -95,9 +140,18 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
               fill="#D4CFC5"
               stroke="#2B2925"
               strokeWidth="2.5"
-              transform={isWaving ? 'rotate(-35 22 68)' : ''}
+              transform={isWaving ? "rotate(-35 22 68)" : ""}
             />
-            <rect x="74" y="68" width="8" height="18" rx="4" fill="#D4CFC5" stroke="#2B2925" strokeWidth="2.5" />
+            <rect
+              x="74"
+              y="68"
+              width="8"
+              height="18"
+              rx="4"
+              fill="#D4CFC5"
+              stroke="#2B2925"
+              strokeWidth="2.5"
+            />
             <rect x="34" y="93" width="12" height="5" rx="2" fill="#2B2925" />
             <rect x="54" y="93" width="12" height="5" rx="2" fill="#2B2925" />
           </svg>
@@ -119,10 +173,10 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
         ease: [0.22, 1, 0.36, 1],
       }}
       style={{
-        pointerEvents: isAnyMaximized ? 'none' : 'auto',
+        pointerEvents: isAnyMaximized ? "none" : "auto",
       }}
       className={`fixed bottom-4 right-4 md:right-6 select-none ${
-        isAnyMaximized ? 'z-0' : 'z-40'
+        isAnyMaximized ? "z-0" : "z-40"
       }`}
       aria-label="المساعد الذكي"
     >
@@ -148,16 +202,15 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
           onClick={handleClick}
           className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-200 shadow-xl border ${
             residentModalOpen
-              ? 'bg-linear-to-br from-[#2D2A24] to-[#1E1C19] border-[#C5B79E]/60 ring-1 ring-[#C5B79E]/40 shadow-[0_0_20px_rgba(197,183,158,0.25)] scale-105'
-              : 'bg-[#201F1D] text-[#F8F4EC] border-white/14 hover:border-white/30 hover:bg-[#2B2926] hover:-translate-y-1 hover:scale-105 active:translate-y-0 active:scale-95'
+              ? "bg-linear-to-br from-[#2D2A24] to-[#1E1C19] border-[#C5B79E]/60 ring-1 ring-[#C5B79E]/40 shadow-[0_0_20px_rgba(197,183,158,0.25)] scale-105"
+              : "bg-[#201F1D] text-[#F8F4EC] border-white/14 hover:border-white/30 hover:bg-[#2B2926] hover:-translate-y-1 hover:scale-105 active:translate-y-0 active:scale-95"
           } focus:outline-none focus:ring-2 focus:ring-[#2F6FCE] focus:ring-offset-2 focus:ring-offset-[#0B0B0A] cursor-pointer`}
           aria-label="المساعد الذكي"
-          title="المساعد الذكي"
         >
           {/* Robot Mascot SVG inside icon tile */}
           <div
             className={`w-8 h-8 transition-transform duration-300 relative ${
-              isWaving ? 'scale-110 -rotate-6' : 'group-hover:scale-105'
+              isWaving ? "scale-110 -rotate-6" : "group-hover:scale-105"
             }`}
           >
             <svg
@@ -167,18 +220,67 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
               xmlns="http://www.w3.org/2000/svg"
             >
               {/* Head */}
-              <rect x="24" y="24" width="52" height="40" rx="12" fill="#EAE6DE" stroke="#2B2925" strokeWidth="3.5" />
+              <rect
+                x="24"
+                y="24"
+                width="52"
+                height="40"
+                rx="12"
+                fill="#EAE6DE"
+                stroke="#2B2925"
+                strokeWidth="3.5"
+              />
 
               {/* Side Ears / Head Nubs */}
-              <rect x="18" y="38" width="6" height="12" rx="3" fill="#D4CFC5" stroke="#2B2925" strokeWidth="2.5" />
-              <rect x="76" y="38" width="6" height="12" rx="3" fill="#D4CFC5" stroke="#2B2925" strokeWidth="2.5" />
+              <rect
+                x="18"
+                y="38"
+                width="6"
+                height="12"
+                rx="3"
+                fill="#D4CFC5"
+                stroke="#2B2925"
+                strokeWidth="2.5"
+              />
+              <rect
+                x="76"
+                y="38"
+                width="6"
+                height="12"
+                rx="3"
+                fill="#D4CFC5"
+                stroke="#2B2925"
+                strokeWidth="2.5"
+              />
 
               {/* Antenna */}
-              <line x1="50" y1="24" x2="50" y2="12" stroke="#2B2925" strokeWidth="3.5" strokeLinecap="round" />
-              <circle cx="50" cy="10" r="4.5" fill="#2F6FCE" stroke="#2B2925" strokeWidth="2.5" />
+              <line
+                x1="50"
+                y1="24"
+                x2="50"
+                y2="12"
+                stroke="#2B2925"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+              />
+              <circle
+                cx="50"
+                cy="10"
+                r="4.5"
+                fill="#2F6FCE"
+                stroke="#2B2925"
+                strokeWidth="2.5"
+              />
 
               {/* Visor & Eyes */}
-              <rect x="32" y="34" width="36" height="16" rx="6" fill="#1B1A18" />
+              <rect
+                x="32"
+                y="34"
+                width="36"
+                height="16"
+                rx="6"
+                fill="#1B1A18"
+              />
               <circle cx="41" cy="42" r="3.5" fill="#9FA994" />
               <circle cx="59" cy="42" r="3.5" fill="#9FA994" />
 
@@ -191,7 +293,14 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
               />
 
               {/* Tummy Plate */}
-              <rect x="40" y="72" width="20" height="14" rx="4" fill="#C5B79E" />
+              <rect
+                x="40"
+                y="72"
+                width="20"
+                height="14"
+                rx="4"
+                fill="#C5B79E"
+              />
 
               {/* Arms */}
               <rect
@@ -203,9 +312,18 @@ export const CompanionBot: React.FC<CompanionBotProps> = ({ mode = 'corner', onO
                 fill="#D4CFC5"
                 stroke="#2B2925"
                 strokeWidth="2.5"
-                transform={isWaving ? 'rotate(-35 22 68)' : ''}
+                transform={isWaving ? "rotate(-35 22 68)" : ""}
               />
-              <rect x="74" y="68" width="8" height="18" rx="4" fill="#D4CFC5" stroke="#2B2925" strokeWidth="2.5" />
+              <rect
+                x="74"
+                y="68"
+                width="8"
+                height="18"
+                rx="4"
+                fill="#D4CFC5"
+                stroke="#2B2925"
+                strokeWidth="2.5"
+              />
 
               {/* Feet */}
               <rect x="34" y="93" width="12" height="5" rx="2" fill="#2B2925" />

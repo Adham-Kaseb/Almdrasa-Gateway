@@ -166,10 +166,38 @@ export const AudioSettingsSchema = z.object({
 
 export type AudioSettings = z.infer<typeof AudioSettingsSchema>;
 
+export const DOCK_THEME_PRESET_IDS = [
+  'luxury_gold',
+  'cosmic_violet',
+  'signal_blue',
+  'emerald_forest',
+  'ruby_crimson',
+  'sunset_amber',
+  'monochrome',
+  'custom',
+] as const;
+
+export type DockThemePresetId = (typeof DOCK_THEME_PRESET_IDS)[number];
+
+export const DockThemeSchema = z.object({
+  preset: z.enum(DOCK_THEME_PRESET_IDS).default('luxury_gold'),
+  customIconColor: z.string().default('#DFCA9F'),
+  customBgColor: z.string().default('#1C1B18'),
+  customBorderColor: z.string().default('#DFCA9F'),
+});
+
+export type DockTheme = z.infer<typeof DockThemeSchema>;
+
 export const DockSettingsSchema = z.object({
   size: z.enum(['compact', 'normal', 'large']).default('normal'),
   autoHide: z.boolean().default(true),
   showIndicators: z.boolean().default(true),
+  theme: DockThemeSchema.default({
+    preset: 'luxury_gold',
+    customIconColor: '#DFCA9F',
+    customBgColor: '#1C1B18',
+    customBorderColor: '#DFCA9F',
+  }),
 });
 
 export type DockSettings = z.infer<typeof DockSettingsSchema>;
@@ -219,6 +247,12 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
     size: 'normal',
     autoHide: true,
     showIndicators: true,
+    theme: {
+      preset: 'luxury_gold',
+      customIconColor: '#DFCA9F',
+      customBgColor: '#1C1B18',
+      customBorderColor: '#DFCA9F',
+    },
   },
   companion: {
     botVisible: true,

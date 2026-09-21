@@ -91,7 +91,7 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({
     INITIAL_WINDOWS as Record<WindowId, WindowState>,
   );
   const [activeWindowId, setActiveWindowId] = useState<WindowId | null>(null);
-  const [, setMaxZIndex] = useState<number>(20);
+  const [, setMaxZIndex] = useState<number>(30);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
   const [residentModalOpen, setResidentModalOpen] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -167,7 +167,8 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const bringToFront = useCallback((id: WindowId) => {
     setMaxZIndex((prev) => {
-      const nextZ = prev + 1;
+      // Keep window z-index strictly above desktop widgets (z-10) with progressive layering
+      const nextZ = prev >= 100 ? 30 : prev + 1;
       setWindows((prevWindows) => {
         const target = prevWindows[id];
         if (!target) return prevWindows;
@@ -330,20 +331,24 @@ export const OSProvider: React.FC<{ children: React.ReactNode }> = ({
     [bringToFront],
   );
 
-  const toggleMaximizeWindow = useCallback((id: WindowId) => {
-    soundFx.playClick(400, 0.04);
-    setWindows((prev) => {
-      const target = prev[id];
-      if (!target) return prev;
-      return {
-        ...prev,
-        [id]: {
-          ...target,
-          isMaximized: !target.isMaximized,
-        },
-      };
-    });
-  }, []);
+  const toggleMaximizeWindow = useCallback(
+    (id: WindowId) => {
+      soundFx.playClick(400, 0.04);
+      setWindows((prev) => {
+        const target = prev[id];
+        if (!target) return prev;
+        return {
+          ...prev,
+          [id]: {
+            ...target,
+            isMaximized: !target.isMaximized,
+          },
+        };
+      });
+      bringToFront(id);
+    },
+    [bringToFront],
+  );
 
   const updatePosition = useCallback(
     (id: WindowId, pos: { x: number; y: number }) => {

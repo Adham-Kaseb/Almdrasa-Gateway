@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   GraduationCap,
   Mail,
@@ -14,10 +14,13 @@ import {
   AlertCircle,
   Loader2,
   Compass,
-} from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { soundFx } from '../../utils/audio';
-import { SignInCredentialsSchema, SignUpCredentialsSchema } from '../../types/auth';
+} from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
+import { soundFx } from "../../utils/audio";
+import {
+  SignInCredentialsSchema,
+  SignUpCredentialsSchema,
+} from "../../types/auth";
 
 interface AuthPageProps {
   onSuccess?: () => void;
@@ -25,13 +28,13 @@ interface AuthPageProps {
 
 export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
   const { signIn, signUp, signInWithGoogle, enterAsGuest } = useAuth();
-  const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
+  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
 
   // Form states
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -43,22 +46,24 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
 
   // Calculate password strength
   const getPasswordStrength = (pass: string) => {
-    if (!pass) return { score: 0, label: '', color: 'bg-white/10' };
+    if (!pass) return { score: 0, label: "", color: "bg-white/10" };
     let score = 0;
     if (pass.length >= 6) score += 1;
     if (pass.length >= 9) score += 1;
     if (/[A-Z]/.test(pass) || /[0-9]/.test(pass)) score += 1;
     if (/[^A-Za-z0-9]/.test(pass)) score += 1;
 
-    if (score <= 1) return { score: 1, label: 'ضعيفة', color: 'bg-red-500' };
-    if (score === 2) return { score: 2, label: 'متوسطة', color: 'bg-amber-400' };
-    if (score === 3) return { score: 3, label: 'جيدة', color: 'bg-emerald-400' };
-    return { score: 4, label: 'قوية جداً', color: 'bg-[#DFCA9F]' };
+    if (score <= 1) return { score: 1, label: "ضعيفة", color: "bg-red-500" };
+    if (score === 2)
+      return { score: 2, label: "متوسطة", color: "bg-amber-400" };
+    if (score === 3)
+      return { score: 3, label: "جيدة", color: "bg-emerald-400" };
+    return { score: 4, label: "قوية جداً", color: "bg-[#DFCA9F]" };
   };
 
   const strength = getPasswordStrength(password);
 
-  const handleTabChange = (tab: 'signin' | 'signup') => {
+  const handleTabChange = (tab: "signin" | "signup") => {
     soundFx.playClick(460, 0.02);
     setActiveTab(tab);
     setErrorMessage(null);
@@ -73,7 +78,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
     const validation = SignInCredentialsSchema.safeParse({ email, password });
     if (!validation.success) {
       soundFx.playClick(240, 0.04);
-      setErrorMessage(validation.error.issues[0]?.message || 'بيانات الدخول غير مكتملة');
+      setErrorMessage(
+        validation.error.issues[0]?.message || "بيانات الدخول غير مكتملة",
+      );
       return;
     }
 
@@ -83,12 +90,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
 
     if (res.success) {
       soundFx.playStartupChime();
-      setSuccessMessage('تم تسجيل الدخول بنجاح! جاري تحضير سطح المكتب...');
+      setSuccessMessage("تم تسجيل الدخول بنجاح! جاري تحضير سطح المكتب...");
       setTimeout(() => {
         onSuccess?.();
       }, 700);
     } else {
-      setErrorMessage(res.error || 'فشل تسجيل الدخول. يرجى التحقق من البيانات.');
+      setErrorMessage(
+        res.error || "فشل تسجيل الدخول. يرجى التحقق من البيانات.",
+      );
     }
   };
 
@@ -102,12 +111,14 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
       email,
       password,
       confirmPassword,
-      track: 'frontend',
+      track: "frontend",
     });
 
     if (!validation.success) {
       soundFx.playClick(240, 0.04);
-      setErrorMessage(validation.error.issues[0]?.message || 'يرجى تصحيح الأخطاء في النموذج');
+      setErrorMessage(
+        validation.error.issues[0]?.message || "يرجى تصحيح الأخطاء في النموذج",
+      );
       return;
     }
 
@@ -117,12 +128,16 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
 
     if (res.success) {
       soundFx.playStartupChime();
-      setSuccessMessage('تم إنشاء حساب الطالب بنجاح! مرحباً بك في منحة المدرسة.');
+      setSuccessMessage(
+        "تم إنشاء حساب الطالب بنجاح! مرحباً بك في منحة المدرسة.",
+      );
       setTimeout(() => {
         onSuccess?.();
       }, 900);
     } else {
-      setErrorMessage(res.error || 'تعذر إنشاء الحساب. يرجى المحاولة مرة أخرى.');
+      setErrorMessage(
+        res.error || "تعذر إنشاء الحساب. يرجى المحاولة مرة أخرى.",
+      );
     }
   };
 
@@ -132,7 +147,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
     const res = await signInWithGoogle();
     if (!res.success) {
       setIsGoogleSubmitting(false);
-      setErrorMessage(res.error || 'تعذر الاتصال بـ Google.');
+      setErrorMessage(res.error || "تعذر الاتصال بـ Google.");
     }
   };
 
@@ -176,22 +191,22 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
           <div className="grid grid-cols-2 p-1 rounded-2xl bg-[#1D1C19] border border-white/10 mb-6">
             <button
               type="button"
-              onClick={() => handleTabChange('signin')}
+              onClick={() => handleTabChange("signin")}
               className={`py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                activeTab === 'signin'
-                  ? 'bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#141310] shadow-md shadow-[#DFCA9F]/15 font-extrabold'
-                  : 'text-[#9E988F] hover:text-[#F8F4EC]'
+                activeTab === "signin"
+                  ? "bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#141310] shadow-md shadow-[#DFCA9F]/15 font-extrabold"
+                  : "text-[#9E988F] hover:text-[#F8F4EC]"
               }`}
             >
               تسجيل الدخول
             </button>
             <button
               type="button"
-              onClick={() => handleTabChange('signup')}
+              onClick={() => handleTabChange("signup")}
               className={`py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                activeTab === 'signup'
-                  ? 'bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#141310] shadow-md shadow-[#DFCA9F]/15 font-extrabold'
-                  : 'text-[#9E988F] hover:text-[#F8F4EC]'
+                activeTab === "signup"
+                  ? "bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#141310] shadow-md shadow-[#DFCA9F]/15 font-extrabold"
+                  : "text-[#9E988F] hover:text-[#F8F4EC]"
               }`}
             >
               إنشاء حساب جديد
@@ -222,7 +237,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
           )}
 
           {/* Sign In Form */}
-          {activeTab === 'signin' && (
+          {activeTab === "signin" && (
             <form onSubmit={handleSignInSubmit} className="space-y-4">
               <div>
                 <label className="block text-xs font-medium text-[#C8C2B7] mb-1.5">
@@ -243,12 +258,16 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="text-xs font-medium text-[#C8C2B7]">كلمة المرور</label>
+                  <label className="text-xs font-medium text-[#C8C2B7]">
+                    كلمة المرور
+                  </label>
                   <button
                     type="button"
                     onClick={() => {
                       soundFx.playClick(350, 0.02);
-                      setErrorMessage('يرجى مراسلة مشرف الدفعة أو استخدام تسجيل الدخول المباشر.');
+                      setErrorMessage(
+                        "يرجى مراسلة مشرف الدفعة أو استخدام تسجيل الدخول المباشر.",
+                      );
                     }}
                     className="text-[11px] text-[#DFCA9F] hover:underline cursor-pointer"
                   >
@@ -257,7 +276,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 </div>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -270,7 +289,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute left-3.5 top-3 text-[#8C857B] hover:text-[#DFCA9F] cursor-pointer"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -289,7 +312,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 ) : (
                   <>
                     <ShieldCheck className="w-4 h-4 stroke-2" />
-                    <span>دخول منصة الاستوديو</span>
+                    <span>تسجيل الدخول</span>
                   </>
                 )}
               </button>
@@ -297,7 +320,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
           )}
 
           {/* Sign Up Form */}
-          {activeTab === 'signup' && (
+          {activeTab === "signup" && (
             <form onSubmit={handleSignUpSubmit} className="space-y-3.5">
               <div>
                 <label className="block text-xs font-medium text-[#C8C2B7] mb-1.5">
@@ -339,7 +362,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -352,7 +375,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute left-3.5 top-3 text-[#8C857B] hover:text-[#DFCA9F] cursor-pointer"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
 
@@ -361,14 +388,18 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                   <div className="mt-2 space-y-1">
                     <div className="flex items-center justify-between text-[10px] text-[#9E988F]">
                       <span>قوة كلمة المرور:</span>
-                      <span className="font-semibold text-[#DFCA9F]">{strength.label}</span>
+                      <span className="font-semibold text-[#DFCA9F]">
+                        {strength.label}
+                      </span>
                     </div>
                     <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden flex gap-1">
                       {[1, 2, 3, 4].map((step) => (
                         <div
                           key={step}
                           className={`h-full flex-1 transition-all duration-300 ${
-                            step <= strength.score ? strength.color : 'bg-transparent'
+                            step <= strength.score
+                              ? strength.color
+                              : "bg-transparent"
                           }`}
                         />
                       ))}
@@ -383,7 +414,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                 </label>
                 <div className="relative">
                   <input
-                    type={showConfirmPassword ? 'text' : 'password'}
+                    type={showConfirmPassword ? "text" : "password"}
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -396,7 +427,11 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute left-3.5 top-3 text-[#8C857B] hover:text-[#DFCA9F] cursor-pointer"
                   >
-                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -428,7 +463,9 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
               <div className="w-full border-t border-white/10" />
             </div>
             <div className="relative flex justify-center text-[11px] uppercase">
-              <span className="bg-[#141311] px-3 text-[#7A746B]">أو المتابعة السريعة</span>
+              <span className="bg-[#141311] px-3 text-[#7A746B]">
+                أو المتابعة السريعة
+              </span>
             </div>
           </div>
 

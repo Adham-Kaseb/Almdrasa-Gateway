@@ -14,12 +14,14 @@ import {
 import { useOS } from '../../context/OSContext';
 import { soundFx } from '../../utils/audio';
 import { WindowId } from '../../types/os';
+import { resolveDockThemeStyle } from '../../data/dockThemes';
 
 export interface DockApp {
   id: string;
   name: string;
-  icon: React.ReactNode;
-  bgClass: string;
+  renderIcon?: (color: string) => React.ReactNode;
+  icon?: React.ReactNode;
+  bgClass?: string;
   onClick?: () => void;
 }
 
@@ -29,41 +31,34 @@ export const DEFAULT_APPS: DockApp[] = [
   {
     id: 'scholarship',
     name: 'تفاصيل منحة المدرسة',
-    icon: <GraduationCap className="w-5.5 h-5.5 text-white stroke-[2.2]" />,
-    bgClass: 'bg-linear-to-br from-[#4F46E5] via-[#7C3AED] to-[#9333EA] text-white border-purple-400/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_8px_16px_rgba(124,58,237,0.25)]',
+    renderIcon: (color: string) => <GraduationCap className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
   {
     id: 'schedule',
     name: 'جدول الدفعة السادسة',
-    icon: <CalendarDays className="w-5.5 h-5.5 text-white stroke-[2.2]" />,
-    bgClass: 'bg-linear-to-br from-[#4F46E5] via-[#7C3AED] to-[#9333EA] text-white border-purple-400/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_8px_16px_rgba(124,58,237,0.25)]',
+    renderIcon: (color: string) => <CalendarDays className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
   {
     id: 'curriculum',
     name: 'منهج دبلومة المدرسة - (المنحة)',
-    icon: <FileText className="w-5.5 h-5.5 text-white stroke-[2.2]" />,
-    bgClass: 'bg-linear-to-br from-[#4F46E5] via-[#7C3AED] to-[#9333EA] text-white border-purple-400/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_8px_16px_rgba(124,58,237,0.25)]',
+    renderIcon: (color: string) => <FileText className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
   {
     id: 'meetings',
     name: 'الاجتماعات الأسبوعية',
-    icon: <Video className="w-5.5 h-5.5 text-white stroke-[2.2]" />,
-    bgClass: 'bg-linear-to-br from-[#4F46E5] via-[#7C3AED] to-[#9333EA] text-white border-purple-400/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_8px_16px_rgba(124,58,237,0.25)]',
+    renderIcon: (color: string) => <Video className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
   {
     id: 'elimination',
     name: 'نظام الإقصاء',
-    icon: <ShieldAlert className="w-5.5 h-5.5 text-white stroke-[2.2]" />,
-    bgClass: 'bg-linear-to-br from-[#4F46E5] via-[#7C3AED] to-[#9333EA] text-white border-purple-400/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_8px_16px_rgba(124,58,237,0.25)]',
+    renderIcon: (color: string) => <ShieldAlert className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
   {
     id: 'faqs',
     name: 'الأسئلة الشائعة',
-    icon: <HelpCircle className="w-5.5 h-5.5 text-white stroke-[2.2]" />,
-    bgClass: 'bg-linear-to-br from-[#4F46E5] via-[#7C3AED] to-[#9333EA] text-white border-purple-400/50 shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_8px_16px_rgba(124,58,237,0.25)]',
+    renderIcon: (color: string) => <HelpCircle className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
 ];
-
 
 export const loadSavedAppOrder = (defaultApps: DockApp[]): DockApp[] => {
   if (typeof window === 'undefined') return defaultApps;
@@ -122,6 +117,8 @@ export const Dock: React.FC = () => {
   const holdTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pointerStartPos = useRef<{ x: number; y: number } | null>(null);
   const didLongPressFire = useRef(false);
+
+  const themeStyle = resolveDockThemeStyle(appSettings?.dock?.theme);
 
   const iconSizeClass =
     appSettings?.dock?.size === 'compact'
@@ -317,16 +314,31 @@ export const Dock: React.FC = () => {
               soundFx.playDock();
               setIsSettingsOpen(true);
             }}
-            className={`${iconSizeClass} rounded-[14px] flex items-center justify-center transition-all duration-200 shadow-md border bg-linear-to-br from-[#272522] via-[#1C1B18] to-[#12110F] text-[#DFCA9F] border-[#DFCA9F]/40 hover:border-[#DFCA9F] hover:scale-110 hover:-translate-y-2 active:scale-95 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#DFCA9F]`}
+            style={{
+              borderColor: themeStyle.borderColor,
+              backgroundColor: themeStyle.customBg,
+            }}
+            className={`${iconSizeClass} rounded-[14px] flex items-center justify-center transition-all duration-200 shadow-md border ${
+              themeStyle.bgClass
+            } hover:scale-110 hover:-translate-y-2 active:scale-95 cursor-pointer focus:outline-none`}
             aria-label="App Settings"
           >
-            <Settings className="w-5.5 h-5.5 stroke-[2.2] transition-transform duration-300 group-hover:rotate-45 text-[#DFCA9F]" />
+            <Settings
+              className="w-5.5 h-5.5 stroke-[2.2] transition-transform duration-300 group-hover:rotate-45"
+              style={{ color: themeStyle.iconColor }}
+            />
           </button>
 
           {/* Active Pip / Indicator Dot underneath */}
           <div className="h-1.5 flex items-center justify-center mt-1">
             {isSettingsOpen && appSettings?.dock?.showIndicators !== false && (
-              <span className="w-1.5 h-1.5 rounded-full bg-[#DFCA9F] shadow-[0_0_8px_#DFCA9F]" />
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{
+                  backgroundColor: themeStyle.indicatorColor,
+                  boxShadow: `0 0 8px ${themeStyle.indicatorColor}`,
+                }}
+              />
             )}
           </div>
         </div>
@@ -404,7 +416,8 @@ export const Dock: React.FC = () => {
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1.15, opacity: 1 }}
                       transition={{ duration: 1.5, ease: 'linear' }}
-                      className="absolute inset-0 rounded-2xl border-2 border-[#DFCA9F] pointer-events-none shadow-[0_0_15px_rgba(223,202,159,0.5)]"
+                      style={{ borderColor: themeStyle.borderHoverColor }}
+                      className="absolute inset-0 rounded-2xl border-2 pointer-events-none shadow-[0_0_15px_rgba(223,202,159,0.5)]"
                     />
                   )}
 
@@ -415,16 +428,20 @@ export const Dock: React.FC = () => {
                     onPointerUp={() => handlePointerUp(app.id)}
                     onPointerMove={handlePointerMove}
                     onPointerLeave={handlePointerLeave}
+                    style={{
+                      borderColor: themeStyle.borderColor,
+                      backgroundColor: themeStyle.customBg,
+                    }}
                     className={`${iconSizeClass} rounded-[14px] flex items-center justify-center transition-all duration-200 shadow-md border ${
-                      app.bgClass
+                      themeStyle.bgClass
                     } ${
                       isReordering
                         ? 'cursor-grab hover:scale-105'
                         : 'hover:-translate-y-2 hover:scale-110 active:translate-y-0 active:scale-95 cursor-pointer'
-                    } focus:outline-none focus:ring-2 focus:ring-[#2F6FCE] focus:ring-offset-2 focus:ring-offset-[#0B0B0A]`}
+                    } focus:outline-none`}
                     aria-label={`Launch or reorder ${app.name}`}
                   >
-                    {app.icon}
+                    {app.renderIcon ? app.renderIcon(themeStyle.iconColor) : (app.icon || null)}
                   </button>
                 </motion.div>
 
@@ -433,8 +450,12 @@ export const Dock: React.FC = () => {
                   {isOpen && appSettings?.dock?.showIndicators !== false && (
                     <span
                       className={`w-1 h-1 rounded-full transition-all ${
-                        isMinimized ? 'bg-[#756F66]' : 'bg-[#F8F4EC]'
+                        isMinimized ? 'bg-[#756F66]' : ''
                       }`}
+                      style={{
+                        backgroundColor: isMinimized ? undefined : themeStyle.indicatorColor,
+                        boxShadow: isMinimized ? undefined : `0 0 8px ${themeStyle.indicatorColor}`,
+                      }}
                     />
                   )}
                 </div>
