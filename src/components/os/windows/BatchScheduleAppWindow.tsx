@@ -165,7 +165,7 @@ export const BatchScheduleAppWindow: React.FC = () => {
         className="flex-1 relative z-10 overflow-y-auto px-4 py-6 sm:px-6 md:px-8 custom-scrollbar"
       >
         {/* Main Luxurious White Card Container */}
-        <div className="max-w-5xl mx-auto rounded-[32px] bg-white p-6 sm:p-8 md:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.3)] border border-white/60 space-y-7 relative">
+        <div className="max-w-5xl mx-auto rounded-4xl bg-white p-6 sm:p-8 md:p-10 shadow-[0_24px_80px_rgba(0,0,0,0.3)] border border-white/60 space-y-7 relative">
 
           {/* 1. Hero / Schedule Overview Banner */}
           <div className="p-6 sm:p-8 rounded-2xl bg-linear-to-br from-[#2E0080] via-[#4700D8] to-[#5B00FF] text-white shadow-lg border border-purple-400/30 relative overflow-hidden">
@@ -218,7 +218,8 @@ export const BatchScheduleAppWindow: React.FC = () => {
                 placeholder="ابحث في الدورات، المواضيع، فيجما، أو المحاضرين (مثل: بايثون، React، Figma، Git، ChatGPT...)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-3 pr-10 py-2.5 text-xs sm:text-sm rounded-xl bg-[#F8F6FF] border border-[#DCD0FF] text-[#1E1D1A] placeholder-[#8A80A8] focus:outline-none focus:ring-2 focus:ring-[#5B00FF] focus:border-transparent transition-all shadow-2xs"
+                style={{ color: '#1E1D1A' }}
+                className="w-full pl-3 pr-10! py-2.5 text-xs sm:text-sm rounded-xl bg-[#F8F6FF] border border-[#DCD0FF] placeholder:text-[#8A80A8] focus:outline-none focus:ring-2 focus:ring-[#5B00FF] transition-all shadow-2xs"
               />
             </div>
 
@@ -464,7 +465,7 @@ export const BatchScheduleAppWindow: React.FC = () => {
             ) : (
               <div className="relative flex flex-col items-center gap-5">
                 {/* Slide Container */}
-                <div className="w-full relative flex items-center justify-center min-h-[380px]">
+                <div className="w-full relative flex items-center justify-center min-h-95">
                   {/* Prev Arrow */}
                   <button
                     type="button"

@@ -5,7 +5,6 @@ import {
   StickyNote,
   Calendar,
   ShieldAlert,
-  Megaphone,
   Activity,
 } from 'lucide-react';
 import { AdminTab } from '../../types/admin';
@@ -36,7 +35,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
     { id: 'notes', label: 'ملاحظات الطلاب', icon: StickyNote, badge: notesCount },
     { id: 'schedule', label: 'الجدول واللقاءات', icon: Calendar },
     { id: 'elimination', label: 'ضوابط ومعايير الإقصاء', icon: ShieldAlert },
-    { id: 'broadcast', label: 'البث والتنبيهات العامة', icon: Megaphone },
     { id: 'audit', label: 'سجل الأنشطة وقاعدة البيانات', icon: Activity },
   ];
 

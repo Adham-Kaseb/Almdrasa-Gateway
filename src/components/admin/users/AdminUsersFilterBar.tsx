@@ -28,9 +28,9 @@ export const AdminUsersFilterBar: React.FC<AdminUsersFilterBarProps> = ({
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="البحث في حسابات الطلاب بالاسم أو البريد الإلكتروني..."
-            className="admin-input pr-10 py-2.5 placeholder:text-[#7A746B]"
+            className="admin-input pr-10! py-2.5 placeholder:text-[#7A746B]"
           />
-          <Search className="w-4 h-4 text-[#8C857B] absolute right-3.5 top-3" />
+          <Search className="w-4 h-4 text-[#8C857B] absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
         </div>
 
         {/* Action Buttons */}

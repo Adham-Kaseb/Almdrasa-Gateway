@@ -38,7 +38,7 @@ export const StudentNotesFilterBar: React.FC<StudentNotesFilterBarProps> = ({
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="ابحث باسم الطالب، بريده، أو عنوان الملاحظة وكلمات المحتوى..."
           aria-label="البحث في ملاحظات الطلاب"
-          className="admin-input pl-9 pr-10 py-2 placeholder:text-[#7A746B]"
+          className="admin-input pl-9! pr-10! py-2 placeholder:text-[#7A746B]"
         />
         {searchQuery && (
           <button

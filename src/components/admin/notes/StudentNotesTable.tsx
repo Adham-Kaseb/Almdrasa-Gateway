@@ -65,7 +65,7 @@ export const StudentNotesTable: React.FC<StudentNotesTableProps> = ({
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <h3 className="text-xs font-bold text-[#F8F4EC] truncate">{note.title}</h3>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/10 text-sky-300 border border-sky-500/20 font-medium">
+                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#DFCA9F]/10 text-[#DFCA9F] border border-[#DFCA9F]/20 font-medium">
                     {note.student_track}
                   </span>
                   <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-white/5 text-[#8C857B] font-mono">

@@ -56,7 +56,7 @@ export const NotesSidebar: React.FC<NotesSidebarProps> = ({
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="بحث في الملاحظات..."
             style={{ color: '#191816' }}
-            className="w-full bg-white/80 border border-[#E5E0D6] rounded-lg pr-8 pl-2.5 py-1 text-xs placeholder:text-[#8C857B] focus:outline-none focus:ring-1 focus:ring-[#DFCA9F] transition-all"
+            className="w-full bg-white/80 border border-[#E5E0D6] rounded-lg pr-8! pl-2.5 py-1 text-xs placeholder:text-[#8C857B] focus:outline-none focus:ring-1 focus:ring-[#DFCA9F] transition-all"
           />
         </div>
       </div>

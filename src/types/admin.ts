@@ -122,5 +122,4 @@ export type AdminTab =
   | 'notes'
   | 'schedule'
   | 'elimination'
-  | 'broadcast'
   | 'audit';

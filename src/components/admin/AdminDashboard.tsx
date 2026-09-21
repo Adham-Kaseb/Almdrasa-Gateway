@@ -7,7 +7,6 @@ import { AdminOverviewTab } from './tabs/AdminOverviewTab';
 import { AdminUsersTab } from './tabs/AdminUsersTab';
 import { AdminScheduleTab } from './tabs/AdminScheduleTab';
 import { AdminEliminationTab } from './tabs/AdminEliminationTab';
-import { AdminBroadcastTab } from './tabs/AdminBroadcastTab';
 import { AdminAuditTab } from './tabs/AdminAuditTab';
 import { AdminStudentNotesTab } from './tabs/AdminStudentNotesTab';
 
@@ -45,7 +44,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               users={adminData.users}
               platformConfig={adminData.platformConfig}
               onOpenAddUser={() => setActiveTab('users')}
-              onOpenBroadcast={() => setActiveTab('broadcast')}
               onExportExcel={adminData.exportUsersToExcel}
               onRunEliminationCheck={() => {
                 adminData.autoDetectAtRiskStudents();
@@ -77,17 +75,6 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               onUpdateConfig={adminData.updatePlatformConfig}
               onRunEliminationCheck={adminData.autoDetectAtRiskStudents}
               onUpdateUserStatus={(id, st) => adminData.updateUser(id, { status: st })}
-            />
-          )}
-
-          {activeTab === 'broadcast' && (
-            <AdminBroadcastTab
-              announcements={adminData.announcements}
-              platformConfig={adminData.platformConfig}
-              onAddAnnouncement={adminData.addAnnouncement}
-              onDeleteAnnouncement={adminData.deleteAnnouncement}
-              onToggleAnnouncement={adminData.toggleAnnouncement}
-              onUpdateConfig={adminData.updatePlatformConfig}
             />
           )}
 

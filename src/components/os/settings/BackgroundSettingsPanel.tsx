@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 import {
   Check,
   Sparkles,
@@ -9,9 +9,9 @@ import {
   Sliders,
   SunMedium,
   Layers,
-} from 'lucide-react';
-import { useOS } from '../../../context/OSContext';
-import { soundFx } from '../../../utils/audio';
+} from "lucide-react";
+import { useOS } from "../../../context/OSContext";
+import { soundFx } from "../../../utils/audio";
 
 export interface StaticWallpaperOption {
   id: string;
@@ -23,46 +23,46 @@ export interface StaticWallpaperOption {
 
 export const STATIC_WALLPAPERS: StaticWallpaperOption[] = [
   {
-    id: 'silk_luxury',
-    name: 'سيلك أوبسيديان وذهب كوزميك',
-    category: 'تصميم فاخر مُوَلَّد',
-    url: '/wallpapers/silk_luxury.jpg',
-    aspect: '16:9 • 4K UHD',
+    id: "silk_luxury",
+    name: "سيلك أوبسيديان وذهب كوزميك",
+    category: "تصميم فاخر مُوَلَّد",
+    url: "/wallpapers/silk_luxury.jpg",
+    aspect: "16:9 • 4K UHD",
   },
   {
-    id: 'obsidian_geometry',
-    name: 'معمارية أوبسيديان وشعاع الضوء',
-    category: 'هندسة معمارية',
-    url: '/wallpapers/obsidian_geometry.jpg',
-    aspect: '16:9 • 4K UHD',
+    id: "obsidian_geometry",
+    name: "معمارية أوبسيديان وشعاع الضوء",
+    category: "هندسة معمارية",
+    url: "/wallpapers/obsidian_geometry.jpg",
+    aspect: "16:9 • 4K UHD",
   },
   {
-    id: 'indigo_nebula',
-    name: 'سديم النيلي والبنفسجي العميق',
-    category: 'سديم سحابي',
-    url: '/wallpapers/indigo_nebula.jpg',
-    aspect: '16:9 • 4K UHD',
+    id: "indigo_nebula",
+    name: "سديم النيلي والبنفسجي العميق",
+    category: "سديم سحابي",
+    url: "/wallpapers/indigo_nebula.jpg",
+    aspect: "16:9 • 4K UHD",
   },
   {
-    id: 'minimal_dark',
-    name: 'الظلام المونوكرومي الهادئ',
-    category: 'بسيط وأنيق',
-    url: '/wallpapers/minimal_dark.jpg',
-    aspect: '16:9 • FHD',
+    id: "minimal_dark",
+    name: "الظلام المونوكرومي الهادئ",
+    category: "بسيط وأنيق",
+    url: "/wallpapers/minimal_dark.jpg",
+    aspect: "16:9 • FHD",
   },
   {
-    id: 'golden_minimal',
-    name: 'أفق المدرسة الرقمي المذهب',
-    category: 'أكاديمي تنفيذي',
-    url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=85',
-    aspect: '16:9 • Ultra HD',
+    id: "golden_minimal",
+    name: "أفق المدرسة الرقمي المذهب",
+    category: "أكاديمي تنفيذي",
+    url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=85",
+    aspect: "16:9 • Ultra HD",
   },
   {
-    id: 'cyber_noir',
-    name: 'أثير الفضاء السيبراني الداكن',
-    category: 'تجريد رقمي',
-    url: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1920&q=85',
-    aspect: '16:9 • Ultra HD',
+    id: "cyber_noir",
+    name: "أثير الفضاء السيبراني الداكن",
+    category: "تجريد رقمي",
+    url: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=1920&q=85",
+    aspect: "16:9 • Ultra HD",
   },
 ];
 
@@ -75,40 +75,40 @@ export interface GradientPreset {
 
 export const GRADIENT_PRESETS: GradientPreset[] = [
   {
-    id: 'noir_silk',
-    name: 'حرير النوار الكلاسيكي',
-    colors: ['#000000', '#1a1a1a', '#2e2e2e', '#ffffff'],
-    description: 'المظهر الافتراضي الفاخر للبوابة بالأبيض والأسود',
+    id: "noir_silk",
+    name: "حرير النوار الكلاسيكي",
+    colors: ["#000000", "#1a1a1a", "#2e2e2e", "#ffffff"],
+    description: "المظهر الافتراضي الفاخر للبوابة بالأبيض والأسود",
   },
   {
-    id: 'royal_indigo',
-    name: 'النيلي الملكي والبنفسج',
-    colors: ['#090A1A', '#1E1B4B', '#4338CA', '#818CF8'],
-    description: 'تدرجات عميقة مفعمة بالفخامة والهدوء الليلي',
+    id: "royal_indigo",
+    name: "النيلي الملكي والبنفسج",
+    colors: ["#090A1A", "#1E1B4B", "#4338CA", "#818CF8"],
+    description: "تدرجات عميقة مفعمة بالفخامة والهدوء الليلي",
   },
   {
-    id: 'emerald_matrix',
-    name: 'الزمرد السيبراني',
-    colors: ['#021B14', '#064E3B', '#059669', '#34D399'],
-    description: 'طابع تقني مستوحى من الحماية والأنظمة المتقدمة',
+    id: "emerald_matrix",
+    name: "الزمرد السيبراني",
+    colors: ["#021B14", "#064E3B", "#059669", "#34D399"],
+    description: "طابع تقني مستوحى من الحماية والأنظمة المتقدمة",
   },
   {
-    id: 'sunset_amber',
-    name: 'العنبر الذهبي والغروب',
-    colors: ['#1C0B02', '#7C2D12', '#D97706', '#FDE68A'],
-    description: 'دفء الأناقة الذهبية وتدرجات الغروب الساحرة',
+    id: "sunset_amber",
+    name: "العنبر الذهبي والغروب",
+    colors: ["#1C0B02", "#7C2D12", "#D97706", "#FDE68A"],
+    description: "دفء الأناقة الذهبية وتدرجات الغروب الساحرة",
   },
   {
-    id: 'deep_azure',
-    name: 'المحيط الأزرق العميق',
-    colors: ['#031424', '#0C4A6E', '#0284C7', '#38BDF8'],
-    description: 'تدرج مائي نقي يعزز التركيز والإنتاجية العالية',
+    id: "deep_azure",
+    name: "المحيط الأزرق العميق",
+    colors: ["#031424", "#0C4A6E", "#0284C7", "#38BDF8"],
+    description: "تدرج مائي نقي يعزز التركيز والإنتاجية العالية",
   },
   {
-    id: 'cyber_crimson',
-    name: 'أثير النيون القرمزي',
-    colors: ['#1A0713', '#831843', '#DB2777', '#F472B6'],
-    description: 'طاقة عصرية وتناغم بصري جذاب ومبتكر',
+    id: "cyber_crimson",
+    name: "أثير النيون القرمزي",
+    colors: ["#1A0713", "#831843", "#DB2777", "#F472B6"],
+    description: "طاقة عصرية وتناغم بصري جذاب ومبتكر",
   },
 ];
 
@@ -116,7 +116,7 @@ export const BackgroundSettingsPanel: React.FC = () => {
   const { appSettings, updateAppSettings, setCompanionMessage } = useOS();
   const bg = appSettings.background;
 
-  const handleModeChange = (mode: 'static' | 'interactive') => {
+  const handleModeChange = (mode: "static" | "interactive") => {
     soundFx.playPop();
     updateAppSettings({
       background: {
@@ -125,9 +125,9 @@ export const BackgroundSettingsPanel: React.FC = () => {
       },
     });
     setCompanionMessage(
-      mode === 'static'
-        ? 'تم تفعيل نمط الخلفية الثابتة. يمكنك الآن اختيار أحد التصاميم المولدة عالية الدقة.'
-        : 'تم تفعيل نمط الخلفية التفاعلية الشبكية. يمكنك الآن تعديل مزيج الألوان وتأثيرات التدفق.'
+      mode === "static"
+        ? "تم تفعيل نمط الخلفية الثابتة. يمكنك الآن اختيار أحد التصاميم المولدة عالية الدقة."
+        : "تم تفعيل نمط الخلفية التفاعلية الشبكية. يمكنك الآن تعديل مزيج الألوان وتأثيرات التدفق.",
     );
   };
 
@@ -169,13 +169,13 @@ export const BackgroundSettingsPanel: React.FC = () => {
     updateAppSettings({
       background: {
         ...bg,
-        interactiveColors: ['#000000', '#1a1a1a', '#2e2e2e', '#ffffff'],
+        interactiveColors: ["#000000", "#1a1a1a", "#2e2e2e", "#ffffff"],
         interactiveSpeed: 0.3,
         interactiveDistortion: 0.8,
         interactiveSwirl: 0.15,
       },
     });
-    setCompanionMessage('تمت استعادة إعدادات الخلفية التفاعلية الافتراضية.');
+    setCompanionMessage("تمت استعادة إعدادات الخلفية التفاعلية الافتراضية.");
   };
 
   return (
@@ -189,7 +189,8 @@ export const BackgroundSettingsPanel: React.FC = () => {
               <span>خيارات ومظهر الخلفية</span>
             </h2>
             <p className="text-xs text-[#9E988F] mt-3.5 leading-relaxed">
-              اختر بين الخلفيات الثابتة المولدة فائقة الدقة أو الخلفية الحركية التفاعلية مع تحكم دقيق في الألوان
+              اختر بين الخلفيات الثابتة المولدة فائقة الدقة أو الخلفية الحركية
+              التفاعلية مع تحكم دقيق في الألوان
             </p>
           </div>
 
@@ -197,34 +198,34 @@ export const BackgroundSettingsPanel: React.FC = () => {
           <div className="flex items-center p-1 rounded-2xl bg-[#171614] border border-white/10 shrink-0">
             <button
               type="button"
-              onClick={() => handleModeChange('interactive')}
+              onClick={() => handleModeChange("interactive")}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                bg.mode === 'interactive'
-                  ? 'bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#12110F] shadow-lg shadow-[#DFCA9F]/15 font-bold'
-                  : 'text-[#9E988F] hover:text-[#F3EFE7]'
+                bg.mode === "interactive"
+                  ? "bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#12110F] shadow-lg shadow-[#DFCA9F]/15 font-bold"
+                  : "text-[#9E988F] hover:text-[#F3EFE7]"
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>خلفية تفاعلية (Interactive)</span>
+              <span>خلفية تفاعلية</span>
             </button>
             <button
               type="button"
-              onClick={() => handleModeChange('static')}
+              onClick={() => handleModeChange("static")}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                bg.mode === 'static'
-                  ? 'bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#12110F] shadow-lg shadow-[#DFCA9F]/15 font-bold'
-                  : 'text-[#9E988F] hover:text-[#F3EFE7]'
+                bg.mode === "static"
+                  ? "bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#12110F] shadow-lg shadow-[#DFCA9F]/15 font-bold"
+                  : "text-[#9E988F] hover:text-[#F3EFE7]"
               }`}
             >
               <ImageIcon className="w-3.5 h-3.5" />
-              <span>خلفية ثابتة (Static)</span>
+              <span>خلفية ثابتة</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* SECTION 1: STATIC WALLPAPERS */}
-      {bg.mode === 'static' && (
+      {bg.mode === "static" && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -249,11 +250,13 @@ export const BackgroundSettingsPanel: React.FC = () => {
               return (
                 <div
                   key={wallpaper.id}
-                  onClick={() => handleSelectWallpaper(wallpaper.url, wallpaper.name)}
+                  onClick={() =>
+                    handleSelectWallpaper(wallpaper.url, wallpaper.name)
+                  }
                   className={`group relative rounded-2xl overflow-hidden border cursor-pointer transition-all duration-300 ${
                     isSelected
-                      ? 'border-[#DFCA9F] ring-2 ring-[#DFCA9F]/40 shadow-xl shadow-[#DFCA9F]/10 scale-[1.02]'
-                      : 'border-white/10 hover:border-white/30 hover:scale-[1.01]'
+                      ? "border-[#DFCA9F] ring-2 ring-[#DFCA9F]/40 shadow-xl shadow-[#DFCA9F]/10 scale-[1.02]"
+                      : "border-white/10 hover:border-white/30 hover:scale-[1.01]"
                   }`}
                 >
                   <div className="aspect-video w-full overflow-hidden bg-[#1A1916] relative">
@@ -296,7 +299,9 @@ export const BackgroundSettingsPanel: React.FC = () => {
                   تعتيم طبقة الخلفية (Darkening Overlay)
                 </span>
               </div>
-              <span className="text-xs font-mono text-[#DFCA9F]">{bg.overlayDim}%</span>
+              <span className="text-xs font-mono text-[#DFCA9F]">
+                {bg.overlayDim}%
+              </span>
             </div>
             <input
               type="range"
@@ -314,14 +319,15 @@ export const BackgroundSettingsPanel: React.FC = () => {
               className="w-full accent-[#DFCA9F] cursor-pointer h-1.5 bg-white/10 rounded-lg"
             />
             <p className="text-[11px] text-[#9E988F] mt-2 leading-relaxed">
-              يساعد التعتيم الإضافي على زيادة وضوح نصوص الأيقونات والنوافذ على سطح المكتب.
+              يساعد التعتيم الإضافي على زيادة وضوح نصوص الأيقونات والنوافذ على
+              سطح المكتب.
             </p>
           </div>
         </motion.div>
       )}
 
       {/* SECTION 2: INTERACTIVE BACKGROUND WITH COLOR MODIFIERS */}
-      {bg.mode === 'interactive' && (
+      {bg.mode === "interactive" && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -333,10 +339,13 @@ export const BackgroundSettingsPanel: React.FC = () => {
               <div className="flex flex-col">
                 <h3 className="text-sm font-semibold text-[#F8F4EC] flex items-center gap-2">
                   <Sliders className="w-4 h-4 text-[#DFCA9F]" />
-                  <span>معدِّلات الألوان التفاعلية (Gradient Color Modifiers)</span>
+                  <span>
+                    معدِّلات الألوان التفاعلية (Gradient Color Modifiers)
+                  </span>
                 </h3>
                 <p className="text-xs text-[#9E988F] mt-2.5 leading-relaxed">
-                  انقر على أي معدل لون لتغيير درجات وتناغم ألوان الخلفية الحية فوراً
+                  انقر على أي معدل لون لتغيير درجات وتناغم ألوان الخلفية الحية
+                  فوراً
                 </p>
               </div>
 
@@ -358,8 +367,12 @@ export const BackgroundSettingsPanel: React.FC = () => {
                   className="p-3 rounded-xl bg-[#1F1E1B] border border-white/10 hover:border-[#DFCA9F]/50 transition-all flex flex-col gap-2"
                 >
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[#9E988F] font-medium">الطبقة {idx + 1}</span>
-                    <span className="font-mono text-[11px] text-[#DFCA9F] uppercase">{color}</span>
+                    <span className="text-[#9E988F] font-medium">
+                      الطبقة {idx + 1}
+                    </span>
+                    <span className="font-mono text-[11px] text-[#DFCA9F] uppercase">
+                      {color}
+                    </span>
                   </div>
 
                   <div className="flex items-center gap-2.5">
@@ -399,14 +412,17 @@ export const BackgroundSettingsPanel: React.FC = () => {
                   <Layers className="w-4 h-4 text-[#DFCA9F]" />
                   <span>مجموعات التدرجات الجاهزة (Combination Presets)</span>
                 </h3>
-                <p className="text-xs text-[#9E988F] mt-2 leading-relaxed">اختر قالباً متناسقاً بلمسة واحدة</p>
+                <p className="text-xs text-[#9E988F] mt-2 leading-relaxed">
+                  اختر قالباً متناسقاً بلمسة واحدة
+                </p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {GRADIENT_PRESETS.map((preset) => {
                 const isActive =
-                  JSON.stringify(preset.colors) === JSON.stringify(bg.interactiveColors);
+                  JSON.stringify(preset.colors) ===
+                  JSON.stringify(bg.interactiveColors);
                 return (
                   <button
                     key={preset.id}
@@ -414,24 +430,30 @@ export const BackgroundSettingsPanel: React.FC = () => {
                     onClick={() => handleApplyPreset(preset)}
                     className={`p-3.5 rounded-2xl border text-right transition-all cursor-pointer flex flex-col gap-2 ${
                       isActive
-                        ? 'border-[#DFCA9F] bg-[#DFCA9F]/10 ring-1 ring-[#DFCA9F]'
-                        : 'border-white/10 bg-[#171614] hover:border-white/25 hover:bg-[#1C1B18]'
+                        ? "border-[#DFCA9F] bg-[#DFCA9F]/10 ring-1 ring-[#DFCA9F]"
+                        : "border-white/10 bg-[#171614] hover:border-white/25 hover:bg-[#1C1B18]"
                     }`}
                   >
                     <div className="flex items-center justify-between w-full">
-                      <span className="text-xs font-bold text-[#F8F4EC]">{preset.name}</span>
-                      {isActive && <Check className="w-3.5 h-3.5 text-[#DFCA9F]" />}
+                      <span className="text-xs font-bold text-[#F8F4EC]">
+                        {preset.name}
+                      </span>
+                      {isActive && (
+                        <Check className="w-3.5 h-3.5 text-[#DFCA9F]" />
+                      )}
                     </div>
 
                     {/* Gradient color preview bar */}
                     <div
                       className="h-4 w-full rounded-md shadow-inner border border-white/10"
                       style={{
-                        background: `linear-gradient(to right, ${preset.colors.join(', ')})`,
+                        background: `linear-gradient(to right, ${preset.colors.join(", ")})`,
                       }}
                     />
 
-                    <p className="text-[11px] text-[#9E988F] line-clamp-1">{preset.description}</p>
+                    <p className="text-[11px] text-[#9E988F] line-clamp-1">
+                      {preset.description}
+                    </p>
                   </button>
                 );
               })}
@@ -455,7 +477,9 @@ export const BackgroundSettingsPanel: React.FC = () => {
               <div className="space-y-2 p-3 rounded-xl bg-[#1F1E1B] border border-white/5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-[#9E988F]">سرعة التدفق (Speed)</span>
-                  <span className="font-mono text-[#DFCA9F]">{bg.interactiveSpeed.toFixed(2)}x</span>
+                  <span className="font-mono text-[#DFCA9F]">
+                    {bg.interactiveSpeed.toFixed(2)}x
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -478,8 +502,12 @@ export const BackgroundSettingsPanel: React.FC = () => {
               {/* Distortion Slider */}
               <div className="space-y-2 p-3 rounded-xl bg-[#1F1E1B] border border-white/5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[#9E988F]">الانحناء والتموج (Distortion)</span>
-                  <span className="font-mono text-[#DFCA9F]">{bg.interactiveDistortion.toFixed(2)}</span>
+                  <span className="text-[#9E988F]">
+                    الانحناء والتموج (Distortion)
+                  </span>
+                  <span className="font-mono text-[#DFCA9F]">
+                    {bg.interactiveDistortion.toFixed(2)}
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -503,7 +531,9 @@ export const BackgroundSettingsPanel: React.FC = () => {
               <div className="space-y-2 p-3 rounded-xl bg-[#1F1E1B] border border-white/5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-[#9E988F]">دوران الدوامة (Swirl)</span>
-                  <span className="font-mono text-[#DFCA9F]">{bg.interactiveSwirl.toFixed(2)}</span>
+                  <span className="font-mono text-[#DFCA9F]">
+                    {bg.interactiveSwirl.toFixed(2)}
+                  </span>
                 </div>
                 <input
                   type="range"

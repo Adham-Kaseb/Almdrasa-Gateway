@@ -1,16 +1,14 @@
 import React from 'react';
-import { UserPlus, AlertTriangle, Megaphone, FileSpreadsheet } from 'lucide-react';
+import { UserPlus, AlertTriangle, FileSpreadsheet } from 'lucide-react';
 
 interface AdminOverviewQuickActionsProps {
   onOpenAddUser: () => void;
-  onOpenBroadcast: () => void;
   onExportExcel: () => void;
   onRunEliminationCheck: () => void;
 }
 
 export const AdminOverviewQuickActions: React.FC<AdminOverviewQuickActionsProps> = ({
   onOpenAddUser,
-  onOpenBroadcast,
   onExportExcel,
   onRunEliminationCheck,
 }) => {
@@ -20,7 +18,7 @@ export const AdminOverviewQuickActions: React.FC<AdminOverviewQuickActionsProps>
         <span>إجراءات الإدارة السريعة</span>
         <span className="text-[10px] text-[#7A746B] font-normal">اختصارات فورية</span>
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <button
           type="button"
           onClick={onOpenAddUser}
@@ -37,15 +35,6 @@ export const AdminOverviewQuickActions: React.FC<AdminOverviewQuickActionsProps>
         >
           <AlertTriangle className="w-4 h-4 text-[#DFCA9F]" />
           <span>فحص معايير الإقصاء</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={onOpenBroadcast}
-          className="p-3.5 rounded-xl bg-white/4 hover:bg-white/8 border border-[#DFCA9F]/20 hover:border-[#DFCA9F]/40 text-[#F8F4EC] hover:text-[#DFCA9F] text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-98 shadow-xs"
-        >
-          <Megaphone className="w-4 h-4 text-[#DFCA9F]" />
-          <span>نشر إعلان للطلاب</span>
         </button>
 
         <button

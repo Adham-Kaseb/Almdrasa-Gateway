@@ -10,7 +10,6 @@ interface AdminOverviewTabProps {
   users: AdminUser[];
   platformConfig: AdminPlatformConfig;
   onOpenAddUser: () => void;
-  onOpenBroadcast: () => void;
   onExportExcel: () => void;
   onRunEliminationCheck: () => void;
   onNavigateUsers?: () => void;
@@ -20,7 +19,6 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
   users,
   platformConfig,
   onOpenAddUser,
-  onOpenBroadcast,
   onExportExcel,
   onRunEliminationCheck,
   onNavigateUsers,
@@ -51,7 +49,6 @@ export const AdminOverviewTab: React.FC<AdminOverviewTabProps> = ({
       {/* Quick Action Shortcuts */}
       <AdminOverviewQuickActions
         onOpenAddUser={onOpenAddUser}
-        onOpenBroadcast={onOpenBroadcast}
         onExportExcel={onExportExcel}
         onRunEliminationCheck={onRunEliminationCheck}
       />

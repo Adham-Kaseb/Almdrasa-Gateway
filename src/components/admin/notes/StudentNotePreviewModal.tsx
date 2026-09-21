@@ -53,7 +53,7 @@ export const StudentNotePreviewModal: React.FC<StudentNotePreviewModalProps> = (
                 <span>•</span>
                 <span className="text-[#C8C2B7]">{note.student_email}</span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-sky-300"><Compass className="w-3 h-3" />{note.student_track}</span>
+                <span className="flex items-center gap-1 text-[#DFCA9F]"><Compass className="w-3 h-3" />{note.student_track}</span>
               </div>
             </div>
           </div>
