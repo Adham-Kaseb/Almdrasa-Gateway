@@ -156,7 +156,7 @@ export const RIResidentModal: React.FC<RIResidentModalProps> = ({ isOpen, onClos
     >
       {/* Panel */}
       <div
-        className={`w-full max-w-lg rounded-2xl bg-[#141311] border border-white/14 shadow-[0_36px_100px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden text-[#F3EFE7] h-135 text-right relative ${
+        className={`w-full max-w-xl rounded-2xl bg-[#141311] border border-white/14 shadow-[0_36px_100px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden text-[#F3EFE7] h-[660px] max-h-[88vh] text-right relative ${
           visible ? 'chat-panel-in' : 'chat-panel-out'
         }`}
         onClick={(e) => e.stopPropagation()}
