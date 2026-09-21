@@ -21,6 +21,14 @@ describe('Bot Knowledge Engine & Personalization Tests', () => {
     expect(normalizeArabicText('دَوْرَاتٌ عَمَلِيَّةٌ')).toBe('دورات عمليه');
   });
 
+  it('answers study delay and reassuring 9 + 3 months free safety period questions', () => {
+    const res = queryAlmdrasaKnowledge('أنا متأخر في الدراسة أعمل ايه ؟', 'ADHAM');
+    expect(res.text).toContain('ADHAM');
+    expect(res.text).toContain('9 شهور أساسية');
+    expect(res.text).toContain('3 شهور زيادة مجاناً');
+    expect(res.actionWindow).toBe('elimination');
+  });
+
   it('answers elimination policy questions and references the elimination window', () => {
     const res = queryAlmdrasaKnowledge('ما هي شروط الإقصاء وموعد الـ 9 أشهر؟', 'أدهم كاسب');
     expect(res.text).toContain('أدهم');
