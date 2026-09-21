@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const COMMANDS = [
   {
@@ -84,32 +85,38 @@ export const ChatInputForm: React.FC<ChatInputFormProps> = ({
   return (
     <div className="relative border-t border-white/10 bg-[#161513] chat-input-in">
       {/* Commands pop-up menu */}
-      {showCommands && (
-        <div
-          ref={menuRef}
-          className="absolute bottom-full left-0 right-0 mx-3 mb-2 rounded-xl bg-[#1C1B18] border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden animate-in slide-in-from-bottom-2 fade-in duration-150 max-h-64 overflow-y-auto"
-          role="menu"
-          aria-label="قائمة الأوامر"
-        >
-          <p className="px-3.5 pt-2.5 pb-1.5 text-[11px] text-white/40 font-medium tracking-wide">
-            الأوامر المتاحة
-          </p>
-          <div className="divide-y divide-white/5">
-            {COMMANDS.map((cmd) => (
-              <button
-                key={cmd.id}
-                type="button"
-                role="menuitem"
-                onClick={() => handleCommand(cmd.message)}
-                className="w-full text-right px-3.5 py-2.5 text-[13px] text-[#F3EFE7] hover:bg-[#DFCA9F]/10 hover:text-[#DFCA9F] transition-colors cursor-pointer flex items-center gap-2"
-              >
-                {cmd.label}
-              </button>
-            ))}
-          </div>
-          <div className="h-1.5" />
-        </div>
-      )}
+      <AnimatePresence>
+        {showCommands && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, y: 10, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute bottom-full left-0 right-0 mx-3 mb-2 rounded-xl bg-[#1C1B18]/95 backdrop-blur-xl border border-white/12 shadow-[0_12px_40px_rgba(0,0,0,0.7)] overflow-hidden max-h-64 overflow-y-auto origin-bottom"
+            role="menu"
+            aria-label="قائمة الأوامر"
+          >
+            <p className="px-3.5 pt-2.5 pb-1.5 text-[11px] text-[#DFCA9F]/70 font-semibold tracking-wide">
+              الأوامر المتاحة
+            </p>
+            <div className="divide-y divide-white/5">
+              {COMMANDS.map((cmd) => (
+                <button
+                  key={cmd.id}
+                  type="button"
+                  role="menuitem"
+                  onClick={() => handleCommand(cmd.message)}
+                  className="w-full text-right px-3.5 py-2.5 text-[13px] text-[#F3EFE7] hover:bg-[#DFCA9F]/10 hover:text-[#DFCA9F] transition-colors cursor-pointer flex items-center gap-2"
+                >
+                  {cmd.label}
+                </button>
+              ))}
+            </div>
+            <div className="h-1.5" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <form
         onSubmit={handleSubmit}
