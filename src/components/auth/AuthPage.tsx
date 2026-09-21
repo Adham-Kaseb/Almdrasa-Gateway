@@ -8,12 +8,10 @@ import {
   Eye,
   EyeOff,
   Sparkles,
-  ArrowLeft,
   ShieldCheck,
   Check,
   AlertCircle,
   Loader2,
-  Compass,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { soundFx } from "../../utils/audio";
@@ -27,7 +25,7 @@ interface AuthPageProps {
 }
 
 export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
-  const { signIn, signUp, signInWithGoogle, enterAsGuest } = useAuth();
+  const { signIn, signUp, signInWithGoogle } = useAuth();
   const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
 
   // Form states
@@ -149,12 +147,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
       setIsGoogleSubmitting(false);
       setErrorMessage(res.error || "تعذر الاتصال بـ Google.");
     }
-  };
-
-  const handleGuestEntry = () => {
-    soundFx.playStartupChime();
-    enterAsGuest();
-    onSuccess?.();
   };
 
   return (
@@ -500,19 +492,6 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
             )}
             <span>المتابعة باستخدام حساب Google</span>
           </button>
-
-          {/* Guest Bypass Button */}
-          <div className="mt-5 text-center pt-4 border-t border-white/5">
-            <button
-              type="button"
-              onClick={handleGuestEntry}
-              className="inline-flex items-center gap-1.5 text-xs text-[#9E988F] hover:text-[#DFCA9F] transition-colors cursor-pointer group"
-            >
-              <Compass className="w-3.5 h-3.5 transition-transform group-hover:rotate-45" />
-              <span>استكشاف النظام كزائر (بدون تسجيل)</span>
-              <ArrowLeft className="w-3 h-3 transition-transform group-hover:-translate-x-1" />
-            </button>
-          </div>
         </div>
 
         {/* Footer Note */}
