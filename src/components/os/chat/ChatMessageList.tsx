@@ -41,11 +41,18 @@ export const ChatMessageList: React.FC<ChatMessageListProps> = ({
               }`}
             >
               <div className="space-y-3">
-                {msg.text.split(/\n\n+/).map((paragraph, pIdx) => (
-                  <p key={pIdx} className="whitespace-pre-line leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
+                {(() => {
+                  // Format text so numbered items and bullet points have clear empty space between them
+                  const formattedText = msg.text
+                    .replace(/([^\n])\n(\s*(\d+[\.\)-]|•|\*|-)\s+)/g, '$1\n\n$2')
+                    .trim();
+
+                  return formattedText.split(/\n\n+/).map((paragraph, pIdx) => (
+                    <p key={pIdx} className="whitespace-pre-line leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ));
+                })()}
               </div>
               {msg.actionText && msg.actionWindow && (
                 <button
