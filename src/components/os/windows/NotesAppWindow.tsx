@@ -1,11 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useStudentNotes } from '../../../hooks/useStudentNotes';
 import { NotesToolbar } from '../notes/NotesToolbar';
 import { NotesSidebar } from '../notes/NotesSidebar';
 import { NotesEditor } from '../notes/NotesEditor';
 import { useNoteFormatter } from '../notes/useNoteFormatter';
+import { InsertCodeModal } from '../notes/InsertCodeModal';
+import { DrawingCanvasModal } from '../notes/DrawingCanvasModal';
 
-export const NotesAppWindow: React.FC = () => {
+interface NotesAppWindowProps {
+  onDirectionChange?: (dir: 'rtl' | 'ltr') => void;
+}
+
+export const NotesAppWindow: React.FC<NotesAppWindowProps> = ({ onDirectionChange }) => {
   const {
     notes,
     activeNote,
@@ -23,8 +29,17 @@ export const NotesAppWindow: React.FC = () => {
   } = useStudentNotes();
 
   const editorRef = useRef<HTMLDivElement>(null);
+  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
+  const [isDrawingModalOpen, setIsDrawingModalOpen] = useState(false);
 
-  const { handleFormat, handleInsertCallout, handleInsertImage } = useNoteFormatter({
+  const {
+    handleFormat,
+    handleInsertCallout,
+    handleInsertImage,
+    handleInsertCodeSnippet,
+    handleInsertTimestamp,
+    handleInsertDrawing,
+  } = useNoteFormatter({
     editorRef,
     updateActiveNote,
   });
@@ -35,11 +50,24 @@ export const NotesAppWindow: React.FC = () => {
       <NotesToolbar
         direction={activeNote.direction}
         textAlign={activeNote.textAlign}
-        onToggleDirection={(dir) => updateActiveNote({ direction: dir })}
+        onToggleDirection={(dir) => {
+          const updates: Partial<typeof activeNote> = {
+            direction: dir,
+            textAlign: dir === 'ltr' ? 'left' : 'right',
+          };
+          if (dir === 'ltr' && activeNote.title === 'ملاحظات اليوم — الدفعة 6') {
+            updates.title = "Today's Notes — Batch 6";
+          } else if (dir === 'rtl' && activeNote.title === "Today's Notes — Batch 6") {
+            updates.title = 'ملاحظات اليوم — الدفعة 6';
+          }
+          updateActiveNote(updates);
+          onDirectionChange?.(dir);
+        }}
         onSetTextAlign={(align) => updateActiveNote({ textAlign: align })}
         onFormat={handleFormat}
         onInsertCallout={handleInsertCallout}
         onInsertImage={handleInsertImage}
+        onOpenCodeModal={() => setIsCodeModalOpen(true)}
         onCopyAll={copyAll}
         onExport={exportNote}
         onReset={resetActiveNote}
@@ -56,6 +84,7 @@ export const NotesAppWindow: React.FC = () => {
           onAddNote={addNote}
           onDeleteNote={deleteNote}
           onSearchChange={setSearchQuery}
+          direction={activeNote.direction}
         />
 
         <NotesEditor
@@ -68,8 +97,26 @@ export const NotesAppWindow: React.FC = () => {
           onTitleChange={(title) => updateActiveNote({ title })}
           onContentChange={(content) => updateActiveNote({ content })}
           onInsertImage={handleInsertImage}
+          onInsertTimestamp={() => handleInsertTimestamp(activeNote.direction === 'ltr')}
+          onOpenDrawingModal={() => setIsDrawingModalOpen(true)}
         />
       </div>
+
+      {/* Modal to choose code language (Python, HTML, CSS, JS, React) with VSCode Snippet Theme */}
+      <InsertCodeModal
+        isOpen={isCodeModalOpen}
+        onClose={() => setIsCodeModalOpen(false)}
+        onInsertCodeHtml={handleInsertCodeSnippet}
+        direction={activeNote.direction}
+      />
+
+      {/* Modal for Freehand Pen Sketching & Mouse Drawing */}
+      <DrawingCanvasModal
+        isOpen={isDrawingModalOpen}
+        onClose={() => setIsDrawingModalOpen(false)}
+        onInsertDrawing={handleInsertDrawing}
+        direction={activeNote.direction}
+      />
     </div>
   );
 };

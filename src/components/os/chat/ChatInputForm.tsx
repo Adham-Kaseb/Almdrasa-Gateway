@@ -7,6 +7,36 @@ const COMMANDS = [
     label: '📞 التواصل مع خدمة العملاء',
     message: 'لو سمحت محتاج أتواصل مع خدمة عملاء منصة المدرسة',
   },
+  {
+    id: 'elimination',
+    label: '🛡️ نظام الإقصاء وضوابط المنحة',
+    message: 'عايز أعرف تفاصيل ونظام الإقصاء والتقييم في الدفعة السادسة',
+  },
+  {
+    id: 'pricing',
+    label: '💳 أسعار وأنظمة سداد المنحة',
+    message: 'إيه هي أسعار المنحة وتفاصيل التقسيط والدفع؟',
+  },
+  {
+    id: 'curriculum',
+    label: '📚 منهج المنحة والتقنيات والمشاريع',
+    message: 'إيه هو المنهج والتقنيات اللي هندرسها والمشاريع العملية؟',
+  },
+  {
+    id: 'timeline',
+    label: '🗓️ الجدول الزمني ومواعيد التخرج',
+    message: 'إيه هي مواعيد المنحة والجدول الزمني وميعاد التخرج؟',
+  },
+  {
+    id: 'internship',
+    label: '💼 تدريب وفرص توظيف homains',
+    message: 'عايز أعرف تفاصيل تدريب شركة homains وفرص التوظيف',
+  },
+  {
+    id: 'mentors',
+    label: '👥 الميتنج الأسبوعي ومراجعة الكود',
+    message: 'إزاي بنحضر الاجتماعات الأسبوعية والدعم المباشر ومراجعة الكود؟',
+  },
 ];
 
 interface ChatInputFormProps {
@@ -23,12 +53,19 @@ export const ChatInputForm: React.FC<ChatInputFormProps> = ({
   const [input, setInput] = useState('');
   const [showCommands, setShowCommands] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside (ignoring clicks on the toggle trigger button)
   useEffect(() => {
     if (!showCommands) return;
     const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(target)
+      ) {
         setShowCommands(false);
       }
     };
@@ -55,25 +92,27 @@ export const ChatInputForm: React.FC<ChatInputFormProps> = ({
       {showCommands && (
         <div
           ref={menuRef}
-          className="absolute bottom-full left-0 right-0 mx-3 mb-2 rounded-xl bg-[#1C1B18] border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden animate-in slide-in-from-bottom-2 fade-in duration-150"
+          className="absolute bottom-full left-0 right-0 mx-3 mb-2 rounded-xl bg-[#1C1B18] border border-white/12 shadow-[0_8px_32px_rgba(0,0,0,0.6)] overflow-hidden animate-in slide-in-from-bottom-2 fade-in duration-150 max-h-64 overflow-y-auto"
           role="menu"
           aria-label="قائمة الأوامر"
         >
           <p className="px-3.5 pt-2.5 pb-1.5 text-[11px] text-white/40 font-medium tracking-wide">
             الأوامر المتاحة
           </p>
-          {COMMANDS.map((cmd) => (
-            <button
-              key={cmd.id}
-              type="button"
-              role="menuitem"
-              onClick={() => handleCommand(cmd.message)}
-              className="w-full text-right px-3.5 py-2.5 text-[13px] text-[#F3EFE7] hover:bg-[#DFCA9F]/10 hover:text-[#DFCA9F] transition-colors cursor-pointer flex items-center gap-2"
-            >
-              {cmd.label}
-            </button>
-          ))}
-          <div className="h-2" />
+          <div className="divide-y divide-white/5">
+            {COMMANDS.map((cmd) => (
+              <button
+                key={cmd.id}
+                type="button"
+                role="menuitem"
+                onClick={() => handleCommand(cmd.message)}
+                className="w-full text-right px-3.5 py-2.5 text-[13px] text-[#F3EFE7] hover:bg-[#DFCA9F]/10 hover:text-[#DFCA9F] transition-colors cursor-pointer flex items-center gap-2"
+              >
+                {cmd.label}
+              </button>
+            ))}
+          </div>
+          <div className="h-1.5" />
         </div>
       )}
 
@@ -83,6 +122,7 @@ export const ChatInputForm: React.FC<ChatInputFormProps> = ({
       >
         {/* Commands trigger button */}
         <button
+          ref={triggerRef}
           type="button"
           onClick={() => setShowCommands((v) => !v)}
           aria-label="الأوامر"

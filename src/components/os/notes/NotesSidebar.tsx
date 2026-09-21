@@ -10,6 +10,7 @@ interface NotesSidebarProps {
   onAddNote: () => void;
   onDeleteNote: (id: string) => void;
   onSearchChange: (q: string) => void;
+  direction?: 'rtl' | 'ltr';
 }
 
 export const NotesSidebar: React.FC<NotesSidebarProps> = ({
@@ -20,7 +21,10 @@ export const NotesSidebar: React.FC<NotesSidebarProps> = ({
   onAddNote,
   onDeleteNote,
   onSearchChange,
+  direction = 'rtl',
 }) => {
+  const isLtr = direction === 'ltr';
+
   const filteredNotes = notes.filter(
     (n) =>
       n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -34,29 +38,32 @@ export const NotesSidebar: React.FC<NotesSidebarProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-xs font-bold text-[#191816]">
             <BookOpen className="w-4 h-4 text-[#9C7A38]" />
-            <span>ملاحظاتي ({notes.length})</span>
+            <span>
+              {isLtr ? `My Notes (${notes.length})` : `ملاحظاتي (${notes.length})`}
+            </span>
           </div>
           <button
             type="button"
             onClick={onAddNote}
             className="px-2.5 py-1 rounded-lg bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#191816] text-xs font-extrabold flex items-center gap-1 hover:brightness-105 active:scale-95 transition-all cursor-pointer shadow-2xs"
-            title="إنشاء ملاحظة جديدة"
+            title={isLtr ? "Create new note" : "إنشاء ملاحظة جديدة"}
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>جديدة</span>
+            <span>{isLtr ? 'New' : 'جديدة'}</span>
           </button>
         </div>
 
         {/* Search Input */}
         <div className="relative">
-          <Search className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8C857B] pointer-events-none" />
+          <Search className={`w-3.5 h-3.5 absolute ${isLtr ? 'left-2.5' : 'right-2.5'} top-1/2 -translate-y-1/2 text-[#8C857B] pointer-events-none`} />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="بحث في الملاحظات..."
+            placeholder={isLtr ? "Search notes..." : "بحث في الملاحظات..."}
             style={{ color: '#191816' }}
-            className="w-full bg-white/80 border border-[#E5E0D6] rounded-lg pr-8! pl-2.5 py-1 text-xs placeholder:text-[#8C857B] focus:outline-none focus:ring-1 focus:ring-[#DFCA9F] transition-all"
+            dir={direction}
+            className={`w-full bg-white/80 border border-[#E5E0D6] rounded-lg ${isLtr ? 'pl-8! pr-2.5' : 'pr-8! pl-2.5'} py-1 text-xs placeholder:text-[#8C857B] focus:outline-none focus:ring-1 focus:ring-[#DFCA9F] transition-all`}
           />
         </div>
       </div>
@@ -65,7 +72,7 @@ export const NotesSidebar: React.FC<NotesSidebarProps> = ({
       <div className="flex-1 overflow-y-auto p-2 space-y-1">
         {filteredNotes.length === 0 ? (
           <div className="text-center py-8 text-xs text-[#8C857B]">
-            لا توجد ملاحظات مطابقة
+            {isLtr ? 'No matching notes found' : 'لا توجد ملاحظات مطابقة'}
           </div>
         ) : (
           filteredNotes.map((n) => {
@@ -82,7 +89,7 @@ export const NotesSidebar: React.FC<NotesSidebarProps> = ({
               >
                 <div className="flex items-center justify-between">
                   <h4 className="text-xs font-bold text-[#191816] truncate max-w-40">
-                    {n.title || 'ملاحظة بلا عنوان'}
+                    {n.title || (isLtr ? 'Untitled note' : 'ملاحظة بلا عنوان')}
                   </h4>
                   {notes.length > 1 && (
                     <button
@@ -92,14 +99,16 @@ export const NotesSidebar: React.FC<NotesSidebarProps> = ({
                         onDeleteNote(n.id);
                       }}
                       className="opacity-0 group-hover:opacity-100 p-1 hover:text-red-600 transition-opacity cursor-pointer"
-                      title="حذف الملاحظة"
+                      title={isLtr ? "Delete note" : "حذف الملاحظة"}
                     >
                       <Trash2 className="w-3 h-3" />
                     </button>
                   )}
                 </div>
                 <div className="flex items-center justify-between text-[10px] text-[#8C857B] mt-1 font-sans">
-                  <span>{new Date(n.updatedAt).toLocaleDateString('ar-EG')}</span>
+                  <span>
+                    {new Date(n.updatedAt).toLocaleDateString(isLtr ? 'en-US' : 'ar-EG')}
+                  </span>
                   <span className="uppercase text-[9px] px-1 rounded bg-black/5 font-bold">
                     {n.direction}
                   </span>

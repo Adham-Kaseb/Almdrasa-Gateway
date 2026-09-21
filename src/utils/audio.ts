@@ -57,6 +57,61 @@ class SoundEngine {
   }
 
   /**
+   * Organic tactile keystroke click for writing / notes
+   * Simulates a crisp mechanical keyboard switch with subtle acoustic variations
+   */
+  public playTypingKey(key?: string): void {
+    if (this.isMuted) return;
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+
+      // Pitch variation based on key type for realism
+      let basePitch = 480;
+      let duration = 0.024;
+      let gainLevel = 0.035;
+
+      if (key === 'Enter') {
+        basePitch = 360;
+        duration = 0.038;
+        gainLevel = 0.045;
+      } else if (key === ' ') {
+        basePitch = 310;
+        duration = 0.032;
+        gainLevel = 0.04;
+      } else if (key === 'Backspace' || key === 'Delete') {
+        basePitch = 420;
+        duration = 0.028;
+      } else {
+        // Natural micro-jitter (±25Hz) so fast typing doesn't sound robotic
+        const jitter = (Math.random() - 0.5) * 50;
+        basePitch += jitter;
+      }
+
+      // Primary crisp transient impulse
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(basePitch, now);
+      osc.frequency.exponentialRampToValueAtTime(basePitch * 0.35, now + duration);
+
+      gain.gain.setValueAtTime(gainLevel, now);
+      gain.gain.exponentialRampToValueAtTime(0.0005, now + duration);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + duration);
+    } catch {
+      // Catch any audio context issues
+    }
+  }
+
+  /**
    * Luxury harmonic chime (C Major 9th chord) for the application entrance
    */
   public playStartupChime(): void {

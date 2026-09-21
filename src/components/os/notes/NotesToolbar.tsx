@@ -13,6 +13,7 @@ interface NotesToolbarProps {
   onFormat: (cmd: string, val?: string) => void;
   onInsertCallout: (type: 'tip' | 'warning' | 'question' | 'code') => void;
   onInsertImage: (file: File) => void;
+  onOpenCodeModal?: () => void;
   onCopyAll: () => void;
   onExport: () => void;
   onReset: () => void;
@@ -27,6 +28,7 @@ export const NotesToolbar: React.FC<NotesToolbarProps> = ({
   onFormat,
   onInsertCallout,
   onInsertImage,
+  onOpenCodeModal,
   onCopyAll,
   onExport,
   onReset,
@@ -41,12 +43,14 @@ export const NotesToolbar: React.FC<NotesToolbarProps> = ({
         onSetTextAlign={onSetTextAlign}
       />
 
-      <ToolbarFormatting onFormat={onFormat} />
+      <ToolbarFormatting onFormat={onFormat} direction={direction} />
 
       <ToolbarInserts
         onFormat={onFormat}
         onInsertCallout={onInsertCallout}
         onInsertImage={onInsertImage}
+        onOpenCodeModal={onOpenCodeModal}
+        direction={direction}
       />
 
       <ToolbarActions
@@ -54,6 +58,7 @@ export const NotesToolbar: React.FC<NotesToolbarProps> = ({
         onExport={onExport}
         onReset={onReset}
         isCopied={isCopied}
+        direction={direction}
       />
     </div>
   );

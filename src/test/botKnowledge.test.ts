@@ -68,4 +68,23 @@ describe('Bot Knowledge Engine & Personalization Tests', () => {
     expect(res.text).toContain('منصة المدرسة');
     expect(res.actionWindow).toBe('scholarship');
   });
+
+  it('provides rich answers for all predefined quick commands', () => {
+    const commands = [
+      'عايز أعرف تفاصيل ونظام الإقصاء والتقييم في الدفعة السادسة',
+      'إيه هي أسعار المنحة وتفاصيل التقسيط والدفع؟',
+      'إيه هو المنهج والتقنيات اللي هندرسها والمشاريع العملية؟',
+      'إيه هي مواعيد المنحة والجدول الزمني وميعاد التخرج؟',
+      'عايز أعرف تفاصيل تدريب شركة homains وفرص التوظيف',
+      'إزاي بنحضر الاجتماعات الأسبوعية والدعم المباشر ومراجعة الكود؟',
+    ];
+
+    for (const cmd of commands) {
+      const res = queryAlmdrasaKnowledge(cmd, 'أدهم');
+      expect(res.text).toBeTruthy();
+      expect(res.text).toContain('أدهم');
+      expect(res.actionWindow).toBeDefined();
+    }
+  });
 });
+

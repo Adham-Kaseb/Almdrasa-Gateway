@@ -419,6 +419,7 @@ describe('AuraOS Contracts and Schema Validation', () => {
       expect(result.data.background.interactiveColors.length).toBeGreaterThanOrEqual(3);
       expect(result.data.audio.volume).toBeGreaterThanOrEqual(0);
       expect(result.data.audio.volume).toBeLessThanOrEqual(100);
+      expect(result.data.audio.typingSoundEnabled).toBe(true);
       expect(['compact', 'normal', 'large']).toContain(result.data.dock.size);
       expect(result.data.dock.autoHide).toBe(true);
       expect(['concise', 'detailed', 'academic']).toContain(result.data.companion.responseTone);

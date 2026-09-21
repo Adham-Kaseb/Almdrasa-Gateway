@@ -72,6 +72,12 @@
     font-family: 'Expo Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
+  input::placeholder,
+  textarea::placeholder,
+  [data-placeholder]::before {
+    font-family: 'Expo Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  }
+
   body {
     background-color: var(--ri-noir-950);
     color: var(--ri-text-on-dark);
@@ -223,6 +229,8 @@
 
 .auth-input::placeholder {
   color: #6E685F;
+  font-family: 'Expo Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: normal;
 }
 
 .auth-input:focus {
@@ -234,6 +242,11 @@
 .auth-input-password {
   padding-left: 2.5rem;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.auth-input-password::placeholder {
+  font-family: 'Expo Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: normal;
 }
 
 /* Admin Dashboard Inputs */
@@ -422,6 +435,77 @@
 
 .chat-input-in {
   animation: chat-input-in 0.3s 0.15s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+/* ─── Prism.js VSCode One Dark Syntax Highlighting Theme ────────────────── */
+.vscode-code-container code[class*="language-"],
+.vscode-code-container pre[class*="language-"] {
+  color: #abb2bf;
+  text-shadow: none;
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Courier New', monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.6;
+}
+
+.vscode-code-container .token.comment,
+.vscode-code-container .token.prolog,
+.vscode-code-container .token.doctype,
+.vscode-code-container .token.cdata {
+  color: #6a9955;
+  font-style: italic;
+}
+
+.vscode-code-container .token.punctuation {
+  color: #d4d4d4;
+}
+
+.vscode-code-container .token.property,
+.vscode-code-container .token.tag,
+.vscode-code-container .token.boolean,
+.vscode-code-container .token.number,
+.vscode-code-container .token.constant,
+.vscode-code-container .token.symbol,
+.vscode-code-container .token.deleted {
+  color: #b5cea8;
+}
+
+.vscode-code-container .token.selector,
+.vscode-code-container .token.attr-name,
+.vscode-code-container .token.string,
+.vscode-code-container .token.char,
+.vscode-code-container .token.builtin,
+.vscode-code-container .token.inserted {
+  color: #ce9178;
+}
+
+.vscode-code-container .token.operator,
+.vscode-code-container .token.entity,
+.vscode-code-container .token.url,
+.vscode-code-container .language-css .token.string,
+.vscode-code-container .style .token.string {
+  color: #d4d4d4;
+}
+
+.vscode-code-container .token.atrule,
+.vscode-code-container .token.attr-value,
+.vscode-code-container .token.keyword {
+  color: #c586c0;
+  font-weight: 600;
+}
+
+.vscode-code-container .token.function,
+.vscode-code-container .token.class-name {
+  color: #dcdcaa;
+}
+
+.vscode-code-container .token.regex,
+.vscode-code-container .token.important,
+.vscode-code-container .token.variable {
+  color: #9cdcfe;
 }
 
 

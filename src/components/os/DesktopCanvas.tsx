@@ -50,6 +50,8 @@ export const DesktopCanvas: React.FC = () => {
     setActiveFolderId,
   } = useOS();
 
+  const [notesDirection, setNotesDirection] = React.useState<'rtl' | 'ltr'>('rtl');
+
   const handleItemClick = (item: DesktopItem) => {
     soundFx.playPop();
     if (item.type === 'folder') {
@@ -231,8 +233,17 @@ export const DesktopCanvas: React.FC = () => {
         )}
 
         {windows.notes.isOpen && !windows.notes.isMinimized && (
-          <WindowFrame key="notes" windowState={windows.notes} theme="ivory">
-            <NotesAppWindow />
+          <WindowFrame
+            key="notes"
+            windowState={windows.notes}
+            theme="ivory"
+            customTitle={
+              notesDirection === 'ltr'
+                ? 'Daily Notes & Journaling Studio'
+                : 'دفتر الملاحظات والتدوين اليومي'
+            }
+          >
+            <NotesAppWindow onDirectionChange={setNotesDirection} />
           </WindowFrame>
         )}
 

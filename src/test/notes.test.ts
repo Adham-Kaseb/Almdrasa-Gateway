@@ -5,6 +5,7 @@ import {
   MAX_NOTE_IMAGE_SIZE_BYTES,
   validateNoteImageFile,
 } from '../types/notes';
+import { soundFx } from '../utils/audio';
 
 describe('Student Notes & Annotation Studio Tests', () => {
   it('validates highlight colors palette configuration', () => {
@@ -123,5 +124,59 @@ describe('Student Notes & Annotation Studio Tests', () => {
     expect(noteWithImage.content).toContain('<img src="data:image/png;base64,');
     expect(noteWithImage.content).toContain('alt="screenshot"');
   });
+
+  it('validates supported code snippet languages (Python, HTML, CSS, JS, React)', async () => {
+    const { CODE_LANGUAGES, generateVsCodeSnippetHtml } = await import(
+      '../utils/codeSnippetGenerator'
+    );
+
+    const langIds = CODE_LANGUAGES.map((l) => l.id);
+    expect(langIds).toContain('python');
+    expect(langIds).toContain('html');
+    expect(langIds).toContain('css');
+    expect(langIds).toContain('js');
+    expect(langIds).toContain('react');
+
+    // Generate HTML for each language and check VSCode styling & tokens
+    for (const lang of CODE_LANGUAGES) {
+      const html = generateVsCodeSnippetHtml(lang.sampleCode, lang, false);
+      expect(html).toContain('vscode-code-container');
+      expect(html).toContain(lang.badge);
+      expect(html).toContain(lang.extension);
+      expect(html).toContain(`language-${lang.prismLang}`);
+    }
+  });
+
+  it('validates timestamp badge and freehand drawing HTML integration', () => {
+    const timestampHtml = `<span class="timestamp-badge">🕒 الجمعة، 22 سبتمبر 2026 — 01:15:00 ص</span>`;
+    const drawingDataUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    const drawingHtml = `<div style="text-align:center;"><img src="${drawingDataUrl}" alt="مخطط رسم يدوي" /></div>`;
+
+    const compositeNote: StudentNote = {
+      id: 'composite-note',
+      title: 'ملاحظة مع توقيت ورسمة يدوية',
+      content: `<p>${timestampHtml}</p>${drawingHtml}`,
+      direction: 'rtl',
+      textAlign: 'right',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    expect(compositeNote.content).toContain('timestamp-badge');
+    expect(compositeNote.content).toContain('🕒');
+    expect(compositeNote.content).toContain('alt="مخطط رسم يدوي"');
+    expect(compositeNote.content).toContain(drawingDataUrl);
+  });
+
+  it('validates typing sound effect configuration and audio engine invocation', () => {
+    // Test that audio engine has playTypingKey without throws
+    expect(typeof soundFx.playTypingKey).toBe('function');
+    expect(() => soundFx.playTypingKey('a')).not.toThrow();
+    expect(() => soundFx.playTypingKey('Enter')).not.toThrow();
+    expect(() => soundFx.playTypingKey(' ')).not.toThrow();
+    expect(() => soundFx.playTypingKey('Backspace')).not.toThrow();
+  });
 });
+
+
 

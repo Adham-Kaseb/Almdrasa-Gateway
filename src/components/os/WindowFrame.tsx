@@ -10,6 +10,7 @@ interface WindowFrameProps {
   children: React.ReactNode;
   theme?: 'ivory' | 'noir';
   onClose?: () => void;
+  customTitle?: string;
 }
 
 export const WindowFrame: React.FC<WindowFrameProps> = ({
@@ -17,6 +18,7 @@ export const WindowFrame: React.FC<WindowFrameProps> = ({
   children,
   theme = 'ivory',
   onClose,
+  customTitle,
 }) => {
   const { containerRef } = useSmoothScroll();
   const {
@@ -28,7 +30,8 @@ export const WindowFrame: React.FC<WindowFrameProps> = ({
     activeWindowId,
   } = useOS();
 
-  const { id, title, isMaximized, zIndex, position, size } = windowState;
+  const { id, title: stateTitle, isMaximized, zIndex, position, size } = windowState;
+  const title = customTitle || stateTitle;
 
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef<{ mouseX: number; mouseY: number; startX: number; startY: number }>({

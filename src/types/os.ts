@@ -160,6 +160,7 @@ export type BackgroundSettings = z.infer<typeof BackgroundSettingsSchema>;
 
 export const AudioSettingsSchema = z.object({
   soundEnabled: z.boolean().default(true),
+  typingSoundEnabled: z.boolean().default(true),
   volume: z.number().min(0).max(100).default(80),
   theme: z.enum(['luxury', 'cyber', 'minimal']).default('luxury'),
 });
@@ -240,6 +241,7 @@ export const DEFAULT_APP_SETTINGS: AppSettings = {
   },
   audio: {
     soundEnabled: true,
+    typingSoundEnabled: true,
     volume: 80,
     theme: 'luxury',
   },

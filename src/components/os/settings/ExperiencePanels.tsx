@@ -1,7 +1,7 @@
-import React from 'react';
 import {
   Volume2,
   VolumeX,
+  Keyboard,
   LayoutGrid,
   Bot,
   Flame,
@@ -90,6 +90,69 @@ export const AudioSettingsPanel: React.FC = () => {
             className="w-full accent-[#DFCA9F] cursor-pointer h-1.5 bg-white/10 rounded-lg"
           />
         </div>
+      </div>
+
+      {/* Keystroke Typing Sound Effect Card */}
+      <div className="p-5 rounded-2xl bg-[#171614] border border-white/10 space-y-3">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-[#DFCA9F]">
+              <Keyboard className="w-5 h-5" />
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <h3 className="text-sm font-semibold text-[#F8F4EC]">
+                صوت نقرات لوحة المفاتيح أثناء التدوين
+              </h3>
+              <p className="text-xs text-[#A69F93]">
+                تشغيل نقرات ميكانيكية واقعية خفيفة أثناء كتابة الملاحظات والملخصات الدراسية
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              const nextState = !audio.typingSoundEnabled;
+              updateAppSettings({
+                audio: { ...audio, typingSoundEnabled: nextState },
+              });
+              if (nextState) {
+                soundFx.playTypingKey();
+              } else {
+                soundFx.playClick(300, 0.02);
+              }
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shrink-0 ${
+              audio.typingSoundEnabled
+                ? 'bg-linear-to-r from-[#DFCA9F] to-[#CCA868] text-[#12110F] font-bold shadow-lg shadow-[#DFCA9F]/15'
+                : 'bg-white/10 text-[#9E988F] hover:bg-white/15'
+            }`}
+          >
+            {audio.typingSoundEnabled ? (
+              <>
+                <Check className="w-3.5 h-3.5" />
+                <span>مفعل (افتراضي)</span>
+              </>
+            ) : (
+              <span>متوقف</span>
+            )}
+          </button>
+        </div>
+
+        {/* Keystroke Live Preview */}
+        {audio.typingSoundEnabled && (
+          <div className="pt-2 border-t border-white/5 flex items-center justify-between text-xs text-[#9E988F]">
+            <span>جرب صوت النقرة:</span>
+            <button
+              type="button"
+              onClick={() => soundFx.playTypingKey()}
+              className="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 text-[#DFCA9F] border border-white/10 flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <span>تجربة النقر</span>
+              <Keyboard className="w-3 h-3" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
