@@ -4,10 +4,10 @@ import {
   Monitor,
   Smartphone,
   ArrowLeft,
-  Layout,
-  MousePointer2,
-  AppWindow,
   Laptop,
+  Code2,
+  BookOpen,
+  FolderGit2,
 } from 'lucide-react';
 
 const CONTAINER_VARIANTS = {
@@ -29,22 +29,22 @@ const ITEM_VARIANTS = {
 
 const FEATURES = [
   {
-    icon: AppWindow,
-    title: 'نوافذ عمل متقدمة',
-    desc: 'بيئة مهنية حقيقية تحاكي أنظمة التشغيل متعددة النوافذ',
-    badge: 'Window OS',
+    icon: BookOpen,
+    title: 'بدء جلسة دراسية ومذاكرة حقيقية',
+    desc: 'البوابة أُعدت لمرافقتك أثناء الاستذكار والاستعانة بأدواتها ودروسك بتركيز كامل',
+    badge: 'Study Session',
   },
   {
-    icon: Layout,
-    title: 'سطح مكتب وشريط مهام ذكي',
-    desc: 'تنقل فوري وتطبيقات متزامنة لمتابعة الدفعة والدروس',
-    badge: 'Desktop UI',
+    icon: Code2,
+    title: 'كتابة وتطبيق الأكواد (Code Editor)',
+    desc: 'التطبيق البرمجي الفعلي والمشاريع تتطلب استخدام محرر الأكواد ولوحة المفاتيح والماوس',
+    badge: 'Code Editor',
   },
   {
-    icon: MousePointer2,
-    title: 'أدوات الماوس وكتابة الكود',
-    desc: 'تدوين ملخصات، فحص أكواد، ورسم تفاعلي بدقة فائقة',
-    badge: 'Keyboard & Mouse',
+    icon: FolderGit2,
+    title: 'بيئة العمل ومتطلبات الدراسة',
+    desc: 'إنجاز مهام الدبلومة ومتابعة التطبيقات البرمجية باحترافية لا توفرها شاشات الهواتف',
+    badge: 'Workspace',
   },
 ] as const;
 
