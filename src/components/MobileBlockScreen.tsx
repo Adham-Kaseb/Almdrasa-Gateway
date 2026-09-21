@@ -142,7 +142,7 @@ export const MobileBlockScreen: React.FC = () => {
                 <div className="shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-[#DFCA9F]/15 to-white/5 border border-[#DFCA9F]/25 flex items-center justify-center text-[#DFCA9F] shadow-sm">
                   <Icon className="w-4.5 h-4.5 stroke-[1.6]" />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                   <div className="flex items-center justify-between gap-1">
                     <span className="text-xs font-bold text-[#F5F1E8]">
                       {title}
@@ -151,7 +151,7 @@ export const MobileBlockScreen: React.FC = () => {
                       {badge}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#8E877C] leading-snug mt-0.5">
+                  <p className="text-[11px] text-[#8E877C] leading-relaxed">
                     {desc}
                   </p>
                 </div>
