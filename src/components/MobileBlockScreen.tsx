@@ -7,7 +7,6 @@ import {
   Layout,
   MousePointer2,
   AppWindow,
-  Sparkles,
   Laptop,
 } from 'lucide-react';
 
@@ -79,15 +78,6 @@ export const MobileBlockScreen: React.FC = () => {
         initial="hidden"
         animate="visible"
       >
-        {/* Modern Pill Badge */}
-        <motion.div
-          variants={ITEM_VARIANTS}
-          className="mb-5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-[#DFCA9F]/20 text-[#DFCA9F] text-xs font-semibold shadow-[0_2px_12px_rgba(223,202,159,0.08)] backdrop-blur-md"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[#DFCA9F] animate-pulse" />
-          <span>منصة سطح المكتب التفاعلية</span>
-        </motion.div>
-
         {/* Dynamic Dual-Device Comparison Card */}
         <motion.div
           className="flex items-center justify-center gap-3.5 mb-6"
@@ -116,7 +106,7 @@ export const MobileBlockScreen: React.FC = () => {
 
         {/* Primary Heading */}
         <motion.h1
-          className="text-2xl sm:text-3xl font-black text-[#F8F4EC] leading-tight tracking-tight mb-3"
+          className="text-2xl sm:text-3xl font-black text-[#F8F4EC] leading-tight tracking-tight mb-5"
           variants={ITEM_VARIANTS}
         >
           هذه المنصة مُصممة لأجهزة
@@ -125,15 +115,6 @@ export const MobileBlockScreen: React.FC = () => {
             الكمبيوتر واللابتوب فقط
           </span>
         </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          className="text-xs sm:text-sm text-[#A69F93] leading-relaxed mb-6 max-w-sm"
-          variants={ITEM_VARIANTS}
-        >
-          بوابة مدرسة Almdrasa هي محاكي متطور لأنظمة التشغيل وسطح المكتب البرمجي،
-          وتتطلب مساحة شاشة حقيقية واستخدام الفأرة ولوحة المفاتيح لإتقان مشاريع الدبلومة.
-        </motion.p>
 
         {/* Glassmorphism Feature Card */}
         <motion.div
@@ -186,15 +167,6 @@ export const MobileBlockScreen: React.FC = () => {
           </span>
         </motion.div>
 
-        {/* Brand Footer */}
-        <motion.p
-          className="text-[10.5px] text-[#6B6357] mt-7 flex items-center gap-1.5"
-          variants={ITEM_VARIANTS}
-        >
-          <span>منحة المدرسة لتطوير مهندسي المستقبل</span>
-          <span>•</span>
-          <span>الدفعة السادسة 2026</span>
-        </motion.p>
       </motion.main>
     </div>
   );
