@@ -349,13 +349,13 @@ export const DesktopClockWidget: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 6, scale: 0.96 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute top-full mt-3 right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-[310px] sm:w-[340px] p-4.5 rounded-2xl bg-[#141311]/95 backdrop-blur-2xl border border-[#DFCA9F]/20 shadow-[0_24px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(223,202,159,0.1)] z-20 text-right pointer-events-auto"
+              className="absolute top-full mt-3 right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-77.5 sm:w-85 p-4.5 rounded-2xl bg-[#141311]/95 backdrop-blur-2xl border border-[#DFCA9F]/20 shadow-[0_24px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(223,202,159,0.1)] z-20 text-right pointer-events-auto"
               dir="rtl"
             >
               {/* Header */}
               <div className="flex items-center justify-between pb-3.5 border-b border-white/10 mb-3.5">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#DFCA9F]/20 to-white/5 border border-[#DFCA9F]/35 flex items-center justify-center text-[#DFCA9F] shadow-sm">
+                  <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#DFCA9F]/20 to-white/5 border border-[#DFCA9F]/35 flex items-center justify-center text-[#DFCA9F] shadow-sm">
                     <GraduationCap className="w-4.5 h-4.5 stroke-[1.8]" />
                   </div>
                   <div>
@@ -374,7 +374,7 @@ export const DesktopClockWidget: React.FC = () => {
               </div>
 
               {/* Progress Bar & Elapsed days */}
-              <div className="space-y-2 mb-4 bg-white/[0.02] p-3 rounded-xl border border-white/5">
+              <div className="space-y-2 mb-4 bg-white/2 p-3 rounded-xl border border-white/5">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-[#C5B79E] font-medium">معدل الانقضاء:</span>
                   <div className="font-mono text-xs font-bold text-[#F8F4EC] flex items-center gap-1">
@@ -384,9 +384,9 @@ export const DesktopClockWidget: React.FC = () => {
                     <span className="text-[10px] text-[#A69F93] font-sans">يوم</span>
                   </div>
                 </div>
-                <div className="w-full h-2 rounded-full bg-white/[0.08] overflow-hidden p-0.5 border border-white/5">
+                <div className="w-full h-2 rounded-full bg-white/8 overflow-hidden p-0.5 border border-white/5">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#DFCA9F] via-[#F3E2BD] to-[#CCA868] shadow-[0_0_12px_rgba(223,202,159,0.5)] transition-all duration-500"
+                    className="h-full rounded-full bg-linear-to-r from-[#DFCA9F] via-[#F3E2BD] to-[#CCA868] shadow-[0_0_12px_rgba(223,202,159,0.5)] transition-all duration-500"
                     style={{ width: `${scholarshipData.progressPercent}%` }}
                   />
                 </div>
@@ -413,7 +413,7 @@ export const DesktopClockWidget: React.FC = () => {
               </div>
 
               {/* Upcoming Elimination & Evaluation Milestone Box */}
-              <div className="p-3.5 rounded-xl bg-gradient-to-b from-[#DFCA9F]/12 via-[#DFCA9F]/6 to-transparent border border-[#DFCA9F]/25 mb-3.5 space-y-2.5 shadow-sm">
+              <div className="p-3.5 rounded-xl bg-linear-to-b from-[#DFCA9F]/12 via-[#DFCA9F]/6 to-transparent border border-[#DFCA9F]/25 mb-3.5 space-y-2.5 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <div className="w-5 h-5 rounded-md bg-[#DFCA9F]/20 flex items-center justify-center text-[#DFCA9F]">
