@@ -345,103 +345,114 @@ export const DesktopClockWidget: React.FC = () => {
         <AnimatePresence>
           {showScholarshipDetails && (
             <motion.div
-              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+              initial={{ opacity: 0, y: 10, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 6, scale: 0.95 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-full mt-2.5 right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-72 sm:w-80 p-4 rounded-2xl bg-[#12110F]/95 backdrop-blur-2xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(223,202,159,0.12)] z-20 text-right pointer-events-auto"
+              exit={{ opacity: 0, y: 6, scale: 0.96 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute top-full mt-3 right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-[310px] sm:w-[340px] p-4.5 rounded-2xl bg-[#141311]/95 backdrop-blur-2xl border border-[#DFCA9F]/20 shadow-[0_24px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(223,202,159,0.1)] z-20 text-right pointer-events-auto"
               dir="rtl"
             >
               {/* Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-xl bg-[#DFCA9F]/15 border border-[#DFCA9F]/30 flex items-center justify-center text-[#DFCA9F]">
-                    <GraduationCap className="w-4 h-4" />
+              <div className="flex items-center justify-between pb-3.5 border-b border-white/10 mb-3.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#DFCA9F]/20 to-white/5 border border-[#DFCA9F]/35 flex items-center justify-center text-[#DFCA9F] shadow-sm">
+                    <GraduationCap className="w-4.5 h-4.5 stroke-[1.8]" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#F8F4EC]">
-                      منحة المدرسة{" "}
+                    <h4 className="text-sm font-extrabold text-[#F8F4EC] tracking-tight">
+                      منحة مدرسة
                     </h4>
+                    <span className="text-[10.5px] text-[#A69F93]">
+                      الدفعة السادسة 2026 - 2027
+                    </span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#DFCA9F]/15 text-[#DFCA9F] border border-[#DFCA9F]/30 font-mono">
-                  {scholarshipData.progressPercent}%
-                </span>
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#DFCA9F]/15 border border-[#DFCA9F]/30 text-[#DFCA9F] font-bold text-xs font-mono shadow-xs">
+                  <span>{scholarshipData.progressPercent}%</span>
+                  <span className="text-[9.5px] text-[#DFCA9F]/70">مكتمل</span>
+                </div>
               </div>
 
               {/* Progress Bar & Elapsed days */}
-              <div className="space-y-1.5 mb-3.5">
-                <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-[#9E988F]">نسبة التقدم </span>
-                  <span className="font-mono text-[#DFCA9F] font-bold">
-                    {scholarshipData.elapsedDays} / {scholarshipData.totalDays}{" "}
-                    يوم
-                  </span>
+              <div className="space-y-2 mb-4 bg-white/[0.02] p-3 rounded-xl border border-white/5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-[#C5B79E] font-medium">معدل الانقضاء:</span>
+                  <div className="font-mono text-xs font-bold text-[#F8F4EC] flex items-center gap-1">
+                    <span className="text-[#DFCA9F]">{scholarshipData.elapsedDays}</span>
+                    <span className="text-[#6E685E]">/</span>
+                    <span>{scholarshipData.totalDays}</span>
+                    <span className="text-[10px] text-[#A69F93] font-sans">يوم</span>
+                  </div>
                 </div>
-                <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden p-0.5">
+                <div className="w-full h-2 rounded-full bg-white/[0.08] overflow-hidden p-0.5 border border-white/5">
                   <div
-                    className="h-full rounded-full bg-linear-to-r from-[#DFCA9F] to-[#CCA868] shadow-[0_0_8px_rgba(223,202,159,0.5)] transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-[#DFCA9F] via-[#F3E2BD] to-[#CCA868] shadow-[0_0_12px_rgba(223,202,159,0.5)] transition-all duration-500"
                     style={{ width: `${scholarshipData.progressPercent}%` }}
                   />
                 </div>
               </div>
 
               {/* Start and End Timeline Box */}
-              <div className="grid grid-cols-2 gap-2 text-[11px] bg-[#1A1916] p-2.5 rounded-xl border border-white/5 mb-3">
-                <div>
-                  <span className="text-[#8C877E] block text-[9.5px]">
+              <div className="grid grid-cols-2 gap-2 text-xs bg-[#191815] p-3 rounded-xl border border-white/8 mb-3.5">
+                <div className="space-y-0.5">
+                  <span className="text-[#9E988F] block text-[10px]">
                     تاريخ الانطلاق:
                   </span>
-                  <span className="text-[#F8F4EC] font-semibold">
+                  <span className="text-[#F8F4EC] font-bold tracking-tight">
                     04 يوليو 2026
                   </span>
                 </div>
-                <div>
-                  <span className="text-[#8C877E] block text-[9.5px]">
+                <div className="space-y-0.5 border-r border-white/8 pr-2.5">
+                  <span className="text-[#9E988F] block text-[10px]">
                     تاريخ النهاية:
                   </span>
-                  <span className="text-[#DFCA9F] font-semibold">
+                  <span className="text-[#DFCA9F] font-bold tracking-tight">
                     04 يوليو 2027
                   </span>
                 </div>
               </div>
 
               {/* Upcoming Elimination & Evaluation Milestone Box */}
-              <div className="p-3 rounded-xl bg-linear-to-b from-[#DFCA9F]/10 to-[#DFCA9F]/5 border border-[#DFCA9F]/20 mb-3 space-y-2">
+              <div className="p-3.5 rounded-xl bg-gradient-to-b from-[#DFCA9F]/12 via-[#DFCA9F]/6 to-transparent border border-[#DFCA9F]/25 mb-3.5 space-y-2.5 shadow-sm">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <ShieldAlert className="w-3.5 h-3.5 text-[#DFCA9F]" />
-                    <span className="text-[11px] font-bold text-[#F8F4EC]">
+                    <div className="w-5 h-5 rounded-md bg-[#DFCA9F]/20 flex items-center justify-center text-[#DFCA9F]">
+                      <ShieldAlert className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="text-xs font-extrabold text-[#F8F4EC]">
                       موعد الإقصاء
                     </span>
                   </div>
-                  <span className="text-[9.5px] px-2 py-0.5 rounded-full bg-[#DFCA9F]/15 text-[#DFCA9F] font-bold border border-[#DFCA9F]/25">
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 font-bold border border-amber-500/30">
                     بعد 9 أشهر
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-[10.5px]">
-                  <span className="text-[#8C877E]">تاريخ التقييم الأول:</span>
+
+                <div className="flex items-center justify-between text-xs py-0.5">
+                  <span className="text-[#A69F93]">تاريخ التقييم الأول:</span>
                   <span className="text-[#F8F4EC] font-bold font-mono">
                     {scholarshipData.deadlineDateFormatted}
                   </span>
                 </div>
-                <div className="pt-2 border-t border-[#DFCA9F]/15 flex items-center justify-between text-[11px]">
+
+                <div className="pt-2.5 border-t border-[#DFCA9F]/15 flex items-center justify-between text-xs">
                   <span className="text-[#C5B79E] font-medium">
                     المتبقي حتى موعد الإقصاء:
                   </span>
-                  <span className="text-[#DFCA9F] font-extrabold font-mono text-xs px-2.5 py-0.5 rounded-md bg-[#DFCA9F]/15 border border-[#DFCA9F]/25 shadow-xs">
+                  <span className="text-[#DFCA9F] font-extrabold font-mono text-xs px-2.5 py-1 rounded-lg bg-[#DFCA9F]/15 border border-[#DFCA9F]/35 shadow-xs">
                     {scholarshipData.deadlineRemainingDays} يوم
                   </span>
                 </div>
               </div>
 
               {/* Remaining Countdown Highlight Until Graduation */}
-              <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px]">
-                <span className="text-[#C5B79E]">
+              <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs px-1">
+                <span className="text-[#A69F93] font-medium">
                   الأيام المتبقية حتى التخرج:
                 </span>
-                <span className="text-[#DFCA9F] font-bold font-mono text-sm">
-                  {scholarshipData.remainingDays} يوم
+                <span className="text-[#DFCA9F] font-black font-mono text-base tracking-tight flex items-baseline gap-1">
+                  <span>{scholarshipData.remainingDays}</span>
+                  <span className="text-[11px] font-sans font-bold text-[#DFCA9F]/80">يوم</span>
                 </span>
               </div>
             </motion.div>
