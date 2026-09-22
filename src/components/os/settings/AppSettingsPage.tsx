@@ -6,16 +6,11 @@ import {
   Bot,
   Flame,
   Palette,
-  ArrowRight,
-  RotateCcw,
-  SlidersHorizontal,
-  LogOut,
-  User as UserIcon,
 } from 'lucide-react';
 import { useOS } from '../../../context/OSContext';
-import { useAuth } from '../../../context/AuthContext';
 import { soundFx } from '../../../utils/audio';
 import { DEFAULT_APP_SETTINGS } from '../../../types/os';
+import { SettingsHeader } from './SettingsHeader';
 import { BackgroundSettingsPanel } from './BackgroundSettingsPanel';
 import {
   AudioSettingsPanel,
@@ -73,7 +68,6 @@ const SETTINGS_TABS: SettingsTab[] = [
 
 export const AppSettingsPage: React.FC = () => {
   const { isSettingsOpen, setIsSettingsOpen, updateAppSettings, setCompanionMessage } = useOS();
-  const { student, signOut, isGuest } = useAuth();
   const [activeTab, setActiveTab] = useState<SettingsTabId>('background');
 
   // Close on Escape key
@@ -113,81 +107,11 @@ export const AppSettingsPage: React.FC = () => {
       className="fixed inset-0 z-50 flex flex-col bg-[#0E0D0C]/95 backdrop-blur-3xl text-[#F3EFE7] overflow-hidden select-none"
       dir="rtl"
     >
-      {/* Top Navigation Bar */}
-      <header className="h-16 px-6 border-b border-white/10 flex items-center justify-between bg-[#141311]/80 backdrop-blur-md shrink-0">
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-[#F8F4EC] hover:text-[#DFCA9F] transition-all cursor-pointer group shadow-xs"
-            title="العودة إلى سطح المكتب (Esc)"
-          >
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-            <span>العودة إلى سطح المكتب</span>
-            <span className="text-[10px] text-[#9E988F] font-mono">(Esc)</span>
-          </button>
-
-          <div className="h-4 w-px bg-white/15 mx-1" />
-
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-linear-to-br from-[#DFCA9F]/20 to-[#CCA868]/10 border border-[#DFCA9F]/30 flex items-center justify-center text-[#DFCA9F]">
-              <SlidersHorizontal className="w-4.5 h-4.5" />
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-sm font-bold text-[#F8F4EC] tracking-tight">
-                إعدادات النظام والتخصيص
-              </h1>
-            </div>
-          </div>
-        </div>
-
-        {/* Header Actions */}
-        <div className="flex items-center gap-3">
-          {/* Student Profile Info */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs">
-            <div className="w-5 h-5 rounded-full overflow-hidden bg-[#DFCA9F]/20 text-[#DFCA9F] flex items-center justify-center">
-              {student?.avatar_url ? (
-                <img src={student.avatar_url} alt={student.full_name} className="w-full h-full object-cover" />
-              ) : (
-                <UserIcon className="w-3.5 h-3.5" />
-              )}
-            </div>
-            <div className="flex flex-col text-right">
-              <span className="text-xs font-bold text-[#F8F4EC] leading-tight">
-                {student?.full_name || (isGuest ? 'طالب زائر' : 'طالب المنحة')}
-              </span>
-              <span className="text-[10px] text-[#9E988F]">
-                {student?.email || (isGuest ? 'وضع الاستعراض' : '')}
-              </span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleResetAll}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs text-[#9E988F] hover:text-[#DFCA9F] hover:bg-white/5 transition-colors cursor-pointer border border-transparent hover:border-white/10"
-            title="استعادة الإعدادات الافتراضية"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden md:inline">استعادة الضبط</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={async () => {
-              if (window.confirm('هل ترغب في تسجيل الخروج والعودة لصفحة الدخول؟')) {
-                await signOut();
-                setIsSettingsOpen(false);
-              }
-            }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs text-red-300 hover:text-red-200 bg-red-950/30 hover:bg-red-950/60 border border-red-500/20 transition-all cursor-pointer"
-            title="تسجيل الخروج"
-          >
-            <LogOut className="w-3.5 h-3.5 text-red-400" />
-            <span>تسجيل الخروج</span>
-          </button>
-        </div>
-      </header>
+      {/* Top Luxury Navigation Bar */}
+      <SettingsHeader
+        onClose={handleClose}
+        onResetAll={handleResetAll}
+      />
 
       {/* Main Settings Body */}
       <div className="flex-1 flex overflow-hidden">
