@@ -98,8 +98,7 @@ const TRACKS_DATA: TrackData[] = [
       {
         id: 'cm-css-layouts',
         courseName: 'CSS Layouts',
-        downloadUrl:
-          'https://almdrasa.com/assignment/css-layouts-challenges-zip-9',
+        downloadUrl: '/assignmentSS_Layouts_Challenges.zip',
       },
       {
         id: 'cm-advanced-css',
