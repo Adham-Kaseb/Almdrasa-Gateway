@@ -128,52 +128,53 @@ export const WeeklyMeetingsAppWindow: React.FC = () => {
                   رابط الاجتماع عبر Google Meet
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-white">
-                  انضم مباشرة لجلسة الدعم وحل المشكلات
+                  انضم مباشرة للاجتماع الأسبوعي
                 </h2>
-                <p className="text-xs sm:text-sm text-[#D3BEFF] font-mono select-all">
-                  {meetUrl}
-                </p>
               </div>
 
-              <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap shrink-0">
+              <div className="flex flex-col gap-2 w-full sm:w-auto sm:min-w-[320px] shrink-0">
+                {/* Primary Button: Full Width */}
                 <button
                   type="button"
                   onClick={handleJoinMeet}
-                  className="px-5 py-3 rounded-xl bg-white text-[#5B00FF] hover:bg-[#F6F1FF] font-black text-sm shadow-md transition-all active:scale-95 cursor-pointer flex items-center gap-2 hover:shadow-lg"
+                  className="w-full px-5 py-3 rounded-xl bg-white text-[#5B00FF] hover:bg-[#F6F1FF] font-black text-sm shadow-md transition-all active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 hover:shadow-lg whitespace-nowrap"
                 >
                   <Video className="w-4.5 h-4.5 stroke-[2.4]" />
                   <span>دخول الاجتماع الآن</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleCopyLink}
-                  className="px-4 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/25 text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-2"
-                  title="نسخ الرابط للحافظة"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4 text-emerald-300" />
-                      <span>تم النسخ!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4" />
-                      <span>نسخ الرابط</span>
-                    </>
-                  )}
-                </button>
+                {/* Secondary Buttons Row: 50% / 50% */}
+                <div className="grid grid-cols-2 gap-2 w-full">
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className="w-full px-3 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/25 text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
+                    title="نسخ الرابط للحافظة"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-300" />
+                        <span>تم النسخ!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>نسخ الرابط</span>
+                      </>
+                    )}
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={handleAddToCalendar}
-                  className="px-4 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center gap-2"
-                  title="إضافة تذكير دوري للتقويم"
-                >
-                  <CalendarPlus className="w-4 h-4" />
-                  <span>إضافة للتقويم</span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={handleAddToCalendar}
+                    className="w-full px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-bold transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 whitespace-nowrap"
+                    title="إضافة تذكير دوري للتقويم"
+                  >
+                    <CalendarPlus className="w-3.5 h-3.5" />
+                    <span>إضافة للتقويم</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -294,7 +295,7 @@ export const WeeklyMeetingsAppWindow: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ابحث عن دولتك أو عاصمتك..."
-                  style={{ color: '#1E1D1A' }}
+                  style={{ color: "#1E1D1A" }}
                   className="w-full pl-3 pr-9! py-2 rounded-xl bg-[#F8F6FF] border border-[#DCD0FF] text-xs font-medium placeholder:text-[#8A80A8] focus:outline-none focus:ring-2 focus:ring-[#5B00FF] transition-all"
                 />
               </div>

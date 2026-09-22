@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Clock } from "lucide-react";
-import { TextDirection, TextAlign } from "../../../types/notes";
+import { TextDirection, TextAlign, parseYouTubeUrl } from "../../../types/notes";
 import { StickyFloatingTools } from "./StickyFloatingTools";
 import { useOS } from "../../../context/OSContext";
 import { soundFx } from "../../../utils/audio";
@@ -15,8 +15,10 @@ interface NotesEditorProps {
   onTitleChange: (newTitle: string) => void;
   onContentChange: (newHtml: string) => void;
   onInsertImage?: (file: File) => void;
+  onInsertYouTube?: (url: string) => void;
   onInsertTimestamp?: () => void;
   onOpenDrawingModal?: () => void;
+  onOpenVoiceModal?: () => void;
 }
 
 export const NotesEditor: React.FC<NotesEditorProps> = ({
@@ -29,8 +31,10 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({
   onTitleChange,
   onContentChange,
   onInsertImage,
+  onInsertYouTube,
   onInsertTimestamp,
   onOpenDrawingModal,
+  onOpenVoiceModal,
 }) => {
   const { appSettings } = useOS();
   const typingSoundEnabled = appSettings.audio.typingSoundEnabled;
@@ -67,6 +71,16 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
+    const text = e.clipboardData?.getData("text/plain")?.trim();
+    if (text && onInsertYouTube) {
+      const parsed = parseYouTubeUrl(text);
+      if (parsed.valid) {
+        e.preventDefault();
+        onInsertYouTube(text);
+        return;
+      }
+    }
+
     const items = e.clipboardData?.items;
     if (!items) return;
     for (let i = 0; i < items.length; i++) {
@@ -171,6 +185,7 @@ export const NotesEditor: React.FC<NotesEditorProps> = ({
               <StickyFloatingTools
                 onInsertTimestamp={onInsertTimestamp}
                 onOpenDrawingModal={onOpenDrawingModal}
+                onOpenVoiceModal={onOpenVoiceModal}
                 direction={direction}
               />
             </div>

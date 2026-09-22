@@ -319,15 +319,15 @@ describe('AuraOS Contracts and Schema Validation', () => {
 
     // Default order when nothing is saved
     const initialOrder = loadSavedAppOrder(DEFAULT_APPS);
-    expect(initialOrder.map((a) => a.id)).toEqual(['scholarship', 'schedule', 'curriculum', 'meetings', 'elimination', 'faqs']);
+    expect(initialOrder.map((a) => a.id)).toEqual(['scholarship', 'schedule', 'curriculum', 'meetings', 'elimination', 'faqs', 'materials']);
 
     // Reorder: put faqs first
-    const reordered = [initialOrder[5], initialOrder[0], initialOrder[1], initialOrder[2], initialOrder[3], initialOrder[4]];
+    const reordered = [initialOrder[5], initialOrder[0], initialOrder[1], initialOrder[2], initialOrder[3], initialOrder[4], initialOrder[6]];
     saveAppOrder(reordered);
 
     // Reload from storage
     const loadedAfterSave = loadSavedAppOrder(DEFAULT_APPS);
-    expect(loadedAfterSave.map((a) => a.id)).toEqual(['faqs', 'scholarship', 'schedule', 'curriculum', 'meetings', 'elimination']);
+    expect(loadedAfterSave.map((a) => a.id)).toEqual(['faqs', 'scholarship', 'schedule', 'curriculum', 'meetings', 'elimination', 'materials']);
 
     delete (globalThis as unknown as { window?: unknown }).window;
     delete (globalThis as unknown as { localStorage?: unknown }).localStorage;

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { validateNoteImageFile, StudentNote } from '../../../types/notes';
+import { validateNoteImageFile, StudentNote, parseYouTubeUrl, generateYouTubeEmbedHtml, generateVoiceNoteEmbedHtml } from '../../../types/notes';
 import { soundFx } from '../../../utils/audio';
 
 interface UseNoteFormatterProps {
@@ -162,6 +162,37 @@ export const useNoteFormatter = ({ editorRef, updateActiveNote }: UseNoteFormatt
     [editorRef, ensureEditorFocus, updateActiveNote]
   );
 
+  const handleInsertYouTube = useCallback(
+    (rawUrl: string, caption?: string) => {
+      const parsed = parseYouTubeUrl(rawUrl);
+      if (!parsed.valid || !parsed.videoId || !parsed.embedUrl) {
+        soundFx.playClick(200, 0.05);
+        alert(parsed.error || 'رابط يوتيوب غير صالح.');
+        return;
+      }
+
+      ensureEditorFocus();
+      const embedHtml = generateYouTubeEmbedHtml(parsed.videoId, parsed.embedUrl, caption);
+      document.execCommand('insertHTML', false, embedHtml);
+      if (editorRef.current) {
+        updateActiveNote({ content: editorRef.current.innerHTML });
+      }
+    },
+    [editorRef, ensureEditorFocus, updateActiveNote]
+  );
+
+  const handleInsertVoiceNote = useCallback(
+    (audioDataUrl: string, durationSec: number, title?: string, isLtr: boolean = false) => {
+      ensureEditorFocus();
+      const voiceHtml = generateVoiceNoteEmbedHtml(audioDataUrl, durationSec, title, isLtr);
+      document.execCommand('insertHTML', false, voiceHtml);
+      if (editorRef.current) {
+        updateActiveNote({ content: editorRef.current.innerHTML });
+      }
+    },
+    [editorRef, ensureEditorFocus, updateActiveNote]
+  );
+
   return {
     handleFormat,
     handleInsertCallout,
@@ -169,5 +200,7 @@ export const useNoteFormatter = ({ editorRef, updateActiveNote }: UseNoteFormatt
     handleInsertCodeSnippet,
     handleInsertTimestamp,
     handleInsertDrawing,
+    handleInsertYouTube,
+    handleInsertVoiceNote,
   };
 };

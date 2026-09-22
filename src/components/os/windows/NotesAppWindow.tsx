@@ -6,6 +6,8 @@ import { NotesEditor } from '../notes/NotesEditor';
 import { useNoteFormatter } from '../notes/useNoteFormatter';
 import { InsertCodeModal } from '../notes/InsertCodeModal';
 import { DrawingCanvasModal } from '../notes/DrawingCanvasModal';
+import { InsertYouTubeModal } from '../notes/InsertYouTubeModal';
+import { VoiceRecorderModal } from '../notes/VoiceRecorderModal';
 
 interface NotesAppWindowProps {
   onDirectionChange?: (dir: 'rtl' | 'ltr') => void;
@@ -31,6 +33,8 @@ export const NotesAppWindow: React.FC<NotesAppWindowProps> = ({ onDirectionChang
   const editorRef = useRef<HTMLDivElement>(null);
   const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
   const [isDrawingModalOpen, setIsDrawingModalOpen] = useState(false);
+  const [isYouTubeModalOpen, setIsYouTubeModalOpen] = useState(false);
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
 
   const {
     handleFormat,
@@ -39,6 +43,8 @@ export const NotesAppWindow: React.FC<NotesAppWindowProps> = ({ onDirectionChang
     handleInsertCodeSnippet,
     handleInsertTimestamp,
     handleInsertDrawing,
+    handleInsertYouTube,
+    handleInsertVoiceNote,
   } = useNoteFormatter({
     editorRef,
     updateActiveNote,
@@ -68,6 +74,7 @@ export const NotesAppWindow: React.FC<NotesAppWindowProps> = ({ onDirectionChang
         onInsertCallout={handleInsertCallout}
         onInsertImage={handleInsertImage}
         onOpenCodeModal={() => setIsCodeModalOpen(true)}
+        onOpenYouTubeModal={() => setIsYouTubeModalOpen(true)}
         onCopyAll={copyAll}
         onExport={exportNote}
         onReset={resetActiveNote}
@@ -97,8 +104,10 @@ export const NotesAppWindow: React.FC<NotesAppWindowProps> = ({ onDirectionChang
           onTitleChange={(title) => updateActiveNote({ title })}
           onContentChange={(content) => updateActiveNote({ content })}
           onInsertImage={handleInsertImage}
+          onInsertYouTube={handleInsertYouTube}
           onInsertTimestamp={() => handleInsertTimestamp(activeNote.direction === 'ltr')}
           onOpenDrawingModal={() => setIsDrawingModalOpen(true)}
+          onOpenVoiceModal={() => setIsVoiceModalOpen(true)}
         />
       </div>
 
@@ -115,6 +124,24 @@ export const NotesAppWindow: React.FC<NotesAppWindowProps> = ({ onDirectionChang
         isOpen={isDrawingModalOpen}
         onClose={() => setIsDrawingModalOpen(false)}
         onInsertDrawing={handleInsertDrawing}
+        direction={activeNote.direction}
+      />
+
+      {/* Modal to Embed YouTube Video via URL */}
+      <InsertYouTubeModal
+        isOpen={isYouTubeModalOpen}
+        onClose={() => setIsYouTubeModalOpen(false)}
+        onInsertYouTube={handleInsertYouTube}
+        direction={activeNote.direction}
+      />
+
+      {/* Modal to Record and Embed Voice Notes */}
+      <VoiceRecorderModal
+        isOpen={isVoiceModalOpen}
+        onClose={() => setIsVoiceModalOpen(false)}
+        onInsertVoiceNote={(audioDataUrl, durationSec, title) =>
+          handleInsertVoiceNote(audioDataUrl, durationSec, title, activeNote.direction === 'ltr')
+        }
         direction={activeNote.direction}
       />
     </div>

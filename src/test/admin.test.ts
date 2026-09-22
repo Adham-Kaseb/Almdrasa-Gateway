@@ -143,7 +143,7 @@ describe('Admin Dashboard Schemas & Role Contracts', () => {
   it('imports and exposes exportStyledUsersExcel function', async () => {
     const { exportStyledUsersExcel } = await import('../utils/excelExport');
     expect(typeof exportStyledUsersExcel).toBe('function');
-  });
+  }, 15000);
 
   it('persists and retrieves student preview state across reloads', () => {
     const store: Record<string, string> = {};

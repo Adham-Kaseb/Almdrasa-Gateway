@@ -14,6 +14,7 @@ interface NotesToolbarProps {
   onInsertCallout: (type: 'tip' | 'warning' | 'question' | 'code') => void;
   onInsertImage: (file: File) => void;
   onOpenCodeModal?: () => void;
+  onOpenYouTubeModal?: () => void;
   onCopyAll: () => void;
   onExport: () => void;
   onReset: () => void;
@@ -29,6 +30,7 @@ export const NotesToolbar: React.FC<NotesToolbarProps> = ({
   onInsertCallout,
   onInsertImage,
   onOpenCodeModal,
+  onOpenYouTubeModal,
   onCopyAll,
   onExport,
   onReset,
@@ -50,6 +52,7 @@ export const NotesToolbar: React.FC<NotesToolbarProps> = ({
         onInsertCallout={onInsertCallout}
         onInsertImage={onInsertImage}
         onOpenCodeModal={onOpenCodeModal}
+        onOpenYouTubeModal={onOpenYouTubeModal}
         direction={direction}
       />
 

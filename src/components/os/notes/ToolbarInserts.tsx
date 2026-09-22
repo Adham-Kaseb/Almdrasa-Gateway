@@ -2,12 +2,14 @@ import React, { useRef } from 'react';
 import { Lightbulb, AlertTriangle, Code2, Image as ImageIcon } from 'lucide-react';
 import { HIGHLIGHT_COLORS } from '../../../types/notes';
 import { soundFx } from '../../../utils/audio';
+import { YouTubeIcon } from './InsertYouTubeModal';
 
 interface ToolbarInsertsProps {
   onFormat: (cmd: string, val?: string) => void;
   onInsertCallout: (type: 'tip' | 'warning' | 'question' | 'code') => void;
   onInsertImage: (file: File) => void;
   onOpenCodeModal?: () => void;
+  onOpenYouTubeModal?: () => void;
   direction?: 'rtl' | 'ltr';
 }
 
@@ -16,6 +18,7 @@ export const ToolbarInserts: React.FC<ToolbarInsertsProps> = ({
   onInsertCallout,
   onInsertImage,
   onOpenCodeModal,
+  onOpenYouTubeModal,
   direction = 'rtl',
 }) => {
   const isLtr = direction === 'ltr';
@@ -129,6 +132,21 @@ export const ToolbarInserts: React.FC<ToolbarInsertsProps> = ({
         >
           <ImageIcon className="w-3.5 h-3.5 text-emerald-600 transition-transform group-hover:scale-110" />
           <span>{isLtr ? 'Image' : 'صورة'}</span>
+        </button>
+
+        {/* YouTube Video Embed Button */}
+        <button
+          type="button"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => {
+            soundFx.playPop();
+            onOpenYouTubeModal?.();
+          }}
+          className="group px-2.5 py-1 rounded-xl text-[11px] font-sans font-bold bg-linear-to-b from-red-50 to-rose-100/90 hover:from-red-100 hover:to-rose-200/90 text-rose-950 border border-red-300/80 hover:border-red-400 shadow-[0_1px_3px_rgba(225,29,72,0.12)] hover:shadow-[0_2px_6px_rgba(225,29,72,0.2)] active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+          title={isLtr ? 'Embed YouTube video from URL' : 'إدراج فيديو يوتيوب من الرابط'}
+        >
+          <YouTubeIcon className="w-3.5 h-3.5 text-red-600 transition-transform group-hover:scale-110" />
+          <span>{isLtr ? 'YouTube' : 'يوتيوب'}</span>
         </button>
       </div>
 

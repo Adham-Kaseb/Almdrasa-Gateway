@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Clock,
   PenTool,
+  Mic,
   MoreVertical,
   ChevronLeft,
   ChevronRight,
@@ -11,12 +12,14 @@ import { soundFx } from '../../../utils/audio';
 interface StickyFloatingToolsProps {
   onInsertTimestamp: () => void;
   onOpenDrawingModal: () => void;
+  onOpenVoiceModal?: () => void;
   direction?: 'rtl' | 'ltr';
 }
 
 export const StickyFloatingTools: React.FC<StickyFloatingToolsProps> = ({
   onInsertTimestamp,
   onOpenDrawingModal,
+  onOpenVoiceModal,
   direction = 'rtl',
 }) => {
   const isLtr = direction === 'ltr';
@@ -106,6 +109,29 @@ export const StickyFloatingTools: React.FC<StickyFloatingToolsProps> = ({
             >
               <PenTool className="w-4 h-4 text-[#DFCA9F]" />
             </button>
+
+            {/* Tool 3: Voice Note Recorder */}
+            {onOpenVoiceModal && (
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  soundFx.playPop();
+                  onOpenVoiceModal();
+                }}
+                className="w-8.5 h-8.5 rounded-xl bg-white/6 hover:bg-[#DFCA9F]/20 text-[#DFCA9F] border border-white/10 hover:border-[#DFCA9F]/50 flex items-center justify-center transition-all cursor-pointer active:scale-95 shadow-2xs hover:shadow-[0_0_12px_rgba(223,202,159,0.25)]"
+                aria-label={
+                  isLtr ? 'Record Voice Note' : 'تسجيل ملاحظة صوتية'
+                }
+                title={
+                  isLtr
+                    ? 'Record voice note'
+                    : 'تسجيل ملاحظة صوتية'
+                }
+              >
+                <Mic className="w-4 h-4 text-[#DFCA9F]" />
+              </button>
+            )}
           </>
         )}
       </div>
