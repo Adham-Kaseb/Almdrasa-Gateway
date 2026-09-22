@@ -32,6 +32,7 @@ import { CurriculumPdfAppWindow } from './windows/CurriculumPdfAppWindow';
 import { WeeklyMeetingsAppWindow } from './windows/WeeklyMeetingsAppWindow';
 import { EliminationAppWindow } from './windows/EliminationAppWindow';
 import { FaqsAppWindow } from './windows/FaqsAppWindow';
+import { CourseMaterialsAppWindow } from './windows/CourseMaterialsAppWindow';
 import { FolderViewerWindow } from './windows/FolderViewerWindow';
 
 
@@ -292,6 +293,12 @@ export const DesktopCanvas: React.FC = () => {
         {windows.faqs?.isOpen && !windows.faqs?.isMinimized && (
           <WindowFrame key="faqs" windowState={windows.faqs} theme="ivory">
             <FaqsAppWindow />
+          </WindowFrame>
+        )}
+
+        {windows.materials?.isOpen && !windows.materials?.isMinimized && (
+          <WindowFrame key="materials" windowState={windows.materials} theme="ivory">
+            <CourseMaterialsAppWindow />
           </WindowFrame>
         )}
       </AnimatePresence>

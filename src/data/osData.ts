@@ -306,6 +306,17 @@ export const INITIAL_WINDOWS: Record<string, WindowState> = {
     position: { x: 120, y: 75 },
     size: { width: 940, height: 640 },
   },
+  materials: {
+    id: 'materials',
+    title: 'مواد الدورات التدريبية — تحميل ملفات المنهج',
+    icon: 'FolderDown',
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: 25,
+    position: { x: 110, y: 75 },
+    size: { width: 900, height: 620 },
+  },
 };
 
 

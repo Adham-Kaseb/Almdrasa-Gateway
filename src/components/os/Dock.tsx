@@ -10,6 +10,7 @@ import {
   ShieldAlert,
   HelpCircle,
   Settings,
+  FolderDown,
 } from 'lucide-react';
 import { useOS } from '../../context/OSContext';
 import { soundFx } from '../../utils/audio';
@@ -57,6 +58,11 @@ export const DEFAULT_APPS: DockApp[] = [
     id: 'faqs',
     name: 'الأسئلة الشائعة',
     renderIcon: (color: string) => <HelpCircle className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
+  },
+  {
+    id: 'materials',
+    name: 'مواد الدورات التدريبية',
+    renderIcon: (color: string) => <FolderDown className="w-5.5 h-5.5 stroke-[2.2]" style={{ color }} />,
   },
 ];
 

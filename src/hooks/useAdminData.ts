@@ -35,8 +35,8 @@ const DEFAULT_CONFIG: AdminPlatformConfig = {
   companion_prompt: 'أنت المساعد الذكي لمدرسة Almdrasa ومسؤول عن إرشاد طلاب المنحة.',
   elimination_max_absences: 2,
   elimination_min_score: 80,
-  urgent_banner_text: 'تنبيه: بدء تسليم مشروع الأسبوع القادم يوم الخميس في تمام 8 مساءً بتوقيت مكة المكرمة.',
-  urgent_banner_enabled: true,
+  urgent_banner_text: '',
+  urgent_banner_enabled: false,
 };
 
 const DEFAULT_ANNOUNCEMENTS: AdminAnnouncement[] = [

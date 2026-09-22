@@ -16,6 +16,7 @@ export const WindowIdSchema = z.enum([
   'meetings',
   'elimination',
   'faqs',
+  'materials',
 ]);
 
 
