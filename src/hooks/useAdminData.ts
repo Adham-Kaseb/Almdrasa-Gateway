@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import * as XLSX from 'xlsx';
 import { supabase } from '../lib/supabase';
 import { exportStyledUsersExcel } from '../utils/excelExport';
+import { isMasterAdminEmail } from '../context/AuthContext';
 import {
   AdminUser,
   AdminUserSchema,
@@ -191,12 +192,10 @@ export function useAdminData() {
           }
         }
 
-        // Exclude master admin from students/user accounts managing panel
-        const studentUsers = validatedUsers
-          .filter((u) => u.email.toLowerCase() !== 'admin@almdrasa.com')
+        const sortedUsers = [...validatedUsers]
           .sort((a, b) => a.full_name.localeCompare(b.full_name, 'ar'));
 
-        setUsers(studentUsers);
+        setUsers(sortedUsers);
       } else {
         // 2. Direct tables query: Query profiles and students from Supabase
         const [profilesRes, studentsRes] = await Promise.all([
@@ -219,7 +218,7 @@ export function useAdminData() {
           const s = studentMap.get(id);
 
           const email = s?.email || p?.email || '';
-          if (!email || email.toLowerCase() === 'admin@almdrasa.com') return;
+          if (!email) return;
 
           const role = (p?.role || 'student') as any;
 
@@ -414,7 +413,7 @@ export function useAdminData() {
       const user = users.find((u) => u.id === userId);
       if (!user) return { success: false, error: 'المستخدم غير موجود' };
 
-      if (user.email === 'admin@almdrasa.com') {
+      if (isMasterAdminEmail(user.email)) {
         return { success: false, error: 'لا يمكن حذف حساب المدير الرئيسي للمنصة' };
       }
 

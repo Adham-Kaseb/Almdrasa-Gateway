@@ -1,6 +1,7 @@
 import React from 'react';
 import { Edit, Trash2, Shield, UserX, UserCheck, Eye } from 'lucide-react';
 import { AdminUser } from '../../../types/admin';
+import { isMasterAdminEmail } from '../../../context/AuthContext';
 
 interface AdminUserRowProps {
   user: AdminUser;
@@ -81,7 +82,7 @@ export const AdminUserRow: React.FC<AdminUserRowProps> = ({
           <button type="button" onClick={() => onToggleStatus(user)} aria-label={`تبديل حالة ${user.full_name}`} className={`p-1.5 rounded-lg transition-colors cursor-pointer ${user.status === 'suspended' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-300'}`} title={user.status === 'suspended' ? 'إلغاء التجميد' : 'تجميد الحساب'}>
             {user.status === 'suspended' ? <UserCheck className="w-3.5 h-3.5" /> : <UserX className="w-3.5 h-3.5" />}
           </button>
-          {user.email !== 'admin@almdrasa.com' && (
+          {!isMasterAdminEmail(user.email) && (
             <button type="button" onClick={() => onDeleteUser(user.id)} aria-label={`حذف ${user.full_name}`} className="p-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors cursor-pointer" title="حذف المستخدم">
               <Trash2 className="w-3.5 h-3.5" />
             </button>

@@ -7,18 +7,32 @@ import {
   AdminPlatformConfigSchema,
 } from '../types/admin';
 import {
+  ADMIN_EMAIL,
   MASTER_ADMIN_PROFILE,
   GUEST_STUDENT,
+  isMasterAdminEmail,
   persistStudentPreviewState,
   getInitialIsStudentPreview,
 } from '../context/AuthContext';
 
 describe('Admin Dashboard Schemas & Role Contracts', () => {
   it('validates MASTER_ADMIN_PROFILE role and credentials', () => {
-    expect(MASTER_ADMIN_PROFILE.email).toBe('admin@almdrasa.com');
+    expect(MASTER_ADMIN_PROFILE.email).toBe('adhamkasebssj4@gmail.com');
+    expect(MASTER_ADMIN_PROFILE.email).toBe(ADMIN_EMAIL);
     expect(MASTER_ADMIN_PROFILE.role).toBe('admin');
     expect(MASTER_ADMIN_PROFILE.track).toBe('Administration');
     expect(MASTER_ADMIN_PROFILE.status).toBe('active');
+  });
+
+  it('validates isMasterAdminEmail strictly recognizes only adhamkasebssj4@gmail.com', () => {
+    expect(isMasterAdminEmail('adhamkasebssj4@gmail.com')).toBe(true);
+    expect(isMasterAdminEmail('ADHAMKASEBSSJ4@GMAIL.COM')).toBe(true);
+    expect(isMasterAdminEmail(' adhamkasebssj4@gmail.com ')).toBe(true);
+    expect(isMasterAdminEmail('random-admin@example.com')).toBe(false);
+    expect(isMasterAdminEmail('student@almdrasa.community')).toBe(false);
+    expect(isMasterAdminEmail('other@example.com')).toBe(false);
+    expect(isMasterAdminEmail(null)).toBe(false);
+    expect(isMasterAdminEmail(undefined)).toBe(false);
   });
 
   it('validates GUEST_STUDENT has student role and cannot be admin', () => {
@@ -30,8 +44,8 @@ describe('Admin Dashboard Schemas & Role Contracts', () => {
   it('validates AdminUserSchema with full admin properties', () => {
     const validUser = {
       id: 'usr-admin-test',
-      email: 'admin@almdrasa.com',
-      full_name: 'مدير المنصة',
+      email: 'adhamkasebssj4@gmail.com',
+      full_name: 'ADHAM KASEB',
       role: 'admin' as const,
       status: 'active' as const,
       track: 'Administration',
