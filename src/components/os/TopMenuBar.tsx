@@ -114,14 +114,14 @@ export const TopMenuBar: React.FC = () => {
     >
       {/* Right Menu Section (In RTL, this is the start/right side) */}
       <div className="flex items-center gap-4" ref={menuRef}>
-        {/* Monogram Badge (RI) */}
+        {/* Almdrasa Gateway App Logo Icon */}
         <button
           type="button"
           onClick={() => handleMenuClick('نظام Almdrasa Gateway')}
-          className="w-5 h-5 rounded-full border border-white/60 flex items-center justify-center text-[9px] font-serif font-bold text-[#F8F4EC] bg-[#0B0B0A] hover:border-white transition-all hover:scale-105"
+          className="w-6 h-6 rounded-lg flex items-center justify-center hover:scale-105 transition-all cursor-pointer overflow-hidden shadow-xs"
           aria-label="قائمة النظام الرئيسية"
         >
-          RI
+          <img src="/app-logo.png" alt="Almdrasa Logo" className="w-full h-full object-cover" />
         </button>
 
         {/* System Dropdown Menus */}

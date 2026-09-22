@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
-  GraduationCap,
   Mail,
   Lock,
   User,
@@ -168,8 +167,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onSuccess }) => {
         <div className="rounded-3xl bg-[#141311]/90 border border-white/12 p-6 sm:p-8 shadow-[0_32px_96px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
           {/* Header & Logo */}
           <div className="text-center mb-6">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-linear-to-br from-[#DFCA9F]/25 to-[#CCA868]/10 border border-[#DFCA9F]/40 text-[#DFCA9F] mb-3 shadow-lg shadow-[#DFCA9F]/10">
-              <GraduationCap className="w-8 h-8 stroke-2" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-3 shadow-[0_12px_36px_rgba(223,202,159,0.25)] overflow-hidden border border-[#DFCA9F]/20">
+              <img src="/app-logo.png" alt="Almdrasa Logo" className="w-full h-full object-cover" />
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-[#F8F4EC] tracking-tight">
               منصة بوابة المدرسة
